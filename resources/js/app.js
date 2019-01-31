@@ -46,6 +46,7 @@ import {sync} from 'vuex-router-sync'
 import store from './Store/store.js'
 import User from './Helpers/User'
 import Token from './Helpers/Token'
+import Exception from './Helpers/Exception'
 
 
 Vue.prototype.$eventBus = new Vue();
@@ -53,6 +54,7 @@ Vue.prototype.$eventBus = new Vue();
 
 window.User = User
 window.Token = Token
+window.Exception = Exception
 
 sync(store,router);
 

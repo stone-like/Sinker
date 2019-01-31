@@ -18,7 +18,21 @@ class Token{
 
   decode(payload){
       //payloadをdecodeしてissの部分、つまりどこのページから来たかを調べて変なとこから送られてきたデータははじけるように
-      return JSON.parse(atob(payload));
+      if(this.isBase64(payload)){
+          return JSON.parse(atob(payload));
+     }
+     else{
+         return false;
+     }
+  }
+
+  isBase64(str){
+      try{
+          return btoa(atob(str)).replace(/=/g,"") == str;
+      }
+      catch{
+          return false;
+      }
   }
   storeValid(token){
 

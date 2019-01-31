@@ -16,6 +16,7 @@ class QuestionResource extends JsonResource
     {
         return [
             'title' =>$this->title,
+            'question_id' => $this->id,
             'path' => $this->path,
             'replies' => ReplyResource::collection($this->replies),//user_idを使ってusertableに飛んだように、今の場合は特定の質問からreplyをとってきてるからeagerloadingいらないような...
             'reply_count' => $this->replies->count(),

@@ -15,15 +15,17 @@ class DeleteReplyEvent implements ShouldBroadcast
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $id;//どこのreplyを削除するかに使う
+    public $question_id;//ShowQuestionでリアルタイムに値を増減するときにすべてのquestionで変更が起きては困るのでquestionの特定のため
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($id)
+    public function __construct($id,$question_id)
     {
         $this->id = $id;
+        $this->question_id = $question_id;
     }
 
     /**

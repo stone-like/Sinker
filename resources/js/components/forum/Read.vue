@@ -42,6 +42,11 @@ export default {
           axios.get("/api/question/" + this.$route.params.slug)
           .then(res => this.question = res.data.data)
       }
+  },
+  computed:{
+      LoggedIn(){
+          return this.$store.getters.userLoggedIn;
+      }
   }
 }
 </script>

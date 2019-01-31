@@ -9,7 +9,7 @@
                 <span class="grey--text">{{data.user}} said {{data.created_at}}</span>
             </div>
             <v-spacer></v-spacer>
-            <v-btn color="teal">{{data.reply_count}} replies</v-btn>
+            <v-btn color="teal">{{replyCount}} replies</v-btn>
          </v-card-title>
 
          <v-card-text v-html="body"></v-card-text>
@@ -35,13 +35,38 @@ export default {
  props:['data'],
  data(){
      return{
-          own:this.$store.getters.checkown(this.data.user_id)
+          own:this.$store.getters.checkown(this.data.user_id),
+          replyCount:this.data.reply_count//updateするならいじっていいけどこれは別にupdateじゃないのでpropsからこっちに移した
      }
  },
  computed:{
      body(){
         return md.parse(this.data.body);//dataのほうが変わったら即座に反映するためcomputed？
      }
+ },
+ created(){
+     console.log(this.data);
+   this.$eventBus.$on("replydone",() => {
+             this.replyCount++
+   })
+
+   this.$eventBus.$on("deleteReply",() => {
+             this.replyCount--
+   })
+
+    Echo.channel('addReplyChannel')
+        .listen('AddReplyEvent',(e) => {
+          if(this.data.question_id == e.question_id){
+              this.replyCount++;
+          }
+        });
+
+    Echo.channel('deleteReplyChannel')
+        .listen('DeleteReplyEvent',(e) => {
+           if(this.data.question_id == e.question_id){
+               this.replyCount--;
+           }
+    });
  },
  methods:{
     destroy(){

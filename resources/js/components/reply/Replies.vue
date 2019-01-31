@@ -1,6 +1,6 @@
 <template>
     <div v-if="question">
-     <reply v-for="(reply,index) in content" :data="reply" :key="reply.id" :index=index @deleteReply="destroy"></reply>
+     <reply v-for="(reply,index) in content" :data="reply" :key="reply.id" :index=index></reply>
     </div>
 </template>
 
@@ -28,6 +28,12 @@ export default {
         this.$eventBus.$on("replydone",(reply) => {
             this.content.unshift(reply)
         })
+
+        this.$eventBus.$on("deleteReply",(index) => {
+             axios.delete("/api/question/"+this.question.slug+"/reply/"+this.content[index].id)
+             .then(res =>{ this.content.splice(index,1)})
+        })
+
         Echo.channel('addReplyChannel')
         .listen('AddReplyEvent',(e) => {
           if(this.question.id == e.question_id){
@@ -44,12 +50,12 @@ export default {
                }
            }
     });
-    },
-    destroy(index){
-       axios.delete("/api/question/"+this.question.slug+"/reply/"+this.content[index].id)
-       .then(res =>{ this.content.splice(index,1)})
-
     }
+    // destroy(index){
+    //    axios.delete("/api/question/"+this.question.slug+"/reply/"+this.content[index].id)
+    //    .then(res =>{ this.content.splice(index,1)})
+
+    // }
   }
 }
 </script>

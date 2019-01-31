@@ -22,6 +22,14 @@ class User{
       return this.hasToken();
   }
 
+  logout(){
+          store.dispatch('deleteToken')
+          store.dispatch('deleteId')
+          store.dispatch('deleteUser')
+          localStorage.clear()
+          window.location="/forum"
+  }
+
   responseAfterLogin(res){
       const access_token = res.data.access_token
       const username = res.data.user

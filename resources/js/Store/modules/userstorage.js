@@ -62,9 +62,9 @@ const state={
      getId:state =>{
          return state.id;
      },
-     userLoggedIn:function(state){
+     userLoggedIn:function(state,getters){
          if(state.token){
-             return Token.isValid(state.token) ? true :false;
+             return Token.isValid(state.token) ? true :User.logout();
          }
      },
      checkown:(state) => (id) => {

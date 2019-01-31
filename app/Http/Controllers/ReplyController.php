@@ -100,7 +100,7 @@ class ReplyController extends Controller
     public function destroy(Question $question,Reply $reply)
     {
         $reply->delete();
-        broadcast(new DeleteReplyEvent($reply->id))->toOthers();
+        broadcast(new DeleteReplyEvent($reply->id,$question->id))->toOthers();
         return response('Deleted',Response::HTTP_NO_CONTENT);
     }
 }

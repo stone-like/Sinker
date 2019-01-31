@@ -1887,6 +1887,8 @@ __webpack_require__.r(__webpack_exports__);
         _this2.read = res.data.read;
         _this2.unread = res.data.unread;
         _this2.unreadCount = res.data.unread.length;
+      }).catch(function (error) {
+        return Exception.handle(error);
       });
     },
     readIt: function readIt(item, index) {
@@ -2493,6 +2495,11 @@ __webpack_require__.r(__webpack_exports__);
         return _this.question = res.data.data;
       });
     }
+  },
+  computed: {
+    LoggedIn: function LoggedIn() {
+      return this.$store.getters.userLoggedIn;
+    }
   }
 });
 
@@ -2543,7 +2550,9 @@ __webpack_require__.r(__webpack_exports__);
   props: ['data'],
   data: function data() {
     return {
-      own: this.$store.getters.checkown(this.data.user_id)
+      own: this.$store.getters.checkown(this.data.user_id),
+      replyCount: this.data.reply_count //updateするならいじっていいけどこれは別にupdateじゃないのでpropsからこっちに移した
+
     };
   },
   computed: {
@@ -2551,12 +2560,33 @@ __webpack_require__.r(__webpack_exports__);
       return md.parse(this.data.body); //dataのほうが変わったら即座に反映するためcomputed？
     }
   },
+  created: function created() {
+    var _this = this;
+
+    console.log(this.data);
+    this.$eventBus.$on("replydone", function () {
+      _this.replyCount++;
+    });
+    this.$eventBus.$on("deleteReply", function () {
+      _this.replyCount--;
+    });
+    Echo.channel('addReplyChannel').listen('AddReplyEvent', function (e) {
+      if (_this.data.question_id == e.question_id) {
+        _this.replyCount++;
+      }
+    });
+    Echo.channel('deleteReplyChannel').listen('DeleteReplyEvent', function (e) {
+      if (_this.data.question_id == e.question_id) {
+        _this.replyCount--;
+      }
+    });
+  },
   methods: {
     destroy: function destroy() {
-      var _this = this;
+      var _this2 = this;
 
       axios.delete("/api/question/" + this.data.slug).then(function (res) {
-        return _this.$router.push("/forum");
+        return _this2.$router.push("/forum");
       }).catch(function (error) {
         return console.log(error.response.data);
       });
@@ -2913,17 +2943,20 @@ __webpack_require__.r(__webpack_exports__);
     submit: function submit() {
       var _this = this;
 
-      //bodyだけ返してあとのuser_idとかquestion_idはlaravel側で
-      axios.post("/api/question/" + this.questionSlug + "/reply", {
-        body: this.body,
-        user_id: this.$store.getters.getId
-      }).then(function (res) {
-        _this.body = "";
+      if (this.$store.getters.userLoggedIn) {
+        axios.post("/api/question/" + this.questionSlug + "/reply", {
+          body: this.body,
+          user_id: this.$store.getters.getId
+        }).then(function (res) {
+          _this.body = "";
 
-        _this.$eventBus.$emit("replydone", res.data.reply);
+          _this.$eventBus.$emit("replydone", res.data.reply);
 
-        window.scrollTo(0, 0); //一番上へ移動
-      });
+          window.scrollTo(0, 0); //一番上へ移動
+        });
+      } else {
+        this.$store.dispatch("changeModalFlag");
+      }
     }
   }
 });
@@ -2971,6 +3004,11 @@ __webpack_require__.r(__webpack_exports__);
       this.$eventBus.$on("replydone", function (reply) {
         _this.content.unshift(reply);
       });
+      this.$eventBus.$on("deleteReply", function (index) {
+        axios.delete("/api/question/" + _this.question.slug + "/reply/" + _this.content[index].id).then(function (res) {
+          _this.content.splice(index, 1);
+        });
+      });
       Echo.channel('addReplyChannel').listen('AddReplyEvent', function (e) {
         if (_this.question.id == e.question_id) {
           _this.content.unshift(e.reply);
@@ -2984,14 +3022,11 @@ __webpack_require__.r(__webpack_exports__);
           }
         }
       });
-    },
-    destroy: function destroy(index) {
-      var _this2 = this;
+    } // destroy(index){
+    //    axios.delete("/api/question/"+this.question.slug+"/reply/"+this.content[index].id)
+    //    .then(res =>{ this.content.splice(index,1)})
+    // }
 
-      axios.delete("/api/question/" + this.question.slug + "/reply/" + this.content[index].id).then(function (res) {
-        _this2.content.splice(index, 1);
-      });
-    }
   }
 });
 
@@ -3058,7 +3093,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     destroy: function destroy() {
-      this.$emit("deleteReply", this.index);
+      this.$eventBus.$emit("deleteReply", this.index);
     },
     edit: function edit() {
       this.editting = true;
@@ -68356,7 +68391,7 @@ var render = function() {
               _c("v-spacer"),
               _vm._v(" "),
               _c("v-btn", { attrs: { color: "teal" } }, [
-                _vm._v(_vm._s(_vm.data.reply_count) + " replies")
+                _vm._v(_vm._s(_vm.replyCount) + " replies")
               ])
             ],
             1
@@ -68784,8 +68819,7 @@ var render = function() {
         _vm._l(_vm.content, function(reply, index) {
           return _c("reply", {
             key: reply.id,
-            attrs: { data: reply, index: index },
-            on: { deleteReply: _vm.destroy }
+            attrs: { data: reply, index: index }
           })
         }),
         1
@@ -107892,6 +107926,56 @@ function () {
 
 /***/ }),
 
+/***/ "./resources/js/Helpers/Exception.js":
+/*!*******************************************!*\
+  !*** ./resources/js/Helpers/Exception.js ***!
+  \*******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Store_store_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Store/store.js */ "./resources/js/Store/store.js");
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+
+
+var Exception =
+/*#__PURE__*/
+function () {
+  function Exception() {
+    _classCallCheck(this, Exception);
+  }
+
+  _createClass(Exception, [{
+    key: "handle",
+    value: function handle(error) {
+      this.isExpired(error.response.data.error);
+    }
+  }, {
+    key: "isExpired",
+    value: function isExpired(error) {
+      if (error == "Token is invalid") {
+        _Store_store_js__WEBPACK_IMPORTED_MODULE_0__["default"].dispatch('deleteToken');
+        _Store_store_js__WEBPACK_IMPORTED_MODULE_0__["default"].dispatch('deleteId');
+        _Store_store_js__WEBPACK_IMPORTED_MODULE_0__["default"].dispatch('deleteUser');
+        localStorage.clear();
+        window.location = "/forum";
+      }
+    }
+  }]);
+
+  return Exception;
+}();
+
+/* harmony default export */ __webpack_exports__["default"] = (Exception = new Exception());
+
+/***/ }),
+
 /***/ "./resources/js/Helpers/Token.js":
 /*!***************************************!*\
   !*** ./resources/js/Helpers/Token.js ***!
@@ -107936,7 +108020,20 @@ function () {
     key: "decode",
     value: function decode(payload) {
       //payloadをdecodeしてissの部分、つまりどこのページから来たかを調べて変なとこから送られてきたデータははじけるように
-      return JSON.parse(atob(payload));
+      if (this.isBase64(payload)) {
+        return JSON.parse(atob(payload));
+      } else {
+        return false;
+      }
+    }
+  }, {
+    key: "isBase64",
+    value: function isBase64(str) {
+      try {
+        return btoa(atob(str)).replace(/=/g, "") == str;
+      } catch (_unused) {
+        return false;
+      }
     }
   }, {
     key: "storeValid",
@@ -108016,6 +108113,15 @@ function () {
     key: "isLogeedIn",
     value: function isLogeedIn() {
       return this.hasToken();
+    }
+  }, {
+    key: "logout",
+    value: function logout() {
+      _Store_store_js__WEBPACK_IMPORTED_MODULE_3__["default"].dispatch('deleteToken');
+      _Store_store_js__WEBPACK_IMPORTED_MODULE_3__["default"].dispatch('deleteId');
+      _Store_store_js__WEBPACK_IMPORTED_MODULE_3__["default"].dispatch('deleteUser');
+      localStorage.clear();
+      window.location = "/forum";
     }
   }, {
     key: "responseAfterLogin",
@@ -108207,9 +108313,9 @@ var getters = {
   getId: function getId(state) {
     return state.id;
   },
-  userLoggedIn: function userLoggedIn(state) {
+  userLoggedIn: function userLoggedIn(state, getters) {
     if (state.token) {
-      return _Helpers_Token__WEBPACK_IMPORTED_MODULE_2__["default"].isValid(state.token) ? true : false;
+      return _Helpers_Token__WEBPACK_IMPORTED_MODULE_2__["default"].isValid(state.token) ? true : _Helpers_User__WEBPACK_IMPORTED_MODULE_3__["default"].logout();
     }
   },
   checkown: function checkown(state) {
@@ -108287,6 +108393,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Store_store_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Store/store.js */ "./resources/js/Store/store.js");
 /* harmony import */ var _Helpers_User__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Helpers/User */ "./resources/js/Helpers/User.js");
 /* harmony import */ var _Helpers_Token__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./Helpers/Token */ "./resources/js/Helpers/Token.js");
+/* harmony import */ var _Helpers_Exception__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./Helpers/Exception */ "./resources/js/Helpers/Exception.js");
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -108329,9 +108436,11 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('AppHome', __webpack_requir
 
 
 
+
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.prototype.$eventBus = new vue__WEBPACK_IMPORTED_MODULE_0___default.a();
 window.User = _Helpers_User__WEBPACK_IMPORTED_MODULE_8__["default"];
 window.Token = _Helpers_Token__WEBPACK_IMPORTED_MODULE_9__["default"];
+window.Exception = _Helpers_Exception__WEBPACK_IMPORTED_MODULE_10__["default"];
 Object(vuex_router_sync__WEBPACK_IMPORTED_MODULE_6__["sync"])(_Store_store_js__WEBPACK_IMPORTED_MODULE_7__["default"], _Router_router_js__WEBPACK_IMPORTED_MODULE_5__["default"]);
 var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   el: '#app',

@@ -46,7 +46,7 @@ data(){
 },
 methods:{
     destroy(){
-        this.$emit("deleteReply",this.index)
+        this.$eventBus.$emit("deleteReply",this.index)
     },
     edit(){
       this.editting = true

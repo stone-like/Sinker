@@ -57,6 +57,7 @@ window.Token = Token
 window.Exception = Exception
 
 sync(store,router);
+require('../sass/grobal.scss')
 
 const app = new Vue({
     el: '#app',

@@ -7,7 +7,9 @@ const state={
     token:null,
     username:null,
     id:null,
-    modalflag:false
+    modalflag:false,
+    homeflag:true,
+    readflag:false
  };
 
  const mutations ={
@@ -22,7 +24,18 @@ const state={
      },
      'Modal_Mutate'(state){
          state.modalflag = !state.modalflag;
-     }
+     },
+     'Grid_Mutate'(state){
+        state.gridflag = !state.gridflag;
+    },
+    'HomeMode'(state){
+        state.homeflag = true;
+        state.readflag =  false;
+    },
+    'ReadMode'(state){
+        state.homeflag = false;
+        state.readflag = true;
+    }
  };
 
  const actions ={
@@ -46,6 +59,12 @@ const state={
  },
     changeModalFlag:({commit}) => {
         commit('Modal_Mutate');
+    },
+    changeHomeMode:({commit}) => {
+        commit('HomeMode');
+    },
+    changeReadMode:({commit}) => {
+        commit('ReadMode');
     },
     logoutAction:({commit}) => {
         commit('logout');
@@ -75,6 +94,12 @@ const state={
      },
      getModalFlag:state => {
          return state.modalflag;
+     },
+     getHomeFlag:state => {
+        return state.homeflag;
+    },
+     getReadFlag:state => {
+         return state.readflag;
      }
  };
 

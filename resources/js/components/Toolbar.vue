@@ -1,7 +1,7 @@
 <template>
     <v-toolbar>
      <router-link to="/">
-       <v-toolbar-title>Spark</v-toolbar-title>
+       <v-toolbar-title @click="toRead">Spark</v-toolbar-title>
      </router-link>
     <v-spacer></v-spacer>
     <app-notification v-if="userLoggedIn"></app-notification>
@@ -10,16 +10,16 @@
       <v-btn flat>{{item.title}}</v-btn>
      </router-link> -->
        <router-link to='/forum'>
-      <v-btn flat>Forum</v-btn>
+      <v-btn flat @click="toHome">Forum</v-btn>
      </router-link>
      <router-link to='/login' v-if="!userLoggedIn">
       <v-btn flat>Login</v-btn>
      </router-link>
      <router-link to='/ask' v-if="userLoggedIn">
-      <v-btn flat>Ask Question</v-btn>
+      <v-btn flat @click="toHome">Ask Question</v-btn>
      </router-link>
      <router-link to='/category' v-if="userLoggedIn" >
-      <v-btn flat>Category</v-btn>
+      <v-btn flat @click="toHome">Category</v-btn>
      </router-link>
      <router-link to='/logout' v-if="userLoggedIn">
       <v-btn flat>Logout</v-btn>
@@ -60,6 +60,14 @@ export default {
     //       });
 
     //   }
+  },
+  methods:{
+      toRead(){
+          this.$store.dispatch('changeReadMode');
+      },
+      toHome(){
+          this.$store.dispatch('changeHomeMode');
+      }
   }
 
 }

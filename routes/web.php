@@ -15,3 +15,5 @@ Route::view('/','home');
 Route::view('/{any}','home');//ここでやっていることは結局なんでもhome.baldeを表示するということSPAなのでこれでいいし、中のcomponentはしっかり変わっているからおｋ
 Route::view('/{any}/{any1}','home');//この形もlaravelでhome.bladeを表示できるようにする
 
+//somethingchange...
+

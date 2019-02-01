@@ -12,7 +12,8 @@ import Logout from '../components/login/Logout'
 import Read from '../components/forum/Read'
 import Create from '../components/forum/Create'
 import CreateCategory from '../components/category/CreateCategory.vue'
-import Modal from "../components/expantion/Modal.vue";
+import Modal from "../components/expantion/Modal.vue"
+import Welcome from "../components/css-related/Welcome.vue"
 
 const routes = [
     {path: '/login',component: Login},
@@ -22,6 +23,7 @@ const routes = [
     {path: '/logout',component: Logout},
     {path:'/question/:slug',component: Read,name:'read'},
     {path:'/ask',component:Create},
+    {path:'/welcome',component:Welcome},
     {
         path:'/category',
         component:CreateCategory,

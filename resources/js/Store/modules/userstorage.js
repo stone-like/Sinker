@@ -30,7 +30,7 @@ const state={
     },
     'HomeMode'(state){
         state.homeflag = true;
-        state.readflag =  false;
+        state.readflag = false;
     },
     'ReadMode'(state){
         state.homeflag = false;
@@ -95,12 +95,12 @@ const state={
      getModalFlag:state => {
          return state.modalflag;
      },
-     getHomeFlag:state => {
-        return state.homeflag;
-    },
      getReadFlag:state => {
          return state.readflag;
-     }
+     },
+     getHomeFlag:state => {
+        return state.homeflag;
+    }
  };
 
 export default {

@@ -1,7 +1,7 @@
 <template>
     <v-toolbar>
-     <router-link to="/">
-       <v-toolbar-title @click="toRead">Spark</v-toolbar-title>
+     <router-link to="/welcome">
+       <v-toolbar-title @click="toHome">Spark</v-toolbar-title>
      </router-link>
     <v-spacer></v-spacer>
     <app-notification v-if="userLoggedIn"></app-notification>
@@ -10,16 +10,16 @@
       <v-btn flat>{{item.title}}</v-btn>
      </router-link> -->
        <router-link to='/forum'>
-      <v-btn flat @click="toHome">Forum</v-btn>
+      <v-btn flat @click="toRead">Forum</v-btn>
      </router-link>
      <router-link to='/login' v-if="!userLoggedIn">
       <v-btn flat>Login</v-btn>
      </router-link>
      <router-link to='/ask' v-if="userLoggedIn">
-      <v-btn flat @click="toHome">Ask Question</v-btn>
+      <v-btn flat @click="toRead">Ask Question</v-btn>
      </router-link>
      <router-link to='/category' v-if="userLoggedIn" >
-      <v-btn flat @click="toHome">Category</v-btn>
+      <v-btn flat @click="toRead">Category</v-btn>
      </router-link>
      <router-link to='/logout' v-if="userLoggedIn">
       <v-btn flat>Logout</v-btn>
@@ -64,9 +64,13 @@ export default {
   methods:{
       toRead(){
           this.$store.dispatch('changeReadMode');
+          console.log(this.$store.getters.getReadFlag);
+          console.log(this.$store.getters.getHomeFlag);
       },
       toHome(){
           this.$store.dispatch('changeHomeMode');
+           console.log(this.$store.getters.getReadFlag);
+          console.log(this.$store.getters.getHomeFlag);
       }
   }
 

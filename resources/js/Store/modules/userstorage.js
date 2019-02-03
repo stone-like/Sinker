@@ -9,7 +9,8 @@ const state={
     id:null,
     modalflag:false,
     homeflag:true,
-    readflag:false
+    readflag:false,
+    descriptionflag:false
  };
 
  const mutations ={
@@ -27,6 +28,12 @@ const state={
      },
      'Grid_Mutate'(state){
         state.gridflag = !state.gridflag;
+    },
+    'offDescription'(state){
+        state.descriptionflag = false;
+    },
+    'onDescription'(state){
+        state.descriptionflag = true;
     },
     'HomeMode'(state){
         state.homeflag = true;
@@ -66,6 +73,12 @@ const state={
     changeReadMode:({commit}) => {
         commit('ReadMode');
     },
+    onDescriptionFlag:({commit}) => {
+        commit('onDescription');
+    },
+    offDescriptionFlag:({commit}) => {
+        commit('offDescription');
+    },
     logoutAction:({commit}) => {
         commit('logout');
     }
@@ -100,6 +113,9 @@ const state={
      },
      getHomeFlag:state => {
         return state.homeflag;
+    },
+    getDescriptionFlag:state => {
+        return state.descriptionflag;
     }
  };
 

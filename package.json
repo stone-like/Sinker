@@ -27,6 +27,7 @@
     "dependencies": {
         "laravel-echo": "^1.5.2",
         "pusher-js": "^4.3.1",
+        "vue-click-outside": "^1.0.7",
         "vue-router": "^3.0.2",
         "vue-simplemde": "^0.5.1",
         "vuetify": "^1.4.3",

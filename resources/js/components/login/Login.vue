@@ -1,5 +1,5 @@
 <template>
-　　
+<v-app>
 　<v-container>
 
   <v-form @submit.prevent="login">
@@ -23,6 +23,7 @@
      </router-link>
   </v-form>
 </v-container>
+</v-app>　
 </template>
 
 <script>

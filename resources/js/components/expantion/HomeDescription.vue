@@ -1,6 +1,6 @@
 <template>
  <div class="description_background">
-    <h1 class="header-1">{{title}}</h1>
+     <h1 class="header-1">{{title}}</h1>
 
     <p class="paragraph" v-html="description"></p>
     
@@ -87,6 +87,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
 .description_background{
     background-color: rgba(0,0,0,0.5);
     width:100%;
@@ -102,6 +103,7 @@ export default {
     font-size: 5rem;
     color:white;
     margin-top: 3rem;
+    margin-left: 9rem;
 }
 
 .paragraph{
@@ -110,13 +112,14 @@ export default {
     margin-top: 3rem;
     margin-bottom: auto;
     display: inline-block;
+     margin-left: 9rem;
 }
 .btn{
     background: none;
     font-size:3.5rem;
     border:2px solid;
     line-height: 1;
-    margin: 0.5em;
+    margin: 0.5em 0.5em 4em 9rem;
     padding: 1em 2em;
     display: inline-block;
 }

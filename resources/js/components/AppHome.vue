@@ -90,7 +90,7 @@ methods:{
 .entiregrid{
     display:grid;
     grid-template-columns: 13rem 1fr;
-    grid-template-rows: 10rem 1fr 10rem;
+    grid-template-rows: 8rem 1fr 10rem;
     position:relative;
 }
 .toolbar{

@@ -59,7 +59,8 @@ export default {
          axios.post("/api/auth/signup",this.form)
          .then(res =>{
             User.responseAfterLogin(res)
-            self.$router.push({name:'forum'})
+            window.location="/forum"
+            // self.$router.push({name:'forum'})
          })
          .catch(error => self.errors = error.response.data.errors)//ここからerrors['email']とかでアクセス、各一番目をとっていけばいいのでerrors['email'][0]
 

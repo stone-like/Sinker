@@ -20,9 +20,9 @@
         <router-link to='/forum'>
          <v-btn flat @click="toRead">Forum</v-btn>
         </router-link>
-        <router-link to='/login' v-if="!userLoggedIn">
+        <a href='/login' v-if="!userLoggedIn">
          <v-btn flat>Login</v-btn>
-        </router-link>
+        </a>
         <router-link to='/ask' v-if="userLoggedIn">
          <v-btn flat @click="toRead">Ask Question</v-btn>
         </router-link>

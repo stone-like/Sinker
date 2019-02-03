@@ -10,7 +10,7 @@
 </head>
 <body>
     <div id="app">
-            <app-logsign></app-logsign>
+            <app-log></app-log>
     </div>
 <script src="{{asset('js/app.js')}}"></script>
 </body>

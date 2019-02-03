@@ -35,7 +35,7 @@ const axios = require('axios');//何故かここwindow.axiosだとエラーに�
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('AppHome', require('./components/AppHome.vue').default);
-Vue.component('AppLogSign', require('./components/AppLogSign.vue').default);
+Vue.component('AppLog', require('./components/AppLog.vue').default);
 
 
 /**

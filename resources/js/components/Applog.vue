@@ -8,7 +8,7 @@ import Signup from "./login/Signup"
 export default {
  components:{Login,Signup},
  created(){
-   this.$router.push("/login")
+     this.$router.push("/login")
  }
 }
 </script>

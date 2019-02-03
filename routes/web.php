@@ -12,8 +12,11 @@
 */
 
 Route::view('/','home');
-Route::view('/{any}','home');//ここでやっていることは結局なんでもhome.baldeを表示するということSPAなのでこれでいいし、中のcomponentはしっかり変わっているからおｋ
-Route::view('/{any}/{any1}','home');//この形もlaravelでhome.bladeを表示できるようにする
+Route::get('/{any}',function(){ return view('home');})->where("any",'^(?!.*(login|signup)).*');//ここでやっていることは結局なんでもhome.baldeを表示するということSPAなのでこれでいいし、中のcomponentはしっかり変わっているからおｋ
+Route::view('/{any}/{any1}',function(){ return view('home'); })->where("any",'^(?!.*(login|signup)).*');//この形もlaravelでhome.bladeを表示できるようにする
+
+Route::view('/login','login');
+Route::view('/signin','login');
 
 //somethingchange...
 

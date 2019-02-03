@@ -42,14 +42,15 @@ export default {
          axios.post("api/auth/login",this.form)
         .then(res =>{
                   User.responseAfterLogin(res)
-                  this.$router.push({name:'forum'})
+                  window.location="/forum"
+                //   this.$router.push({name:'forum'})
                   })
         .catch(error => console.log(error.response.data))
    }
   },
   created(){
       if(this.$store.getters.userLoggedIn){
-          this.$router.push({name:'forum'});
+        //   this.$router.push({name:'forum'});
       }
   }
 }

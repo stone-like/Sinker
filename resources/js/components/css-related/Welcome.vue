@@ -95,7 +95,8 @@ export default {
     padding-top:5rem;
     height:100rem;
     width:100%;
-    background:linear-gradient(#abbabb,#fff);
+    // background-image: linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%);
+    background-image: linear-gradient(to top, #c4c5c7 0%, #dcdddf 52%, #ebebeb 100%);
     display:flex;
     justify-content: center;
     align-items: center;

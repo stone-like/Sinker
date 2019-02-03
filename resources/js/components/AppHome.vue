@@ -97,6 +97,12 @@ methods:{
 
        grid-column: 1/3;
        grid-row:1/2;
+       position: fixed;
+       top: 0;
+       height: 8rem;
+       width:100%;
+       z-index: 1;
+       background-color: #fff;
 
 }
 .toolbar-read{

@@ -1,4 +1,5 @@
 <template>
+
     <header class="header">
      
      
@@ -35,14 +36,18 @@
 
     </header>
   
+  
 </template>
 
 <script>
 import {mapGetters} from 'vuex'
 import AppNotification from "./AppNotification"
+import Sticky from 'vue-sticky-position'
+
 export default {
     components:{
-      AppNotification
+      AppNotification,
+      Sticky
     },
     //   data(){
 //       return{
@@ -103,6 +108,7 @@ a{
     display:flex;
     justify-content: space-between;
     align-items: center;
+    // background-color: black;
 }
 
 .welcome{
@@ -112,7 +118,8 @@ a{
 
 .navigation{
     display:flex;
-    
+   
+
 }
 
 

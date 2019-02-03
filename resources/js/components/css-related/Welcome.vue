@@ -64,7 +64,7 @@ export default {
 
      }),
      comp_content_carrousel(){
-        return this.push_right ? "content-carrousel right" : "content-carrousel";
+        return this.push_right ? "content-carrousel right-mv" : "content-carrousel";
      }
      },
      methods:{
@@ -118,26 +118,27 @@ export default {
     transform-style: preserve-3d;
     // transform: skew(15deg,15deg);
     // transform: rotateZ(15deg) rotateX(-7deg);
-    transition: transform .5s ease-in-out;
+    transition:transform .5s ease-in-out,right .2s ease-in-out;
+    right:0%;
 
 }
-.right{
-
-    animation:to_right .2s ease-in-out forwards;
+.content-carrousel.right-mv{
+    transition:transform .5s ease-in-out,right .2s ease-in-out;
+    right:35%;
     
     }
 
-@keyframes to_right{
-    0%{
-       right:0%;
-    }
-    50%{
-        right:17.5%;
-    }
-    100%{
-       right:35%; 
-    }
-}
+// @keyframes to_right{
+//     0%{
+//        right:0%;
+//     }
+//     50%{
+//         right:17.5%;
+//     }
+//     100%{
+//        right:35%; 
+//     }
+// }
 
 
 .content-carrousel figure{

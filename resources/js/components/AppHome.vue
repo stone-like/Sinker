@@ -4,7 +4,9 @@
   <modal v-if="modalflag" @close="changeModalFlag"></modal>
    <toolbar :class="comp_tool"></toolbar>
    <router-view :class="comp_view"></router-view>
-   <home-description v-if="homeflag && descriptionflag && number" :number="number" class="homedescription"></home-description>
+   <transition name="slide-fade">
+     <home-description v-if="homeflag && descriptionflag && number" :number="number" class="homedescription"></home-description>
+   </transition>
    <app-footer :class="comp_foot"></app-footer>
  </div>
 </template>
@@ -72,6 +74,18 @@ methods:{
 </script>
 
 <style lang="scss" scoped>
+.slide-fade-enter-active{
+    transition:all .1s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+
+.slide-fade-leave-active{
+    transition: all .3s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+
+.slide-fade-enter , .slide-fade-leave-to{
+   transform:translateX(150px); 
+   opacity:0;
+}
 
 .entiregrid{
     display:grid;

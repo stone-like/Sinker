@@ -10,7 +10,8 @@ const state={
     modalflag:false,
     homeflag:true,
     readflag:false,
-    descriptionflag:false
+    descriptionflag:false,
+    signupflag:false
  };
 
  const mutations ={
@@ -42,6 +43,9 @@ const state={
     'ReadMode'(state){
         state.homeflag = false;
         state.readflag = true;
+    },
+    'Signup_Mutate'(state){
+        state.signupflag = !state.signupflag;
     }
  };
 
@@ -81,6 +85,9 @@ const state={
     },
     logoutAction:({commit}) => {
         commit('logout');
+    },
+    changeSignupFlag:({commit}) => {
+        commit('Signup_Mutate');
     }
  };
 
@@ -116,7 +123,10 @@ const state={
     },
     getDescriptionFlag:state => {
         return state.descriptionflag;
-    }
+    },
+    getSignupFlag:state => {
+       return state.signupflag;
+   }
  };
 
 export default {

@@ -1,34 +1,29 @@
 <template>
-<v-app>
-　<v-container>
+   <div class="loginform" :style="{left:log_left,visibility:log_visibility}">
 
-  <v-form @submit.prevent="login">
-
-    <v-text-field label="E-mail"
+    <h1>Login</h1>
+    <input
     v-model="form.email"
     type="email"
     required>
-    </v-text-field>
 
-    <v-text-field label="Password"
+    <input
     v-model="form.password"
     type="password"
     required>
-    </v-text-field>
 
-    <v-btn color="green" type="submit">Login</v-btn>
+    <button @click.prevent="login">Login</button>
 
-    <router-link to="/signup">
-       <v-btn flat>signup</v-btn>
-     </router-link>
-  </v-form>
-</v-container>
-</v-app>　
+    <!-- <router-link to="/signup">
+       <button class="signup_btn">signup</button>
+     </router-link> -->
+  </div>
 </template>
 
 <script>
 import User from "../../Helpers/User.js"
 export default {
+  props:['log_visibility','log_left'],
   data(){
       return{
           form:{
@@ -46,16 +41,65 @@ export default {
                 //   this.$router.push({name:'forum'})
                   })
         .catch(error => console.log(error.response.data))
+   },
+   changeSignup(){
+       this.$store.dispatch("changeSignupFlag");
+       console.log(this.$store.getters.getSignupFlag);
    }
   },
   created(){
       if(this.$store.getters.userLoggedIn){
+           window.location="/forum"
         //   this.$router.push({name:'forum'});
       }
   }
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
+.loginform{
+    height:45rem;
+    width:50rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    position:absolute;
+    top:50%;
+    left:70%;
+    transform:translate(-50%,-50%);
+    z-index:999;
+    visibility: visible;
 
+    transition: left .3s cubic-bezier(.31,1.91,.85,.15);
+
+    h1{
+        font-family: arial;
+        font-size: 2.5rem;
+        color:black;
+    }
+
+    input{
+        height: 4rem;
+        width: 30rem;
+        border: 0;
+        outline: none;
+        border-bottom: 1px solid black;
+        margin: 5px;
+    }
+
+    button{
+        height: 3.5rem;
+        width: 13rem;
+        background-color: aqua;
+        font-family: monospace;
+        font-size: 1.6rem;
+        color: white;
+        border: none;
+        outline: none;
+        border-radius: 5px;
+        margin-top: 3rem;
+        margin-left: 17.5rem;
+    }
+}
 </style>

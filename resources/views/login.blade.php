@@ -10,7 +10,7 @@
 </head>
 <body>
     <div id="app">
-           <v-app style="background-image: linear-gradient(to right, #0acffe 0%, #495aff 100%); width:100vw; height:100vh;">
+           <v-app>
                <app-log></app-log>
            </v-app>
     </div>

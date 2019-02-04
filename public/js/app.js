@@ -1898,16 +1898,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      left: '70%',
-      log_left: "",
-      log_visibility: "",
-      signup_left: "",
-      signup_visibility: ""
+      main: "main",
+      slide: "",
+      visible_flag: true
     };
   },
   components: {
@@ -1919,25 +1922,24 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     bounce_left: function bounce_left() {
-      this.left = "30%";
-      this.log_left = "25%";
-      this.log_visibility = "hidden";
-      this.signup_left = "30%";
-      this.signup_visibility = "visible";
+      this.main = "main left";
+      this.slide = "slide-left";
+      this.visible_flag = false;
     },
     bounce_right: function bounce_right() {
-      this.left = "70%";
-      this.log_left = "70%";
-      this.log_visibility = "visible";
-      this.signup_left = "75%";
-      this.signup_visibility = "hidden";
+      this.main = "main right";
+      this.slide = "slide-right";
+      this.visible_flag = true;
     }
-  } //  computed:{
-  //      signup(){
-  //          return this.$store.getters.getSignupFlag;
-  //      }
-  //  }
-
+  },
+  computed: {
+    comp_main: function comp_main() {
+      return this.main;
+    },
+    comp_slide: function comp_slide() {
+      return this.slide;
+    }
+  }
 });
 
 /***/ }),
@@ -3053,34 +3055,59 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['log_visibility', 'log_left'],
   data: function data() {
     return {
       form: {
         email: null,
         password: null
-      }
+      },
+      first_done: false,
+      second_done: false
     };
   },
   methods: {
     login: function login() {
+      var _this = this;
+
+      this.first_done = true;
       axios.post("api/auth/login", this.form).then(function (res) {
         _Helpers_User_js__WEBPACK_IMPORTED_MODULE_0__["default"].responseAfterLogin(res);
-        window.location = "/forum"; //   this.$router.push({name:'forum'})
+        setTimeout(_this.changeSuccess, 2000); //   window.location="/forum"
+        //   this.$router.push({name:'forum'})
       }).catch(function (error) {
-        return console.log(error.response.data);
+        console.log(error.response.data);
+        setTimeout(_this.changeFalse, 2000);
       });
     },
     changeSignup: function changeSignup() {
       this.$store.dispatch("changeSignupFlag");
       console.log(this.$store.getters.getSignupFlag);
+    },
+    changeSuccess: function changeSuccess() {
+      this.first_done = false;
+      this.second_done = true;
+    },
+    changeFalse: function changeFalse() {
+      this.first_done = false;
     }
   },
   created: function created() {
     if (this.$store.getters.userLoggedIn) {
       window.location = "/forum"; //   this.$router.push({name:'forum'});
+    }
+  },
+  computed: {
+    btn: function btn() {
+      return this.first_done ? "btn_first" : "btn";
     }
   }
 });
@@ -3176,9 +3203,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['signup_visibility', 'signup_left'],
   data: function data() {
     return {
       form: {
@@ -3188,26 +3221,45 @@ __webpack_require__.r(__webpack_exports__);
         password_confirmation: null //ここはlaravelのvalidationでconfirmを使うために_confirmationとしなければだめ
 
       },
-      errors: []
+      errors: [],
+      first_done: false,
+      second_done: false
     };
   },
   methods: {
     signup: function signup() {
+      var _this = this;
+
       var self = this;
+      this.first_done = true;
       axios.post("/api/auth/signup", this.form).then(function (res) {
         _Helpers_User_js__WEBPACK_IMPORTED_MODULE_0__["default"].responseAfterLogin(res);
-        window.location = "/forum"; // self.$router.push({name:'forum'})
+        setTimeout(_this.changeSuccess, 2000); // window.location="/forum"
+        // self.$router.push({name:'forum'})
       }).catch(function (error) {
-        return self.errors = error.response.data.errors;
+        self.errors = error.response.data.errors;
+        setTimeout(_this.changeFalse);
       }); //ここからerrors['email']とかでアクセス、各一番目をとっていけばいいのでerrors['email'][0]
     },
     changeSignup: function changeSignup() {
       this.$store.dispatch("changeSignupFlag");
+    },
+    changeSuccess: function changeSuccess() {
+      this.first_done = false;
+      this.second_done = true;
+    },
+    changeFalse: function changeFalse() {
+      this.first_done = false;
     }
   },
   created: function created() {
     if (this.$store.getters.userLoggedIn) {
       window.location = "/forum"; //   this.$router.push({name:'forum'});
+    }
+  },
+  computed: {
+    btn: function btn() {
+      return this.first_done ? "btn_first" : "btn";
     }
   }
 });
@@ -21707,12 +21759,13 @@ exports.push([module.i, ".slide-fade-enter-active[data-v-31d277f6] {\n  transiti
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
+var escape = __webpack_require__(/*! ../../../node_modules/css-loader/lib/url/escape.js */ "./node_modules/css-loader/lib/url/escape.js");
 exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
 // imports
 
 
 // module
-exports.push([module.i, ".box[data-v-5b4293e4] {\n  height: 30rem;\n  width: 150rem;\n  background-color: rgba(0, 0, 0, 0.7);\n  border-radius: 5px;\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  -webkit-transform: translate(-50%, -50%);\n          transform: translate(-50%, -50%);\n}\n.main[data-v-5b4293e4] {\n  height: 60rem;\n  width: 67.5rem;\n  background-color: white;\n  border-radius: 5px;\n  position: absolute;\n  top: 50%;\n  left: 70%;\n  -webkit-transform: translate(-50%, -50%);\n          transform: translate(-50%, -50%);\n  z-index: 99;\n  transition: left 0.3s cubic-bezier(0.31, 1.91, 0.85, 0.15);\n}\n.login_btn[data-v-5b4293e4], .signup_btn[data-v-5b4293e4] {\n  height: 5.2rem;\n  width: 18rem;\n  font-size: 2.1rem;\n  background-color: transparent;\n  color: white;\n  border: 1px solid white;\n  border-radius: 5px;\n  outline: none;\n  position: absolute;\n  left: 75%;\n  top: 65%;\n  -webkit-transform: translate(-50%, -50%);\n          transform: translate(-50%, -50%);\n  transition: all 0.5s;\n}\n.signup_btn[data-v-5b4293e4] {\n  left: 25%;\n}\n.login_msg[data-v-5b4293e4], .signup_msg[data-v-5b4293e4] {\n  font-family: arial;\n  font-size: 3.5rem;\n  color: white;\n  position: absolute;\n  top: 35%;\n  left: 75%;\n  -webkit-transform: translate(-50%, -50%);\n          transform: translate(-50%, -50%);\n  z-index: 1;\n}\n.signup_msg[data-v-5b4293e4] {\n  left: 25%;\n}", ""]);
+exports.push([module.i, ".background[data-v-5b4293e4] {\n  width: 100%;\n  height: 100%;\n  background-image: url(" + escape(__webpack_require__(/*! ../Helpers/img/abstract.jpg */ "./resources/js/Helpers/img/abstract.jpg")) + ");\n  background-size: cover;\n}\n.slide-left-enter-active[data-v-5b4293e4] {\n  -webkit-animation: signup-data-v-5b4293e4 0.8s ease-in-out forwards;\n          animation: signup-data-v-5b4293e4 0.8s ease-in-out forwards;\n}\n.slide-left-leave-to[data-v-5b4293e4] {\n  left: 75%;\n  visibility: hidden;\n}\n.slide-right-enter-active[data-v-5b4293e4] {\n  -webkit-animation: login-data-v-5b4293e4 0.8s ease-in-out forwards;\n          animation: login-data-v-5b4293e4 0.8s ease-in-out forwards;\n}\n.slide-right-leave-to[data-v-5b4293e4] {\n  left: 25%;\n  visibility: hidden;\n}\n.left[data-v-5b4293e4] {\n  -webkit-animation: main_left-data-v-5b4293e4 0.8s ease-in-out forwards;\n          animation: main_left-data-v-5b4293e4 0.8s ease-in-out forwards;\n}\n@-webkit-keyframes signup-data-v-5b4293e4 {\n0% {\n    left: 70%;\n    visibility: hidden;\n}\n90% {\n    visibility: visible;\n    left: 17%;\n}\n100% {\n    visibility: visible;\n    left: 30%;\n}\n}\n@keyframes signup-data-v-5b4293e4 {\n0% {\n    left: 70%;\n    visibility: hidden;\n}\n90% {\n    visibility: visible;\n    left: 17%;\n}\n100% {\n    visibility: visible;\n    left: 30%;\n}\n}\n@-webkit-keyframes login-data-v-5b4293e4 {\n0% {\n    left: 30%;\n    visibility: hidden;\n}\n90% {\n    visibility: visible;\n    left: 83.5%;\n}\n100% {\n    visibility: visible;\n    left: 70%;\n}\n}\n@keyframes login-data-v-5b4293e4 {\n0% {\n    left: 30%;\n    visibility: hidden;\n}\n90% {\n    visibility: visible;\n    left: 83.5%;\n}\n100% {\n    visibility: visible;\n    left: 70%;\n}\n}\n@-webkit-keyframes main_left-data-v-5b4293e4 {\n0% {\n    left: 70%;\n}\n50% {\n    left: 22.5%;\n}\n100% {\n    left: 30%;\n}\n}\n@keyframes main_left-data-v-5b4293e4 {\n0% {\n    left: 70%;\n}\n50% {\n    left: 22.5%;\n}\n100% {\n    left: 30%;\n}\n}\n.right[data-v-5b4293e4] {\n  -webkit-animation: main_right-data-v-5b4293e4 0.8s ease-in-out forwards;\n          animation: main_right-data-v-5b4293e4 0.8s ease-in-out forwards;\n}\n@-webkit-keyframes main_right-data-v-5b4293e4 {\n0% {\n    left: 30%;\n}\n50% {\n    left: 77.5%;\n}\n100% {\n    left: 70%;\n}\n}\n@keyframes main_right-data-v-5b4293e4 {\n0% {\n    left: 30%;\n}\n50% {\n    left: 77.5%;\n}\n100% {\n    left: 70%;\n}\n}\n.box[data-v-5b4293e4] {\n  height: 30rem;\n  width: 150rem;\n  background-color: rgba(0, 0, 0, 0.7);\n  border-radius: 5px;\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  -webkit-transform: translate(-50%, -50%);\n          transform: translate(-50%, -50%);\n}\n.main[data-v-5b4293e4] {\n  height: 55rem;\n  width: 60rem;\n  background-color: white;\n  border-radius: 5px;\n  position: absolute;\n  top: 50%;\n  left: 70%;\n  -webkit-transform: translate(-50%, -50%);\n          transform: translate(-50%, -50%);\n  z-index: 99;\n  transition: left 0.8s cubic-bezier(0.31, 1.91, 0.85, 0.15);\n}\n.login_btn[data-v-5b4293e4], .signup_btn[data-v-5b4293e4] {\n  display: inline-block;\n  height: 3.5rem;\n  width: 12rem;\n  font-size: 2.1rem;\n  background-color: transparent;\n  color: white;\n  border: 1px solid white;\n  border-radius: 5px;\n  outline: none;\n  position: absolute;\n  left: 75%;\n  top: 65%;\n  -webkit-transform: translate(-50%, -50%);\n          transform: translate(-50%, -50%);\n  transition: all 0.5s;\n}\n.signup_btn[data-v-5b4293e4] {\n  left: 25%;\n}\n.login_btn[data-v-5b4293e4]:hover, .signup_btn[data-v-5b4293e4]:hover {\n  background-color: white;\n  color: #2d2d2d;\n  cursor: pointer;\n}\n.login_msg[data-v-5b4293e4], .signup_msg[data-v-5b4293e4] {\n  font-family: arial;\n  font-size: 3.5rem;\n  color: white;\n  position: absolute;\n  top: 35%;\n  left: 75%;\n  -webkit-transform: translate(-50%, -50%);\n          transform: translate(-50%, -50%);\n  z-index: 1;\n}\n.signup_msg[data-v-5b4293e4] {\n  left: 25%;\n}", ""]);
 
 // exports
 
@@ -21788,7 +21841,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".loginform[data-v-0110baa8] {\n  height: 45rem;\n  width: 50rem;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-around;\n  align-items: center;\n  position: absolute;\n  top: 50%;\n  left: 70%;\n  -webkit-transform: translate(-50%, -50%);\n          transform: translate(-50%, -50%);\n  z-index: 999;\n  visibility: visible;\n  transition: left 0.3s ease-in-out;\n}\n.loginform h1[data-v-0110baa8] {\n  font-family: arial;\n  font-size: 2.5rem;\n  color: black;\n}\n.loginform .input[data-v-0110baa8] {\n  height: 4rem;\n  width: 30rem;\n  border: 0;\n  outline: none;\n}\n.loginform button[data-v-0110baa8] {\n  height: 3.5rem;\n  width: 13rem;\n  background-color: aqua;\n  font-family: monospace;\n  font-size: 1.6rem;\n  color: white;\n  border: none;\n  outline: none;\n  border-radius: 5px;\n  margin-top: 3rem;\n  margin-left: 17.5rem;\n}\n.v-input[data-v-0110baa8] {\n  flex: 0 0 0;\n}", ""]);
+exports.push([module.i, ".done-enter-active[data-v-0110baa8], .done-leave-active[data-v-0110baa8] {\n  transition: all 0.3s ease-in-out;\n}\n.done-leave-to[data-v-0110baa8], .done-enter[data-v-0110baa8] {\n  -webkit-transform: translateY(-60px);\n          transform: translateY(-60px);\n  opacity: 0;\n}\n.loginform[data-v-0110baa8] {\n  height: 45rem;\n  width: 50rem;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-around;\n  align-items: center;\n  position: absolute;\n  top: 50%;\n  left: 70%;\n  -webkit-transform: translate(-50%, -50%);\n          transform: translate(-50%, -50%);\n  z-index: 999;\n}\n.loginform h1[data-v-0110baa8] {\n  font-family: arial;\n  font-size: 2.5rem;\n  color: black;\n}\n.loginform .input[data-v-0110baa8] {\n  height: 4rem;\n  width: 30rem;\n  border: 0;\n  outline: none;\n}\n.loginform .btn[data-v-0110baa8] {\n  position: relative;\n  border: 0;\n  padding: 0.8rem 1rem;\n  font-size: 1.3rem;\n  cursor: pointer;\n  outline: none;\n  background: #2aca76;\n  color: #fff;\n  border-radius: 2px;\n  border: 1px solid transparent;\n  overflow: hidden;\n  width: 10rem;\n}\n.loginform .btn .spinner[data-v-0110baa8] {\n  left: 50%;\n  margin-left: -1.6rem;\n  position: absolute;\n  width: 3.2rem;\n  height: 3.2rem;\n  top: 50%;\n  margin-top: -1.6rem;\n  opacity: 0;\n  background-image: url(data:image/gif;base64,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);\n}\n.loginform .btn[data-v-0110baa8]:hover {\n  border-color: rgba(0, 0, 0, 0.07);\n  background-color: #2fe688;\n}\n.loginform .btn .label[data-v-0110baa8] {\n  opacity: 1;\n}\n.loginform .btn[data-v-0110baa8],\n.loginform .btn .spinner[data-v-0110baa8],\n.loginform .btn .label[data-v-0110baa8] {\n  transition: 0.3s cubic-bezier(0.175, 0.895, 0.32, 1.275);\n}\n.loginform .btn_first[data-v-0110baa8],\n.loginform .btn_first .spinner[data-v-0110baa8],\n.loginform .btn_first .label[data-v-0110baa8] {\n  transition: 0.3s cubic-bezier(0.175, 0.895, 0.32, 1.275);\n}\n.loginform .btn_first[data-v-0110baa8] {\n  position: relative;\n  border: 0;\n  padding: 1rem 1rem;\n  font-size: 1.3rem;\n  outline: none;\n  color: #fff;\n  border: 1px solid transparent;\n  overflow: hidden;\n  cursor: default;\n  border-color: rgba(0, 0, 0, 0.07);\n  background-color: #999;\n  border-radius: 50%;\n  width: 5.2rem;\n}\n.loginform .btn_first .label[data-v-0110baa8] {\n  opacity: 0;\n}\n.loginform .btn_first .spinner[data-v-0110baa8] {\n  opacity: 1;\n  left: 50%;\n  margin-left: -1.6rem;\n  position: absolute;\n  width: 3.2rem;\n  height: 3.2rem;\n  top: 50%;\n  margin-top: -1.6rem;\n  background-image: url(data:image/gif;base64,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);\n}\n.v-input[data-v-0110baa8] {\n  flex: 0 0 0;\n}", ""]);
 
 // exports
 
@@ -21807,7 +21860,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".signupform[data-v-6d608769] {\n  height: 45rem;\n  width: 50rem;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-around;\n  align-items: center;\n  position: absolute;\n  top: 45%;\n  left: 75%;\n  -webkit-transform: translate(-50%, -50%);\n          transform: translate(-50%, -50%);\n  z-index: 999;\n  visibility: hidden;\n  transition: left 0.3s ease-in-out;\n}\n.signupform h1[data-v-6d608769] {\n  font-family: arial;\n  font-size: 2.5rem;\n  color: black;\n}\n.signupform .input[data-v-6d608769] {\n  height: 4rem;\n  width: 30rem;\n  border: 0;\n  outline: none;\n}\n.signupform button[data-v-6d608769] {\n  height: 3.5rem;\n  width: 13rem;\n  background-color: aqua;\n  font-family: monospace;\n  font-size: 1.6rem;\n  color: white;\n  border: none;\n  outline: none;\n  border-radius: 5px;\n  margin-top: 3rem;\n  margin-left: 17.5rem;\n}\n.v-input[data-v-6d608769] {\n  flex: 0 0 0;\n}", ""]);
+exports.push([module.i, ".done-enter-active[data-v-6d608769], .done-leave-active[data-v-6d608769] {\n  transition: all 0.3s ease-in-out;\n}\n.done-leave-to[data-v-6d608769], .done-enter[data-v-6d608769] {\n  -webkit-transform: translateY(-60px);\n          transform: translateY(-60px);\n  opacity: 0;\n}\n.signupform[data-v-6d608769] {\n  height: 45rem;\n  width: 50rem;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-around;\n  align-items: center;\n  position: absolute;\n  top: 45%;\n  left: 30%;\n  -webkit-transform: translate(-50%, -50%);\n          transform: translate(-50%, -50%);\n  z-index: 999;\n}\n.signupform h1[data-v-6d608769] {\n  font-family: arial;\n  font-size: 2.5rem;\n  color: black;\n}\n.signupform .input[data-v-6d608769] {\n  height: 4rem;\n  width: 30rem;\n  border: 0;\n  outline: none;\n}\n.signupform .btn[data-v-6d608769] {\n  margin-top: 1.5rem;\n  position: relative;\n  border: 0;\n  padding: 0.8rem 1rem;\n  font-size: 1.3rem;\n  cursor: pointer;\n  outline: none;\n  background: #2aca76;\n  color: #fff;\n  border-radius: 2px;\n  border: 1px solid transparent;\n  overflow: hidden;\n  width: 10rem;\n}\n.signupform .btn .spinner[data-v-6d608769] {\n  left: 50%;\n  margin-left: -1.6rem;\n  position: absolute;\n  width: 3.2rem;\n  height: 3.2rem;\n  top: 50%;\n  margin-top: -1.6rem;\n  opacity: 0;\n  background-image: url(data:image/gif;base64,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);\n}\n.signupform .btn[data-v-6d608769]:hover {\n  border-color: rgba(0, 0, 0, 0.07);\n  background-color: #2fe688;\n}\n.signupform .btn .label[data-v-6d608769] {\n  opacity: 1;\n}\n.signupform .btn[data-v-6d608769],\n.signupform .btn .spinner[data-v-6d608769],\n.signupform .btn .label[data-v-6d608769] {\n  transition: 0.3s cubic-bezier(0.175, 0.895, 0.32, 1.275);\n}\n.signupform .btn_first[data-v-6d608769],\n.signupform .btn_first .spinner[data-v-6d608769],\n.signupform .btn_first .label[data-v-6d608769] {\n  transition: 0.3s cubic-bezier(0.175, 0.895, 0.32, 1.275);\n}\n.signupform .btn_first[data-v-6d608769] {\n  position: relative;\n  border: 0;\n  padding: 1rem 1rem;\n  font-size: 1.3rem;\n  outline: none;\n  color: #fff;\n  border: 1px solid transparent;\n  overflow: hidden;\n  cursor: default;\n  border-color: rgba(0, 0, 0, 0.07);\n  background-color: #999;\n  border-radius: 50%;\n  width: 5.2rem;\n}\n.signupform .btn_first .label[data-v-6d608769] {\n  opacity: 0;\n}\n.signupform .btn_first .spinner[data-v-6d608769] {\n  opacity: 1;\n  left: 50%;\n  margin-left: -1.6rem;\n  position: absolute;\n  width: 3.2rem;\n  height: 3.2rem;\n  top: 50%;\n  margin-top: -1.6rem;\n  background-image: url(data:image/gif;base64,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);\n}\n.error_message[data-v-6d608769] {\n  font-size: 1.4rem;\n  font-weight: 400;\n  color: red;\n  margin-top: 1.2rem;\n}\n.v-input[data-v-6d608769] {\n  flex: 0 0 0;\n}", ""]);
 
 // exports
 
@@ -21953,6 +22006,33 @@ function toComment(sourceMap) {
 	var data = 'sourceMappingURL=data:application/json;charset=utf-8;base64,' + base64;
 
 	return '/*# ' + data + ' */';
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/lib/url/escape.js":
+/*!***************************************************!*\
+  !*** ./node_modules/css-loader/lib/url/escape.js ***!
+  \***************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = function escape(url) {
+    if (typeof url !== 'string') {
+        return url
+    }
+    // If url is already wrapped in quotes, remove them
+    if (/^['"].*['"]$/.test(url)) {
+        url = url.slice(1, -1);
+    }
+    // Should url be wrapped?
+    // See https://drafts.csswg.org/css-values-3/#urls
+    if (/["'() \t\n]/.test(url)) {
+        return '"' + url.replace(/"/g, '\\"').replace(/\n/g, '\\n') + '"'
+    }
+
+    return url
 }
 
 
@@ -68198,43 +68278,45 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "box" },
-    [
-      _c("div", { staticClass: "main", style: { left: _vm.left } }),
-      _vm._v(" "),
-      _c("login", {
-        attrs: { log_visibility: _vm.log_visibility, log_left: _vm.log_left }
-      }),
-      _vm._v(" "),
-      _c("signup", {
-        attrs: {
-          signup_visibility: _vm.signup_visibility,
-          signup_left: _vm.signup_left
-        }
-      }),
-      _vm._v(" "),
-      _c("div", { staticClass: "login_msg" }, [_vm._v("Have an account?")]),
-      _vm._v(" "),
-      _c("div", { staticClass: "signup_msg" }, [
-        _vm._v("Don't have an account?")
-      ]),
-      _vm._v(" "),
-      _c(
-        "button",
-        { staticClass: "login_btn", on: { click: _vm.bounce_right } },
-        [_vm._v("Login")]
-      ),
-      _vm._v(" "),
-      _c(
-        "button",
-        { staticClass: "signup_btn", on: { click: _vm.bounce_left } },
-        [_vm._v("signup")]
-      )
-    ],
-    1
-  )
+  return _c("div", { staticClass: "background" }, [
+    _c(
+      "div",
+      { staticClass: "box" },
+      [
+        _c("div", { class: _vm.comp_main }),
+        _vm._v(" "),
+        _c(
+          "transition",
+          { attrs: { name: _vm.comp_slide, mode: "out-in" } },
+          [
+            _vm.visible_flag
+              ? _c("login", { key: "login" })
+              : _c("signup", { key: "signup" })
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c("div", { staticClass: "login_msg" }, [_vm._v("Have an account?")]),
+        _vm._v(" "),
+        _c("div", { staticClass: "signup_msg" }, [
+          _vm._v("Don't have an account?")
+        ]),
+        _vm._v(" "),
+        _c(
+          "button",
+          { staticClass: "login_btn", on: { click: _vm.bounce_right } },
+          [_vm._v("Login")]
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          { staticClass: "signup_btn", on: { click: _vm.bounce_left } },
+          [_vm._v("signup")]
+        )
+      ],
+      1
+    )
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -69579,10 +69661,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    {
-      staticClass: "loginform",
-      style: { left: _vm.log_left, visibility: _vm.log_visibility }
-    },
+    { staticClass: "loginform" },
     [
       _c("h1", [_vm._v("Login")]),
       _vm._v(" "),
@@ -69613,6 +69692,7 @@ var render = function() {
       _c(
         "button",
         {
+          class: _vm.btn,
           on: {
             click: function($event) {
               $event.preventDefault()
@@ -69620,7 +69700,20 @@ var render = function() {
             }
           }
         },
-        [_vm._v("Login")]
+        [
+          _c("transition", { attrs: { name: "done", mode: "out-in" } }, [
+            _c("span", { key: _vm.second_done, staticClass: "label" }, [
+              _vm._v(
+                "\n          " +
+                  _vm._s(_vm.second_done ? "Done" : "Login") +
+                  "\n       "
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _c("span", { staticClass: "spinner" })
+        ],
+        1
       )
     ],
     1
@@ -69674,10 +69767,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    {
-      staticClass: "signupform",
-      style: { left: _vm.signup_left, visibility: _vm.signup_visibility }
-    },
+    { staticClass: "signupform" },
     [
       _c("h1", [_vm._v("Signup")]),
       _vm._v(" "),
@@ -69694,7 +69784,7 @@ var render = function() {
       }),
       _vm._v(" "),
       _vm.errors.name
-        ? _c("span", { staticClass: "red--text" }, [
+        ? _c("span", { staticClass: "error_message" }, [
             _vm._v(_vm._s(_vm.errors.name[0]))
           ])
         : _vm._e(),
@@ -69712,7 +69802,7 @@ var render = function() {
       }),
       _vm._v(" "),
       _vm.errors.email
-        ? _c("span", { staticClass: "red--text" }, [
+        ? _c("span", { staticClass: "error_message" }, [
             _vm._v(_vm._s(_vm.errors.email[0]))
           ])
         : _vm._e(),
@@ -69730,7 +69820,7 @@ var render = function() {
       }),
       _vm._v(" "),
       _vm.errors.password
-        ? _c("span", { staticClass: "red--text" }, [
+        ? _c("span", { staticClass: "error_message" }, [
             _vm._v(_vm._s(_vm.errors.password[0]))
           ])
         : _vm._e(),
@@ -69750,6 +69840,7 @@ var render = function() {
       _c(
         "button",
         {
+          class: _vm.btn,
           on: {
             click: function($event) {
               $event.preventDefault()
@@ -69757,7 +69848,20 @@ var render = function() {
             }
           }
         },
-        [_vm._v("Signup")]
+        [
+          _c("transition", { attrs: { name: "done", mode: "out-in" } }, [
+            _c("span", { key: _vm.second_done, staticClass: "label" }, [
+              _vm._v(
+                "\n         " +
+                  _vm._s(_vm.second_done ? "Done" : "Signup") +
+                  "\n      "
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _c("span", { staticClass: "spinner" })
+        ],
+        1
       )
     ],
     1
@@ -109222,6 +109326,17 @@ function () {
 }();
 
 /* harmony default export */ __webpack_exports__["default"] = (User = new User()); //こうやってexportしないとfunctionが呼び出せない
+
+/***/ }),
+
+/***/ "./resources/js/Helpers/img/abstract.jpg":
+/*!***********************************************!*\
+  !*** ./resources/js/Helpers/img/abstract.jpg ***!
+  \***********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "/images/abstract.jpg?41f88693cbfe64ed51e93e28965fe56f";
 
 /***/ }),
 

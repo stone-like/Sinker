@@ -8,9 +8,11 @@
     <title>login</title>
     <link rel="stylesheet" href="{{asset('css/app.css')}}">
 </head>
-<body style="background-image: linear-gradient(to right, #0acffe 0%, #495aff 100%); width:100vw; height:100vh;">
+<body>
     <div id="app">
-            <app-log></app-log>
+           <v-app style="background-image: linear-gradient(to right, #0acffe 0%, #495aff 100%); width:100vw; height:100vh;">
+               <app-log></app-log>
+           </v-app>
     </div>
 <script src="{{asset('js/app.js')}}"></script>
 </body>

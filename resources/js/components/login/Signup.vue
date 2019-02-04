@@ -3,28 +3,36 @@
 
     <h1>Signup</h1>
 
-    <input
+    <v-text-field
+    label="Name"
     v-model="form.name"
     type="text"
-    required>
+    required class="input">
+    </v-text-field>
     <span class="red--text" v-if="errors.name">{{errors.name[0]}}</span>
 
-    <input
+    <v-text-field
+    label="Email"
     v-model="form.email"
     type="email"
-    required>
+    required class="input">
+    </v-text-field>
     <span class="red--text" v-if="errors.email">{{errors.email[0]}}</span>
 
-     <input
+     <v-text-field
+     label="Password"
     v-model="form.password"
     type="password"
-    required>
+    required class="input">
+     </v-text-field>
     <span class="red--text" v-if="errors.password">{{errors.password[0]}}</span>
 
-     <input
+     <v-text-field
+     label="Confirm password"
     v-model="form.password_confirmation"
     type="password"
-    required>
+    required class="input">
+     </v-text-field>
 
     <button @click.prevent="signup">Signup</button>
 
@@ -90,7 +98,8 @@ export default {
     z-index:999;
     visibility: hidden;
 
-    transition: left .3s cubic-bezier(.31,1.91,.85,.15);
+    // transition: left .3s cubic-bezier(.31,1.91,.85,.15);
+    transition: left .3s ease-in-out;
 
     h1{
         font-family: arial;
@@ -98,13 +107,11 @@ export default {
         color:black;
     }
 
-    input{
+    .input{
         height: 4rem;
         width: 30rem;
         border: 0;
         outline: none;
-        border-bottom: 1px solid black;
-        margin: 5px;
     }
 
     button{
@@ -120,5 +127,9 @@ export default {
         margin-top: 3rem;
         margin-left: 17.5rem;
     }
+}
+
+.v-input{
+    flex:0 0 0;
 }
 </style>

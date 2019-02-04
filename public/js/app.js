@@ -3049,6 +3049,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['log_visibility', 'log_left'],
@@ -3127,6 +3131,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Helpers_User_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../Helpers/User.js */ "./resources/js/Helpers/User.js");
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -21700,7 +21712,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".box[data-v-5b4293e4] {\n  height: 30rem;\n  width: 150rem;\n  background-color: rgba(0, 0, 0, 0.7);\n  border-radius: 5px;\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  -webkit-transform: translate(-50%, -50%);\n          transform: translate(-50%, -50%);\n}\n.main[data-v-5b4293e4] {\n  height: 60rem;\n  width: 67.5rem;\n  background-color: white;\n  border-radius: 5px;\n  position: absolute;\n  top: 50%;\n  left: 70%;\n  -webkit-transform: translate(-50%, -50%);\n          transform: translate(-50%, -50%);\n  z-index: 99;\n  transition: left 0.3s cubic-bezier(0.31, 1.91, 0.85, 0.15);\n}\n.login_btn[data-v-5b4293e4], .signup_btn[data-v-5b4293e4] {\n  height: 5.2rem;\n  width: 18rem;\n  background-color: transparent;\n  color: white;\n  border: 1px solid white;\n  border-radius: 5px;\n  outline: none;\n  position: absolute;\n  left: 75%;\n  top: 65%;\n  -webkit-transform: translate(-50%, -50%);\n          transform: translate(-50%, -50%);\n  transition: all 0.5s;\n}\n.signup_btn[data-v-5b4293e4] {\n  left: 25%;\n}\n.login_msg[data-v-5b4293e4], .signup_msg[data-v-5b4293e4] {\n  font-family: arial;\n  font-size: 3.5rem;\n  color: white;\n  position: absolute;\n  top: 35%;\n  left: 75%;\n  -webkit-transform: translate(-50%, -50%);\n          transform: translate(-50%, -50%);\n  z-index: 1;\n}\n.signup_msg[data-v-5b4293e4] {\n  left: 25%;\n}", ""]);
+exports.push([module.i, ".box[data-v-5b4293e4] {\n  height: 30rem;\n  width: 150rem;\n  background-color: rgba(0, 0, 0, 0.7);\n  border-radius: 5px;\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  -webkit-transform: translate(-50%, -50%);\n          transform: translate(-50%, -50%);\n}\n.main[data-v-5b4293e4] {\n  height: 60rem;\n  width: 67.5rem;\n  background-color: white;\n  border-radius: 5px;\n  position: absolute;\n  top: 50%;\n  left: 70%;\n  -webkit-transform: translate(-50%, -50%);\n          transform: translate(-50%, -50%);\n  z-index: 99;\n  transition: left 0.3s cubic-bezier(0.31, 1.91, 0.85, 0.15);\n}\n.login_btn[data-v-5b4293e4], .signup_btn[data-v-5b4293e4] {\n  height: 5.2rem;\n  width: 18rem;\n  font-size: 2.1rem;\n  background-color: transparent;\n  color: white;\n  border: 1px solid white;\n  border-radius: 5px;\n  outline: none;\n  position: absolute;\n  left: 75%;\n  top: 65%;\n  -webkit-transform: translate(-50%, -50%);\n          transform: translate(-50%, -50%);\n  transition: all 0.5s;\n}\n.signup_btn[data-v-5b4293e4] {\n  left: 25%;\n}\n.login_msg[data-v-5b4293e4], .signup_msg[data-v-5b4293e4] {\n  font-family: arial;\n  font-size: 3.5rem;\n  color: white;\n  position: absolute;\n  top: 35%;\n  left: 75%;\n  -webkit-transform: translate(-50%, -50%);\n          transform: translate(-50%, -50%);\n  z-index: 1;\n}\n.signup_msg[data-v-5b4293e4] {\n  left: 25%;\n}", ""]);
 
 // exports
 
@@ -21776,7 +21788,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".loginform[data-v-0110baa8] {\n  height: 45rem;\n  width: 50rem;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-around;\n  align-items: center;\n  position: absolute;\n  top: 50%;\n  left: 70%;\n  -webkit-transform: translate(-50%, -50%);\n          transform: translate(-50%, -50%);\n  z-index: 999;\n  visibility: visible;\n  transition: left 0.3s cubic-bezier(0.31, 1.91, 0.85, 0.15);\n}\n.loginform h1[data-v-0110baa8] {\n  font-family: arial;\n  font-size: 2.5rem;\n  color: black;\n}\n.loginform input[data-v-0110baa8] {\n  height: 4rem;\n  width: 30rem;\n  border: 0;\n  outline: none;\n  border-bottom: 1px solid black;\n  margin: 5px;\n}\n.loginform button[data-v-0110baa8] {\n  height: 3.5rem;\n  width: 13rem;\n  background-color: aqua;\n  font-family: monospace;\n  font-size: 1.6rem;\n  color: white;\n  border: none;\n  outline: none;\n  border-radius: 5px;\n  margin-top: 3rem;\n  margin-left: 17.5rem;\n}", ""]);
+exports.push([module.i, ".loginform[data-v-0110baa8] {\n  height: 45rem;\n  width: 50rem;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-around;\n  align-items: center;\n  position: absolute;\n  top: 50%;\n  left: 70%;\n  -webkit-transform: translate(-50%, -50%);\n          transform: translate(-50%, -50%);\n  z-index: 999;\n  visibility: visible;\n  transition: left 0.3s ease-in-out;\n}\n.loginform h1[data-v-0110baa8] {\n  font-family: arial;\n  font-size: 2.5rem;\n  color: black;\n}\n.loginform .input[data-v-0110baa8] {\n  height: 4rem;\n  width: 30rem;\n  border: 0;\n  outline: none;\n}\n.loginform button[data-v-0110baa8] {\n  height: 3.5rem;\n  width: 13rem;\n  background-color: aqua;\n  font-family: monospace;\n  font-size: 1.6rem;\n  color: white;\n  border: none;\n  outline: none;\n  border-radius: 5px;\n  margin-top: 3rem;\n  margin-left: 17.5rem;\n}\n.v-input[data-v-0110baa8] {\n  flex: 0 0 0;\n}", ""]);
 
 // exports
 
@@ -21795,7 +21807,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".signupform[data-v-6d608769] {\n  height: 45rem;\n  width: 50rem;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-around;\n  align-items: center;\n  position: absolute;\n  top: 45%;\n  left: 75%;\n  -webkit-transform: translate(-50%, -50%);\n          transform: translate(-50%, -50%);\n  z-index: 999;\n  visibility: hidden;\n  transition: left 0.3s cubic-bezier(0.31, 1.91, 0.85, 0.15);\n}\n.signupform h1[data-v-6d608769] {\n  font-family: arial;\n  font-size: 2.5rem;\n  color: black;\n}\n.signupform input[data-v-6d608769] {\n  height: 4rem;\n  width: 30rem;\n  border: 0;\n  outline: none;\n  border-bottom: 1px solid black;\n  margin: 5px;\n}\n.signupform button[data-v-6d608769] {\n  height: 3.5rem;\n  width: 13rem;\n  background-color: aqua;\n  font-family: monospace;\n  font-size: 1.6rem;\n  color: white;\n  border: none;\n  outline: none;\n  border-radius: 5px;\n  margin-top: 3rem;\n  margin-left: 17.5rem;\n}", ""]);
+exports.push([module.i, ".signupform[data-v-6d608769] {\n  height: 45rem;\n  width: 50rem;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-around;\n  align-items: center;\n  position: absolute;\n  top: 45%;\n  left: 75%;\n  -webkit-transform: translate(-50%, -50%);\n          transform: translate(-50%, -50%);\n  z-index: 999;\n  visibility: hidden;\n  transition: left 0.3s ease-in-out;\n}\n.signupform h1[data-v-6d608769] {\n  font-family: arial;\n  font-size: 2.5rem;\n  color: black;\n}\n.signupform .input[data-v-6d608769] {\n  height: 4rem;\n  width: 30rem;\n  border: 0;\n  outline: none;\n}\n.signupform button[data-v-6d608769] {\n  height: 3.5rem;\n  width: 13rem;\n  background-color: aqua;\n  font-family: monospace;\n  font-size: 1.6rem;\n  color: white;\n  border: none;\n  outline: none;\n  border-radius: 5px;\n  margin-top: 3rem;\n  margin-left: 17.5rem;\n}\n.v-input[data-v-6d608769] {\n  flex: 0 0 0;\n}", ""]);
 
 // exports
 
@@ -69574,45 +69586,27 @@ var render = function() {
     [
       _c("h1", [_vm._v("Login")]),
       _vm._v(" "),
-      _c("input", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.form.email,
-            expression: "form.email"
-          }
-        ],
-        attrs: { type: "email", required: "" },
-        domProps: { value: _vm.form.email },
-        on: {
-          input: function($event) {
-            if ($event.target.composing) {
-              return
-            }
-            _vm.$set(_vm.form, "email", $event.target.value)
-          }
+      _c("v-text-field", {
+        staticClass: "input",
+        attrs: { label: "Email", type: "email", required: "" },
+        model: {
+          value: _vm.form.email,
+          callback: function($$v) {
+            _vm.$set(_vm.form, "email", $$v)
+          },
+          expression: "form.email"
         }
       }),
       _vm._v(" "),
-      _c("input", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.form.password,
-            expression: "form.password"
-          }
-        ],
-        attrs: { type: "password", required: "" },
-        domProps: { value: _vm.form.password },
-        on: {
-          input: function($event) {
-            if ($event.target.composing) {
-              return
-            }
-            _vm.$set(_vm.form, "password", $event.target.value)
-          }
+      _c("v-text-field", {
+        staticClass: "input",
+        attrs: { label: "Password", type: "password", required: "" },
+        model: {
+          value: _vm.form.password,
+          callback: function($$v) {
+            _vm.$set(_vm.form, "password", $$v)
+          },
+          expression: "form.password"
         }
       }),
       _vm._v(" "),
@@ -69628,7 +69622,8 @@ var render = function() {
         },
         [_vm._v("Login")]
       )
-    ]
+    ],
+    1
   )
 }
 var staticRenderFns = []
@@ -69686,24 +69681,15 @@ var render = function() {
     [
       _c("h1", [_vm._v("Signup")]),
       _vm._v(" "),
-      _c("input", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.form.name,
-            expression: "form.name"
-          }
-        ],
-        attrs: { type: "text", required: "" },
-        domProps: { value: _vm.form.name },
-        on: {
-          input: function($event) {
-            if ($event.target.composing) {
-              return
-            }
-            _vm.$set(_vm.form, "name", $event.target.value)
-          }
+      _c("v-text-field", {
+        staticClass: "input",
+        attrs: { label: "Name", type: "text", required: "" },
+        model: {
+          value: _vm.form.name,
+          callback: function($$v) {
+            _vm.$set(_vm.form, "name", $$v)
+          },
+          expression: "form.name"
         }
       }),
       _vm._v(" "),
@@ -69713,24 +69699,15 @@ var render = function() {
           ])
         : _vm._e(),
       _vm._v(" "),
-      _c("input", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.form.email,
-            expression: "form.email"
-          }
-        ],
-        attrs: { type: "email", required: "" },
-        domProps: { value: _vm.form.email },
-        on: {
-          input: function($event) {
-            if ($event.target.composing) {
-              return
-            }
-            _vm.$set(_vm.form, "email", $event.target.value)
-          }
+      _c("v-text-field", {
+        staticClass: "input",
+        attrs: { label: "Email", type: "email", required: "" },
+        model: {
+          value: _vm.form.email,
+          callback: function($$v) {
+            _vm.$set(_vm.form, "email", $$v)
+          },
+          expression: "form.email"
         }
       }),
       _vm._v(" "),
@@ -69740,24 +69717,15 @@ var render = function() {
           ])
         : _vm._e(),
       _vm._v(" "),
-      _c("input", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.form.password,
-            expression: "form.password"
-          }
-        ],
-        attrs: { type: "password", required: "" },
-        domProps: { value: _vm.form.password },
-        on: {
-          input: function($event) {
-            if ($event.target.composing) {
-              return
-            }
-            _vm.$set(_vm.form, "password", $event.target.value)
-          }
+      _c("v-text-field", {
+        staticClass: "input",
+        attrs: { label: "Password", type: "password", required: "" },
+        model: {
+          value: _vm.form.password,
+          callback: function($$v) {
+            _vm.$set(_vm.form, "password", $$v)
+          },
+          expression: "form.password"
         }
       }),
       _vm._v(" "),
@@ -69767,24 +69735,15 @@ var render = function() {
           ])
         : _vm._e(),
       _vm._v(" "),
-      _c("input", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.form.password_confirmation,
-            expression: "form.password_confirmation"
-          }
-        ],
-        attrs: { type: "password", required: "" },
-        domProps: { value: _vm.form.password_confirmation },
-        on: {
-          input: function($event) {
-            if ($event.target.composing) {
-              return
-            }
-            _vm.$set(_vm.form, "password_confirmation", $event.target.value)
-          }
+      _c("v-text-field", {
+        staticClass: "input",
+        attrs: { label: "Confirm password", type: "password", required: "" },
+        model: {
+          value: _vm.form.password_confirmation,
+          callback: function($$v) {
+            _vm.$set(_vm.form, "password_confirmation", $$v)
+          },
+          expression: "form.password_confirmation"
         }
       }),
       _vm._v(" "),
@@ -69800,7 +69759,8 @@ var render = function() {
         },
         [_vm._v("Signup")]
       )
-    ]
+    ],
+    1
   )
 }
 var staticRenderFns = []

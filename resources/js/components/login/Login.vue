@@ -2,15 +2,19 @@
    <div class="loginform" :style="{left:log_left,visibility:log_visibility}">
 
     <h1>Login</h1>
-    <input
+    <v-text-field
+    label="Email"
     v-model="form.email"
     type="email"
-    required>
+    required class="input">
+    </v-text-field>
 
-    <input
+    <v-text-field
+    label="Password"
     v-model="form.password"
     type="password"
-    required>
+    required class="input">
+    </v-text-field>
 
     <button @click.prevent="login">Login</button>
 
@@ -71,7 +75,8 @@ export default {
     z-index:999;
     visibility: visible;
 
-    transition: left .3s cubic-bezier(.31,1.91,.85,.15);
+    // transition: left .3s cubic-bezier(.31,1.91,.85,.15);
+    transition: left .3s ease-in-out;
 
     h1{
         font-family: arial;
@@ -79,13 +84,11 @@ export default {
         color:black;
     }
 
-    input{
+    .input{
         height: 4rem;
         width: 30rem;
         border: 0;
         outline: none;
-        border-bottom: 1px solid black;
-        margin: 5px;
     }
 
     button{
@@ -101,5 +104,9 @@ export default {
         margin-top: 3rem;
         margin-left: 17.5rem;
     }
+}
+
+.v-input{
+    flex:0 0 0;
 }
 </style>

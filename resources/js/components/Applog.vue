@@ -93,6 +93,7 @@ export default {
  .login_btn, .signup_btn{
       height:5.2rem;
       width: 18rem;
+      font-size: 2.1rem;
       background-color: transparent;
       color: white;
       border: 1px solid white;

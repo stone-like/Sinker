@@ -1903,6 +1903,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -1910,7 +1921,8 @@ __webpack_require__.r(__webpack_exports__);
     return {
       main: "main",
       slide: "",
-      visible_flag: true
+      visible_flag: true,
+      isloading: true
     };
   },
   components: {
@@ -21752,20 +21764,20 @@ exports.push([module.i, ".slide-fade-enter-active[data-v-31d277f6] {\n  transiti
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/AppLog.vue?vue&type=style&index=0&id=5b4293e4&lang=scss&scoped=true&":
-/*!******************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/lib/loader.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/AppLog.vue?vue&type=style&index=0&id=5b4293e4&lang=scss&scoped=true& ***!
-  \******************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/AppLog.vue?vue&type=style&index=0&lang=scss&":
+/*!******************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/lib/loader.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/AppLog.vue?vue&type=style&index=0&lang=scss& ***!
+  \******************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 var escape = __webpack_require__(/*! ../../../node_modules/css-loader/lib/url/escape.js */ "./node_modules/css-loader/lib/url/escape.js");
 exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
 // imports
-
+exports.push([module.i, "@import url(https://fonts.googleapis.com/css?family=Geostar);", ""]);
 
 // module
-exports.push([module.i, ".background[data-v-5b4293e4] {\n  width: 100%;\n  height: 100%;\n  background-image: url(" + escape(__webpack_require__(/*! ../Helpers/img/abstract.jpg */ "./resources/js/Helpers/img/abstract.jpg")) + ");\n  background-size: cover;\n}\n.slide-left-enter-active[data-v-5b4293e4] {\n  -webkit-animation: signup-data-v-5b4293e4 0.8s ease-in-out forwards;\n          animation: signup-data-v-5b4293e4 0.8s ease-in-out forwards;\n}\n.slide-left-leave-to[data-v-5b4293e4] {\n  left: 75%;\n  visibility: hidden;\n}\n.slide-right-enter-active[data-v-5b4293e4] {\n  -webkit-animation: login-data-v-5b4293e4 0.8s ease-in-out forwards;\n          animation: login-data-v-5b4293e4 0.8s ease-in-out forwards;\n}\n.slide-right-leave-to[data-v-5b4293e4] {\n  left: 25%;\n  visibility: hidden;\n}\n.left[data-v-5b4293e4] {\n  -webkit-animation: main_left-data-v-5b4293e4 0.8s ease-in-out forwards;\n          animation: main_left-data-v-5b4293e4 0.8s ease-in-out forwards;\n}\n@-webkit-keyframes signup-data-v-5b4293e4 {\n0% {\n    left: 70%;\n    visibility: hidden;\n}\n90% {\n    visibility: visible;\n    left: 17%;\n}\n100% {\n    visibility: visible;\n    left: 30%;\n}\n}\n@keyframes signup-data-v-5b4293e4 {\n0% {\n    left: 70%;\n    visibility: hidden;\n}\n90% {\n    visibility: visible;\n    left: 17%;\n}\n100% {\n    visibility: visible;\n    left: 30%;\n}\n}\n@-webkit-keyframes login-data-v-5b4293e4 {\n0% {\n    left: 30%;\n    visibility: hidden;\n}\n90% {\n    visibility: visible;\n    left: 83.5%;\n}\n100% {\n    visibility: visible;\n    left: 70%;\n}\n}\n@keyframes login-data-v-5b4293e4 {\n0% {\n    left: 30%;\n    visibility: hidden;\n}\n90% {\n    visibility: visible;\n    left: 83.5%;\n}\n100% {\n    visibility: visible;\n    left: 70%;\n}\n}\n@-webkit-keyframes main_left-data-v-5b4293e4 {\n0% {\n    left: 70%;\n}\n50% {\n    left: 22.5%;\n}\n100% {\n    left: 30%;\n}\n}\n@keyframes main_left-data-v-5b4293e4 {\n0% {\n    left: 70%;\n}\n50% {\n    left: 22.5%;\n}\n100% {\n    left: 30%;\n}\n}\n.right[data-v-5b4293e4] {\n  -webkit-animation: main_right-data-v-5b4293e4 0.8s ease-in-out forwards;\n          animation: main_right-data-v-5b4293e4 0.8s ease-in-out forwards;\n}\n@-webkit-keyframes main_right-data-v-5b4293e4 {\n0% {\n    left: 30%;\n}\n50% {\n    left: 77.5%;\n}\n100% {\n    left: 70%;\n}\n}\n@keyframes main_right-data-v-5b4293e4 {\n0% {\n    left: 30%;\n}\n50% {\n    left: 77.5%;\n}\n100% {\n    left: 70%;\n}\n}\n.box[data-v-5b4293e4] {\n  height: 30rem;\n  width: 150rem;\n  background-color: rgba(0, 0, 0, 0.7);\n  border-radius: 5px;\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  -webkit-transform: translate(-50%, -50%);\n          transform: translate(-50%, -50%);\n}\n.main[data-v-5b4293e4] {\n  height: 55rem;\n  width: 60rem;\n  background-color: white;\n  border-radius: 5px;\n  position: absolute;\n  top: 50%;\n  left: 70%;\n  -webkit-transform: translate(-50%, -50%);\n          transform: translate(-50%, -50%);\n  z-index: 99;\n  transition: left 0.8s cubic-bezier(0.31, 1.91, 0.85, 0.15);\n}\n.login_btn[data-v-5b4293e4], .signup_btn[data-v-5b4293e4] {\n  display: inline-block;\n  height: 3.5rem;\n  width: 12rem;\n  font-size: 2.1rem;\n  background-color: transparent;\n  color: white;\n  border: 1px solid white;\n  border-radius: 5px;\n  outline: none;\n  position: absolute;\n  left: 75%;\n  top: 65%;\n  -webkit-transform: translate(-50%, -50%);\n          transform: translate(-50%, -50%);\n  transition: all 0.5s;\n}\n.signup_btn[data-v-5b4293e4] {\n  left: 25%;\n}\n.login_btn[data-v-5b4293e4]:hover, .signup_btn[data-v-5b4293e4]:hover {\n  background-color: white;\n  color: #2d2d2d;\n  cursor: pointer;\n}\n.login_msg[data-v-5b4293e4], .signup_msg[data-v-5b4293e4] {\n  font-family: arial;\n  font-size: 3.5rem;\n  color: white;\n  position: absolute;\n  top: 35%;\n  left: 75%;\n  -webkit-transform: translate(-50%, -50%);\n          transform: translate(-50%, -50%);\n  z-index: 1;\n}\n.signup_msg[data-v-5b4293e4] {\n  left: 25%;\n}", ""]);
+exports.push([module.i, ":root {\n  --glitch-width:100vw;\n  --glitch-height:100vh;\n  --gap-horizontal:1rem;\n  --gap-vertical:.5rem;\n  --color-title:#fff;\n  --time-anim:4s;\n  --delay-anim:2s;\n  --blend-mode-1:none;\n  --blend-mode-2:none;\n  --blend-mode-3:none;\n  --blend-mode-4:overlay;\n  --blend-mode-5:overlay;\n  --blend-color-1:transparent;\n  --blend-color-2:transparent;\n  --blend-color-3:transparent;\n  --blend-color-4:#fb909a;\n  --blend-color-5:#101310;\n}\n.content_text {\n  font-family: \"Geostar\";\n  color: white;\n  font-size: 10rem;\n  position: absolute;\n  top: 63%;\n  left: 50%;\n  -webkit-transform: translate(-50%, -50%);\n          transform: translate(-50%, -50%);\n}\n.background_glitch {\n  width: 100vw;\n  height: 100vh;\n}\n.glitch {\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: var(--glitch-width);\n  height: var(--glitch-height);\n  overflow: hidden;\n}\n.glitch_img {\n  position: absolute;\n  top: calc(-1*var(--gap-vertical));\n  left: calc(-1*var(--gap-horizontal));\n  width: calc(100% + var(--gap-horizontal)*2);\n  height: calc(100% + var(--gap-vertical)*2);\n  background: url(" + escape(__webpack_require__(/*! ../Helpers/img/abstract.jpg */ "./resources/js/Helpers/img/abstract.jpg")) + ") no-repeat 50% 0;\n  background-size: cover;\n  background-color: var(--blend-color-1);\n  -webkit-transform: translate3d(0, 0, 0);\n          transform: translate3d(0, 0, 0);\n  background-blend-mode: var(--blend-mode-1);\n}\n.glitch_img:nth-child(n+2) {\n  opacity: 0;\n}\n.imgloaded .glitch_img:nth-child(n+2) {\n  -webkit-animation-duration: var(--time-anim);\n          animation-duration: var(--time-anim);\n  -webkit-animation-delay: var(--delay-anim);\n          animation-delay: var(--delay-anim);\n  -webkit-animation-timing-function: linear;\n          animation-timing-function: linear;\n  -webkit-animation-iteration-count: infinite;\n          animation-iteration-count: infinite;\n}\n.imgloaded .glitch_img:nth-child(2) {\n  background-color: var(--blend-color-2);\n  background-blend-mode: var(--blend-mode-2);\n  -webkit-animation-name: glitch-anim-1;\n          animation-name: glitch-anim-1;\n}\n.imgloaded .glitch_img:nth-child(3) {\n  background-color: var(--blend-color-3);\n  background-blend-mode: var(--blend-mode-3);\n  -webkit-animation-name: glitch-anim-2;\n          animation-name: glitch-anim-2;\n}\n.imgloaded .glitch_img:nth-child(4) {\n  background-color: var(--blend-color-4);\n  background-blend-mode: var(--blend-mode-4);\n  -webkit-animation-name: glitch-anim-3;\n          animation-name: glitch-anim-3;\n}\n.imgloaded .glitch_img:nth-child(5) {\n  background-color: var(--blend-color-5);\n  background-blend-mode: var(--blend-mode-5);\n  -webkit-animation-name: glitch-anim-flash;\n          animation-name: glitch-anim-flash;\n}\n@-webkit-keyframes glitch-anim-1 {\n0% {\n    opacity: 1;\n    -webkit-transform: translate3d(var(--gap-horizontal), 0, 0);\n            transform: translate3d(var(--gap-horizontal), 0, 0);\n    -webkit-clip-path: polygon(0 2%, 100% 2%, 100% 5%, 0 5%);\n            clip-path: polygon(0 2%, 100% 2%, 100% 5%, 0 5%);\n}\n2% {\n    -webkit-clip-path: polygon(0 15%, 100% 15%, 100% 15%, 0 15%);\n            clip-path: polygon(0 15%, 100% 15%, 100% 15%, 0 15%);\n}\n4% {\n    -webkit-clip-path: polygon(0 10%, 100% 10%, 100% 20%, 0 20%);\n            clip-path: polygon(0 10%, 100% 10%, 100% 20%, 0 20%);\n}\n6% {\n    -webkit-clip-path: polygon(0 1%, 100% 1%, 100% 2%, 0 2%);\n            clip-path: polygon(0 1%, 100% 1%, 100% 2%, 0 2%);\n}\n8% {\n    -webkit-clip-path: polygon(0 33%, 100% 33%, 100% 33%, 0 33%);\n            clip-path: polygon(0 33%, 100% 33%, 100% 33%, 0 33%);\n}\n10% {\n    -webkit-clip-path: polygon(0 44%, 100% 44%, 100% 44%, 0 44%);\n            clip-path: polygon(0 44%, 100% 44%, 100% 44%, 0 44%);\n}\n12% {\n    -webkit-clip-path: polygon(0 50%, 100% 50%, 100% 20%, 0 20%);\n            clip-path: polygon(0 50%, 100% 50%, 100% 20%, 0 20%);\n}\n14% {\n    -webkit-clip-path: polygon(0 70%, 100% 70%, 100% 70%, 0 70%);\n            clip-path: polygon(0 70%, 100% 70%, 100% 70%, 0 70%);\n}\n16% {\n    -webkit-clip-path: polygon(0 80%, 100% 80%, 100% 80%, 0 80%);\n            clip-path: polygon(0 80%, 100% 80%, 100% 80%, 0 80%);\n}\n18% {\n    -webkit-clip-path: polygon(0 50%, 100% 50%, 100% 55%, 0 55%);\n            clip-path: polygon(0 50%, 100% 50%, 100% 55%, 0 55%);\n}\n20% {\n    -webkit-clip-path: polygon(0 70%, 100% 70%, 100% 80%, 0 80%);\n            clip-path: polygon(0 70%, 100% 70%, 100% 80%, 0 80%);\n}\n21.9% {\n    opacity: 1;\n    -webkit-transform: translate3d(var(--gap-horizontal), 0, 0);\n            transform: translate3d(var(--gap-horizontal), 0, 0);\n}\n22%, 100% {\n    opacity: 0;\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n    -webkit-clip-path: polygon(0 0, 0 0, 0 0, 0 0);\n            clip-path: polygon(0 0, 0 0, 0 0, 0 0);\n}\n}\n@keyframes glitch-anim-1 {\n0% {\n    opacity: 1;\n    -webkit-transform: translate3d(var(--gap-horizontal), 0, 0);\n            transform: translate3d(var(--gap-horizontal), 0, 0);\n    -webkit-clip-path: polygon(0 2%, 100% 2%, 100% 5%, 0 5%);\n            clip-path: polygon(0 2%, 100% 2%, 100% 5%, 0 5%);\n}\n2% {\n    -webkit-clip-path: polygon(0 15%, 100% 15%, 100% 15%, 0 15%);\n            clip-path: polygon(0 15%, 100% 15%, 100% 15%, 0 15%);\n}\n4% {\n    -webkit-clip-path: polygon(0 10%, 100% 10%, 100% 20%, 0 20%);\n            clip-path: polygon(0 10%, 100% 10%, 100% 20%, 0 20%);\n}\n6% {\n    -webkit-clip-path: polygon(0 1%, 100% 1%, 100% 2%, 0 2%);\n            clip-path: polygon(0 1%, 100% 1%, 100% 2%, 0 2%);\n}\n8% {\n    -webkit-clip-path: polygon(0 33%, 100% 33%, 100% 33%, 0 33%);\n            clip-path: polygon(0 33%, 100% 33%, 100% 33%, 0 33%);\n}\n10% {\n    -webkit-clip-path: polygon(0 44%, 100% 44%, 100% 44%, 0 44%);\n            clip-path: polygon(0 44%, 100% 44%, 100% 44%, 0 44%);\n}\n12% {\n    -webkit-clip-path: polygon(0 50%, 100% 50%, 100% 20%, 0 20%);\n            clip-path: polygon(0 50%, 100% 50%, 100% 20%, 0 20%);\n}\n14% {\n    -webkit-clip-path: polygon(0 70%, 100% 70%, 100% 70%, 0 70%);\n            clip-path: polygon(0 70%, 100% 70%, 100% 70%, 0 70%);\n}\n16% {\n    -webkit-clip-path: polygon(0 80%, 100% 80%, 100% 80%, 0 80%);\n            clip-path: polygon(0 80%, 100% 80%, 100% 80%, 0 80%);\n}\n18% {\n    -webkit-clip-path: polygon(0 50%, 100% 50%, 100% 55%, 0 55%);\n            clip-path: polygon(0 50%, 100% 50%, 100% 55%, 0 55%);\n}\n20% {\n    -webkit-clip-path: polygon(0 70%, 100% 70%, 100% 80%, 0 80%);\n            clip-path: polygon(0 70%, 100% 70%, 100% 80%, 0 80%);\n}\n21.9% {\n    opacity: 1;\n    -webkit-transform: translate3d(var(--gap-horizontal), 0, 0);\n            transform: translate3d(var(--gap-horizontal), 0, 0);\n}\n22%, 100% {\n    opacity: 0;\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n    -webkit-clip-path: polygon(0 0, 0 0, 0 0, 0 0);\n            clip-path: polygon(0 0, 0 0, 0 0, 0 0);\n}\n}\n@-webkit-keyframes glitch-anim-2 {\n0% {\n    opacity: 1;\n    -webkit-transform: translate3d(calc(-1 * var(--gap-horizontal)), 0, 0);\n            transform: translate3d(calc(-1 * var(--gap-horizontal)), 0, 0);\n    -webkit-clip-path: polygon(0 25%, 100% 25%, 100% 30%, 0 30%);\n    clip-path: polygon(0 25%, 100% 25%, 100% 30%, 0 30%);\n}\n3% {\n    -webkit-clip-path: polygon(0 3%, 100% 3%, 100% 3%, 0 3%);\n    clip-path: polygon(0 3%, 100% 3%, 100% 3%, 0 3%);\n}\n5% {\n    -webkit-clip-path: polygon(0 5%, 100% 5%, 100% 20%, 0 20%);\n    clip-path: polygon(0 5%, 100% 5%, 100% 20%, 0 20%);\n}\n7% {\n    -webkit-clip-path: polygon(0 20%, 100% 20%, 100% 20%, 0 20%);\n    clip-path: polygon(0 20%, 100% 20%, 100% 20%, 0 20%);\n}\n9% {\n    -webkit-clip-path: polygon(0 40%, 100% 40%, 100% 40%, 0 40%);\n    clip-path: polygon(0 40%, 100% 40%, 100% 40%, 0 40%);\n}\n11% {\n    -webkit-clip-path: polygon(0 52%, 100% 52%, 100% 59%, 0 59%);\n    clip-path: polygon(0 52%, 100% 52%, 100% 59%, 0 59%);\n}\n13% {\n    -webkit-clip-path: polygon(0 60%, 100% 60%, 100% 60%, 0 60%);\n    clip-path: polygon(0 60%, 100% 60%, 100% 60%, 0 60%);\n}\n15% {\n    -webkit-clip-path: polygon(0 75%, 100% 75%, 100% 75%, 0 75%);\n    clip-path: polygon(0 75%, 100% 75%, 100% 75%, 0 75%);\n}\n17% {\n    -webkit-clip-path: polygon(0 65%, 100% 65%, 100% 40%, 0 40%);\n    clip-path: polygon(0 65%, 100% 65%, 100% 40%, 0 40%);\n}\n19% {\n    -webkit-clip-path: polygon(0 45%, 100% 45%, 100% 50%, 0 50%);\n    clip-path: polygon(0 45%, 100% 45%, 100% 50%, 0 50%);\n}\n20% {\n    -webkit-clip-path: polygon(0 14%, 100% 14%, 100% 33%, 0 33%);\n    clip-path: polygon(0 14%, 100% 14%, 100% 33%, 0 33%);\n}\n21.9% {\n    opacity: 1;\n    -webkit-transform: translate3d(calc(-1 * var(--gap-horizontal)), 0, 0);\n            transform: translate3d(calc(-1 * var(--gap-horizontal)), 0, 0);\n}\n22%, 100% {\n    opacity: 0;\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n    -webkit-clip-path: polygon(0 0, 0 0, 0 0, 0 0);\n    clip-path: polygon(0 0, 0 0, 0 0, 0 0);\n}\n}\n@keyframes glitch-anim-2 {\n0% {\n    opacity: 1;\n    -webkit-transform: translate3d(calc(-1 * var(--gap-horizontal)), 0, 0);\n            transform: translate3d(calc(-1 * var(--gap-horizontal)), 0, 0);\n    -webkit-clip-path: polygon(0 25%, 100% 25%, 100% 30%, 0 30%);\n    clip-path: polygon(0 25%, 100% 25%, 100% 30%, 0 30%);\n}\n3% {\n    -webkit-clip-path: polygon(0 3%, 100% 3%, 100% 3%, 0 3%);\n    clip-path: polygon(0 3%, 100% 3%, 100% 3%, 0 3%);\n}\n5% {\n    -webkit-clip-path: polygon(0 5%, 100% 5%, 100% 20%, 0 20%);\n    clip-path: polygon(0 5%, 100% 5%, 100% 20%, 0 20%);\n}\n7% {\n    -webkit-clip-path: polygon(0 20%, 100% 20%, 100% 20%, 0 20%);\n    clip-path: polygon(0 20%, 100% 20%, 100% 20%, 0 20%);\n}\n9% {\n    -webkit-clip-path: polygon(0 40%, 100% 40%, 100% 40%, 0 40%);\n    clip-path: polygon(0 40%, 100% 40%, 100% 40%, 0 40%);\n}\n11% {\n    -webkit-clip-path: polygon(0 52%, 100% 52%, 100% 59%, 0 59%);\n    clip-path: polygon(0 52%, 100% 52%, 100% 59%, 0 59%);\n}\n13% {\n    -webkit-clip-path: polygon(0 60%, 100% 60%, 100% 60%, 0 60%);\n    clip-path: polygon(0 60%, 100% 60%, 100% 60%, 0 60%);\n}\n15% {\n    -webkit-clip-path: polygon(0 75%, 100% 75%, 100% 75%, 0 75%);\n    clip-path: polygon(0 75%, 100% 75%, 100% 75%, 0 75%);\n}\n17% {\n    -webkit-clip-path: polygon(0 65%, 100% 65%, 100% 40%, 0 40%);\n    clip-path: polygon(0 65%, 100% 65%, 100% 40%, 0 40%);\n}\n19% {\n    -webkit-clip-path: polygon(0 45%, 100% 45%, 100% 50%, 0 50%);\n    clip-path: polygon(0 45%, 100% 45%, 100% 50%, 0 50%);\n}\n20% {\n    -webkit-clip-path: polygon(0 14%, 100% 14%, 100% 33%, 0 33%);\n    clip-path: polygon(0 14%, 100% 14%, 100% 33%, 0 33%);\n}\n21.9% {\n    opacity: 1;\n    -webkit-transform: translate3d(calc(-1 * var(--gap-horizontal)), 0, 0);\n            transform: translate3d(calc(-1 * var(--gap-horizontal)), 0, 0);\n}\n22%, 100% {\n    opacity: 0;\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n    -webkit-clip-path: polygon(0 0, 0 0, 0 0, 0 0);\n    clip-path: polygon(0 0, 0 0, 0 0, 0 0);\n}\n}\n@-webkit-keyframes glitch-anim-3 {\n0% {\n    opacity: 1;\n    -webkit-transform: translate3d(0, calc(-1 * var(--gap-vertical)), 0) scale3d(-1, -1, 1);\n            transform: translate3d(0, calc(-1 * var(--gap-vertical)), 0) scale3d(-1, -1, 1);\n    -webkit-clip-path: polygon(0 1%, 100% 1%, 100% 3%, 0 3%);\n    clip-path: polygon(0 1%, 100% 1%, 100% 3%, 0 3%);\n}\n1.5% {\n    -webkit-clip-path: polygon(0 10%, 100% 10%, 100% 9%, 0 9%);\n    clip-path: polygon(0 10%, 100% 10%, 100% 9%, 0 9%);\n}\n2% {\n    -webkit-clip-path: polygon(0 5%, 100% 5%, 100% 6%, 0 6%);\n    clip-path: polygon(0 5%, 100% 5%, 100% 6%, 0 6%);\n}\n2.5% {\n    -webkit-clip-path: polygon(0 20%, 100% 20%, 100% 20%, 0 20%);\n    clip-path: polygon(0 20%, 100% 20%, 100% 20%, 0 20%);\n}\n3% {\n    -webkit-clip-path: polygon(0 10%, 100% 10%, 100% 10%, 0 10%);\n    clip-path: polygon(0 10%, 100% 10%, 100% 10%, 0 10%);\n}\n5% {\n    -webkit-clip-path: polygon(0 30%, 100% 30%, 100% 25%, 0 25%);\n    clip-path: polygon(0 30%, 100% 30%, 100% 25%, 0 25%);\n}\n5.5% {\n    -webkit-clip-path: polygon(0 15%, 100% 15%, 100% 16%, 0 16%);\n    clip-path: polygon(0 15%, 100% 15%, 100% 16%, 0 16%);\n}\n7% {\n    -webkit-clip-path: polygon(0 40%, 100% 40%, 100% 39%, 0 39%);\n    clip-path: polygon(0 40%, 100% 40%, 100% 39%, 0 39%);\n}\n8% {\n    -webkit-clip-path: polygon(0 20%, 100% 20%, 100% 21%, 0 21%);\n    clip-path: polygon(0 20%, 100% 20%, 100% 21%, 0 21%);\n}\n9% {\n    -webkit-clip-path: polygon(0 60%, 100% 60%, 100% 55%, 0 55%);\n    clip-path: polygon(0 60%, 100% 60%, 100% 55%, 0 55%);\n}\n10.5% {\n    -webkit-clip-path: polygon(0 30%, 100% 30%, 100% 31%, 0 31%);\n    clip-path: polygon(0 30%, 100% 30%, 100% 31%, 0 31%);\n}\n11% {\n    -webkit-clip-path: polygon(0 70%, 100% 70%, 100% 69%, 0 69%);\n    clip-path: polygon(0 70%, 100% 70%, 100% 69%, 0 69%);\n}\n13% {\n    -webkit-clip-path: polygon(0 40%, 100% 40%, 100% 41%, 0 41%);\n    clip-path: polygon(0 40%, 100% 40%, 100% 41%, 0 41%);\n}\n14% {\n    -webkit-clip-path: polygon(0 80%, 100% 80%, 100% 75%, 0 75%);\n    clip-path: polygon(0 80%, 100% 80%, 100% 75%, 0 75%);\n}\n14.5% {\n    -webkit-clip-path: polygon(0 50%, 100% 50%, 100% 51%, 0 51%);\n    clip-path: polygon(0 50%, 100% 50%, 100% 51%, 0 51%);\n}\n15% {\n    -webkit-clip-path: polygon(0 90%, 100% 90%, 100% 90%, 0 90%);\n    clip-path: polygon(0 90%, 100% 90%, 100% 90%, 0 90%);\n}\n16% {\n    -webkit-clip-path: polygon(0 60%, 100% 60%, 100% 60%, 0 60%);\n    clip-path: polygon(0 60%, 100% 60%, 100% 60%, 0 60%);\n}\n18% {\n    -webkit-clip-path: polygon(0 100%, 100% 100%, 100% 99%, 0 99%);\n    clip-path: polygon(0 100%, 100% 100%, 100% 99%, 0 99%);\n}\n20% {\n    -webkit-clip-path: polygon(0 70%, 100% 70%, 100% 71%, 0 71%);\n    clip-path: polygon(0 70%, 100% 70%, 100% 71%, 0 71%);\n}\n21.9% {\n    opacity: 1;\n    -webkit-transform: translate3d(0, calc(-1 * var(--gap-vertical)), 0) scale3d(-1, -1, 1);\n            transform: translate3d(0, calc(-1 * var(--gap-vertical)), 0) scale3d(-1, -1, 1);\n}\n22%, 100% {\n    opacity: 0;\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n    -webkit-clip-path: polygon(0 0, 0 0, 0 0, 0 0);\n    clip-path: polygon(0 0, 0 0, 0 0, 0 0);\n}\n}\n@keyframes glitch-anim-3 {\n0% {\n    opacity: 1;\n    -webkit-transform: translate3d(0, calc(-1 * var(--gap-vertical)), 0) scale3d(-1, -1, 1);\n            transform: translate3d(0, calc(-1 * var(--gap-vertical)), 0) scale3d(-1, -1, 1);\n    -webkit-clip-path: polygon(0 1%, 100% 1%, 100% 3%, 0 3%);\n    clip-path: polygon(0 1%, 100% 1%, 100% 3%, 0 3%);\n}\n1.5% {\n    -webkit-clip-path: polygon(0 10%, 100% 10%, 100% 9%, 0 9%);\n    clip-path: polygon(0 10%, 100% 10%, 100% 9%, 0 9%);\n}\n2% {\n    -webkit-clip-path: polygon(0 5%, 100% 5%, 100% 6%, 0 6%);\n    clip-path: polygon(0 5%, 100% 5%, 100% 6%, 0 6%);\n}\n2.5% {\n    -webkit-clip-path: polygon(0 20%, 100% 20%, 100% 20%, 0 20%);\n    clip-path: polygon(0 20%, 100% 20%, 100% 20%, 0 20%);\n}\n3% {\n    -webkit-clip-path: polygon(0 10%, 100% 10%, 100% 10%, 0 10%);\n    clip-path: polygon(0 10%, 100% 10%, 100% 10%, 0 10%);\n}\n5% {\n    -webkit-clip-path: polygon(0 30%, 100% 30%, 100% 25%, 0 25%);\n    clip-path: polygon(0 30%, 100% 30%, 100% 25%, 0 25%);\n}\n5.5% {\n    -webkit-clip-path: polygon(0 15%, 100% 15%, 100% 16%, 0 16%);\n    clip-path: polygon(0 15%, 100% 15%, 100% 16%, 0 16%);\n}\n7% {\n    -webkit-clip-path: polygon(0 40%, 100% 40%, 100% 39%, 0 39%);\n    clip-path: polygon(0 40%, 100% 40%, 100% 39%, 0 39%);\n}\n8% {\n    -webkit-clip-path: polygon(0 20%, 100% 20%, 100% 21%, 0 21%);\n    clip-path: polygon(0 20%, 100% 20%, 100% 21%, 0 21%);\n}\n9% {\n    -webkit-clip-path: polygon(0 60%, 100% 60%, 100% 55%, 0 55%);\n    clip-path: polygon(0 60%, 100% 60%, 100% 55%, 0 55%);\n}\n10.5% {\n    -webkit-clip-path: polygon(0 30%, 100% 30%, 100% 31%, 0 31%);\n    clip-path: polygon(0 30%, 100% 30%, 100% 31%, 0 31%);\n}\n11% {\n    -webkit-clip-path: polygon(0 70%, 100% 70%, 100% 69%, 0 69%);\n    clip-path: polygon(0 70%, 100% 70%, 100% 69%, 0 69%);\n}\n13% {\n    -webkit-clip-path: polygon(0 40%, 100% 40%, 100% 41%, 0 41%);\n    clip-path: polygon(0 40%, 100% 40%, 100% 41%, 0 41%);\n}\n14% {\n    -webkit-clip-path: polygon(0 80%, 100% 80%, 100% 75%, 0 75%);\n    clip-path: polygon(0 80%, 100% 80%, 100% 75%, 0 75%);\n}\n14.5% {\n    -webkit-clip-path: polygon(0 50%, 100% 50%, 100% 51%, 0 51%);\n    clip-path: polygon(0 50%, 100% 50%, 100% 51%, 0 51%);\n}\n15% {\n    -webkit-clip-path: polygon(0 90%, 100% 90%, 100% 90%, 0 90%);\n    clip-path: polygon(0 90%, 100% 90%, 100% 90%, 0 90%);\n}\n16% {\n    -webkit-clip-path: polygon(0 60%, 100% 60%, 100% 60%, 0 60%);\n    clip-path: polygon(0 60%, 100% 60%, 100% 60%, 0 60%);\n}\n18% {\n    -webkit-clip-path: polygon(0 100%, 100% 100%, 100% 99%, 0 99%);\n    clip-path: polygon(0 100%, 100% 100%, 100% 99%, 0 99%);\n}\n20% {\n    -webkit-clip-path: polygon(0 70%, 100% 70%, 100% 71%, 0 71%);\n    clip-path: polygon(0 70%, 100% 70%, 100% 71%, 0 71%);\n}\n21.9% {\n    opacity: 1;\n    -webkit-transform: translate3d(0, calc(-1 * var(--gap-vertical)), 0) scale3d(-1, -1, 1);\n            transform: translate3d(0, calc(-1 * var(--gap-vertical)), 0) scale3d(-1, -1, 1);\n}\n22%, 100% {\n    opacity: 0;\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n    -webkit-clip-path: polygon(0 0, 0 0, 0 0, 0 0);\n    clip-path: polygon(0 0, 0 0, 0 0, 0 0);\n}\n}\n/* Flash */\n@-webkit-keyframes glitch-anim-flash {\n0%, 5% {\n    opacity: 0.2;\n    -webkit-transform: translate3d(var(--gap-horizontal), var(--gap-vertical), 0);\n            transform: translate3d(var(--gap-horizontal), var(--gap-vertical), 0);\n}\n5.5%, 100% {\n    opacity: 0;\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n}\n}\n@keyframes glitch-anim-flash {\n0%, 5% {\n    opacity: 0.2;\n    -webkit-transform: translate3d(var(--gap-horizontal), var(--gap-vertical), 0);\n            transform: translate3d(var(--gap-horizontal), var(--gap-vertical), 0);\n}\n5.5%, 100% {\n    opacity: 0;\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n}\n}\n.background {\n  width: 100%;\n  height: 100%;\n  background-image: url(" + escape(__webpack_require__(/*! ../Helpers/img/abstract.jpg */ "./resources/js/Helpers/img/abstract.jpg")) + ");\n  background-size: cover;\n  -webkit-filter: brightness(1.2);\n          filter: brightness(1.2);\n  position: relative;\n}\n.slide-left-enter-active {\n  -webkit-animation: signup 0.8s ease-in-out forwards;\n          animation: signup 0.8s ease-in-out forwards;\n}\n.slide-left-leave-to {\n  left: 75%;\n  visibility: hidden;\n}\n.slide-right-enter-active {\n  -webkit-animation: login 0.8s ease-in-out forwards;\n          animation: login 0.8s ease-in-out forwards;\n}\n.slide-right-leave-to {\n  left: 25%;\n  visibility: hidden;\n}\n.left {\n  -webkit-animation: main_left 0.8s ease-in-out forwards;\n          animation: main_left 0.8s ease-in-out forwards;\n}\n@-webkit-keyframes signup {\n0% {\n    left: 70%;\n    visibility: hidden;\n}\n90% {\n    visibility: visible;\n    left: 17%;\n}\n100% {\n    visibility: visible;\n    left: 30%;\n}\n}\n@keyframes signup {\n0% {\n    left: 70%;\n    visibility: hidden;\n}\n90% {\n    visibility: visible;\n    left: 17%;\n}\n100% {\n    visibility: visible;\n    left: 30%;\n}\n}\n@-webkit-keyframes login {\n0% {\n    left: 30%;\n    visibility: hidden;\n}\n90% {\n    visibility: visible;\n    left: 83.5%;\n}\n100% {\n    visibility: visible;\n    left: 70%;\n}\n}\n@keyframes login {\n0% {\n    left: 30%;\n    visibility: hidden;\n}\n90% {\n    visibility: visible;\n    left: 83.5%;\n}\n100% {\n    visibility: visible;\n    left: 70%;\n}\n}\n@-webkit-keyframes main_left {\n0% {\n    left: 70%;\n}\n50% {\n    left: 22.5%;\n}\n100% {\n    left: 30%;\n}\n}\n@keyframes main_left {\n0% {\n    left: 70%;\n}\n50% {\n    left: 22.5%;\n}\n100% {\n    left: 30%;\n}\n}\n.right {\n  -webkit-animation: main_right 0.8s ease-in-out forwards;\n          animation: main_right 0.8s ease-in-out forwards;\n}\n@-webkit-keyframes main_right {\n0% {\n    left: 30%;\n}\n50% {\n    left: 77.5%;\n}\n100% {\n    left: 70%;\n}\n}\n@keyframes main_right {\n0% {\n    left: 30%;\n}\n50% {\n    left: 77.5%;\n}\n100% {\n    left: 70%;\n}\n}\n.box {\n  height: 30rem;\n  width: 150rem;\n  background-color: rgba(0, 0, 0, 0.7);\n  border-radius: 5px;\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  -webkit-transform: translate(-50%, -50%);\n          transform: translate(-50%, -50%);\n}\n.main {\n  height: 55rem;\n  width: 60rem;\n  background-color: white;\n  border-radius: 5px;\n  position: absolute;\n  top: 50%;\n  left: 70%;\n  -webkit-transform: translate(-50%, -50%);\n          transform: translate(-50%, -50%);\n  z-index: 99;\n  transition: left 0.8s cubic-bezier(0.31, 1.91, 0.85, 0.15);\n}\n.login_btn, .signup_btn {\n  display: inline-block;\n  height: 3.5rem;\n  width: 12rem;\n  font-size: 2.1rem;\n  background-color: transparent;\n  color: white;\n  border: 1px solid white;\n  border-radius: 5px;\n  outline: none;\n  position: absolute;\n  left: 75%;\n  top: 65%;\n  -webkit-transform: translate(-50%, -50%);\n          transform: translate(-50%, -50%);\n  transition: all 0.5s;\n}\n.signup_btn {\n  left: 25%;\n}\n.login_btn:hover, .signup_btn:hover {\n  background-color: white;\n  color: #2d2d2d;\n  cursor: pointer;\n}\n.login_msg, .signup_msg {\n  font-family: arial;\n  font-size: 3.5rem;\n  color: white;\n  position: absolute;\n  top: 35%;\n  left: 75%;\n  -webkit-transform: translate(-50%, -50%);\n          transform: translate(-50%, -50%);\n  z-index: 1;\n}\n.signup_msg {\n  left: 25%;\n}", ""]);
 
 // exports
 
@@ -66413,15 +66425,15 @@ if(false) {}
 
 /***/ }),
 
-/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/AppLog.vue?vue&type=style&index=0&id=5b4293e4&lang=scss&scoped=true&":
-/*!**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/style-loader!./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/lib/loader.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/AppLog.vue?vue&type=style&index=0&id=5b4293e4&lang=scss&scoped=true& ***!
-  \**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/AppLog.vue?vue&type=style&index=0&lang=scss&":
+/*!**********************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/lib/loader.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/AppLog.vue?vue&type=style&index=0&lang=scss& ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__(/*! !../../../node_modules/css-loader!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--7-2!../../../node_modules/sass-loader/lib/loader.js??ref--7-3!../../../node_modules/vue-loader/lib??vue-loader-options!./AppLog.vue?vue&type=style&index=0&id=5b4293e4&lang=scss&scoped=true& */ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/AppLog.vue?vue&type=style&index=0&id=5b4293e4&lang=scss&scoped=true&");
+var content = __webpack_require__(/*! !../../../node_modules/css-loader!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--7-2!../../../node_modules/sass-loader/lib/loader.js??ref--7-3!../../../node_modules/vue-loader/lib??vue-loader-options!./AppLog.vue?vue&type=style&index=0&lang=scss& */ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/AppLog.vue?vue&type=style&index=0&lang=scss&");
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -68263,10 +68275,10 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/AppLog.vue?vue&type=template&id=5b4293e4&scoped=true&":
-/*!*********************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/AppLog.vue?vue&type=template&id=5b4293e4&scoped=true& ***!
-  \*********************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/AppLog.vue?vue&type=template&id=5b4293e4&":
+/*!*********************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/AppLog.vue?vue&type=template&id=5b4293e4& ***!
+  \*********************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -68278,47 +68290,72 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "background" }, [
-    _c(
-      "div",
-      { staticClass: "box" },
-      [
-        _c("div", { class: _vm.comp_main }),
+  return _vm.isloading
+    ? _c("div", { staticClass: "background_glitch imgloaded" }, [
+        _vm._m(0),
         _vm._v(" "),
+        _c("p", { staticClass: "content_text" }, [_vm._v("Welcome to Sinker")])
+      ])
+    : _c("div", { staticClass: "background" }, [
         _c(
-          "transition",
-          { attrs: { name: _vm.comp_slide, mode: "out-in" } },
+          "div",
+          { staticClass: "box" },
           [
-            _vm.visible_flag
-              ? _c("login", { key: "login" })
-              : _c("signup", { key: "signup" })
+            _c("div", { class: _vm.comp_main }),
+            _vm._v(" "),
+            _c(
+              "transition",
+              { attrs: { name: _vm.comp_slide, mode: "out-in" } },
+              [
+                _vm.visible_flag
+                  ? _c("login", { key: "login" })
+                  : _c("signup", { key: "signup" })
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c("div", { staticClass: "login_msg" }, [
+              _vm._v("Have an account?")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "signup_msg" }, [
+              _vm._v("Don't have an account?")
+            ]),
+            _vm._v(" "),
+            _c(
+              "button",
+              { staticClass: "login_btn", on: { click: _vm.bounce_right } },
+              [_vm._v("Login")]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              { staticClass: "signup_btn", on: { click: _vm.bounce_left } },
+              [_vm._v("signup")]
+            )
           ],
           1
-        ),
-        _vm._v(" "),
-        _c("div", { staticClass: "login_msg" }, [_vm._v("Have an account?")]),
-        _vm._v(" "),
-        _c("div", { staticClass: "signup_msg" }, [
-          _vm._v("Don't have an account?")
-        ]),
-        _vm._v(" "),
-        _c(
-          "button",
-          { staticClass: "login_btn", on: { click: _vm.bounce_right } },
-          [_vm._v("Login")]
-        ),
-        _vm._v(" "),
-        _c(
-          "button",
-          { staticClass: "signup_btn", on: { click: _vm.bounce_left } },
-          [_vm._v("signup")]
         )
-      ],
-      1
-    )
-  ])
+      ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "glitch" }, [
+      _c("div", { staticClass: "glitch_img" }),
+      _vm._v(" "),
+      _c("div", { staticClass: "glitch_img" }),
+      _vm._v(" "),
+      _c("div", { staticClass: "glitch_img" }),
+      _vm._v(" "),
+      _c("div", { staticClass: "glitch_img" }),
+      _vm._v(" "),
+      _c("div", { staticClass: "glitch_img" })
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -109969,9 +110006,9 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _AppLog_vue_vue_type_template_id_5b4293e4_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AppLog.vue?vue&type=template&id=5b4293e4&scoped=true& */ "./resources/js/components/AppLog.vue?vue&type=template&id=5b4293e4&scoped=true&");
+/* harmony import */ var _AppLog_vue_vue_type_template_id_5b4293e4___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AppLog.vue?vue&type=template&id=5b4293e4& */ "./resources/js/components/AppLog.vue?vue&type=template&id=5b4293e4&");
 /* harmony import */ var _AppLog_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AppLog.vue?vue&type=script&lang=js& */ "./resources/js/components/AppLog.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _AppLog_vue_vue_type_style_index_0_id_5b4293e4_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./AppLog.vue?vue&type=style&index=0&id=5b4293e4&lang=scss&scoped=true& */ "./resources/js/components/AppLog.vue?vue&type=style&index=0&id=5b4293e4&lang=scss&scoped=true&");
+/* empty/unused harmony star reexport *//* harmony import */ var _AppLog_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./AppLog.vue?vue&type=style&index=0&lang=scss& */ "./resources/js/components/AppLog.vue?vue&type=style&index=0&lang=scss&");
 /* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -109983,11 +110020,11 @@ __webpack_require__.r(__webpack_exports__);
 
 var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
   _AppLog_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _AppLog_vue_vue_type_template_id_5b4293e4_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _AppLog_vue_vue_type_template_id_5b4293e4_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _AppLog_vue_vue_type_template_id_5b4293e4___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _AppLog_vue_vue_type_template_id_5b4293e4___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
-  "5b4293e4",
+  null,
   null
   
 )
@@ -110013,35 +110050,35 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/AppLog.vue?vue&type=style&index=0&id=5b4293e4&lang=scss&scoped=true&":
-/*!******************************************************************************************************!*\
-  !*** ./resources/js/components/AppLog.vue?vue&type=style&index=0&id=5b4293e4&lang=scss&scoped=true& ***!
-  \******************************************************************************************************/
+/***/ "./resources/js/components/AppLog.vue?vue&type=style&index=0&lang=scss&":
+/*!******************************************************************************!*\
+  !*** ./resources/js/components/AppLog.vue?vue&type=style&index=0&lang=scss& ***!
+  \******************************************************************************/
 /*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_lib_loader_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_AppLog_vue_vue_type_style_index_0_id_5b4293e4_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader!../../../node_modules/css-loader!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--7-2!../../../node_modules/sass-loader/lib/loader.js??ref--7-3!../../../node_modules/vue-loader/lib??vue-loader-options!./AppLog.vue?vue&type=style&index=0&id=5b4293e4&lang=scss&scoped=true& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/AppLog.vue?vue&type=style&index=0&id=5b4293e4&lang=scss&scoped=true&");
-/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_lib_loader_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_AppLog_vue_vue_type_style_index_0_id_5b4293e4_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_lib_loader_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_AppLog_vue_vue_type_style_index_0_id_5b4293e4_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_lib_loader_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_AppLog_vue_vue_type_style_index_0_id_5b4293e4_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_lib_loader_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_AppLog_vue_vue_type_style_index_0_id_5b4293e4_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
- /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_lib_loader_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_AppLog_vue_vue_type_style_index_0_id_5b4293e4_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_lib_loader_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_AppLog_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader!../../../node_modules/css-loader!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--7-2!../../../node_modules/sass-loader/lib/loader.js??ref--7-3!../../../node_modules/vue-loader/lib??vue-loader-options!./AppLog.vue?vue&type=style&index=0&lang=scss& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/AppLog.vue?vue&type=style&index=0&lang=scss&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_lib_loader_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_AppLog_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_lib_loader_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_AppLog_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_lib_loader_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_AppLog_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_lib_loader_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_AppLog_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_lib_loader_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_AppLog_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 
-/***/ "./resources/js/components/AppLog.vue?vue&type=template&id=5b4293e4&scoped=true&":
-/*!***************************************************************************************!*\
-  !*** ./resources/js/components/AppLog.vue?vue&type=template&id=5b4293e4&scoped=true& ***!
-  \***************************************************************************************/
+/***/ "./resources/js/components/AppLog.vue?vue&type=template&id=5b4293e4&":
+/*!***************************************************************************!*\
+  !*** ./resources/js/components/AppLog.vue?vue&type=template&id=5b4293e4& ***!
+  \***************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AppLog_vue_vue_type_template_id_5b4293e4_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./AppLog.vue?vue&type=template&id=5b4293e4&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/AppLog.vue?vue&type=template&id=5b4293e4&scoped=true&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AppLog_vue_vue_type_template_id_5b4293e4_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AppLog_vue_vue_type_template_id_5b4293e4___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./AppLog.vue?vue&type=template&id=5b4293e4& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/AppLog.vue?vue&type=template&id=5b4293e4&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AppLog_vue_vue_type_template_id_5b4293e4___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AppLog_vue_vue_type_template_id_5b4293e4_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AppLog_vue_vue_type_template_id_5b4293e4___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

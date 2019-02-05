@@ -1,5 +1,5 @@
 <template>
- <div class="background_glitch imgloaded" v-if="isloading">
+ <div class="background_glitch imgloaded" v-if="comp_loading">
      <div class="glitch">
          <div class="glitch_img"></div>
          <div class="glitch_img"></div>
@@ -17,7 +17,7 @@
          <div :class="comp_main"></div>
 
          <transition :name="comp_slide" mode="out-in">
-          <login v-if="visible_flag" key="login"></login>
+          <login v-if="visible_flag" key="login" @startLoading="startLoading"></login>
           <signup v-else key="signup"></signup>
          </transition>
 
@@ -41,7 +41,7 @@ export default {
          main:"main",
          slide:"",
          visible_flag:true,
-         isloading:true
+         isloading:false
 
      }
  },
@@ -59,6 +59,13 @@ export default {
          this.main = "main right";
          this.slide = "slide-right";
           this.visible_flag=true;
+     },
+     startLoading(){
+         this.isloading=true;
+         setTimeout(this.moveToMain,5500)
+     },
+     moveToMain(){
+         window.location = "/welcome";
      }
  },
  computed:{
@@ -67,6 +74,9 @@ export default {
      },
      comp_slide(){
          return this.slide;
+     },
+     comp_loading(){
+         return this.isloading;
      }
  }
 }

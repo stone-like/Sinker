@@ -65,9 +65,13 @@ export default {
    changeSuccess(){
        this.first_done=false;
        this.second_done=true;
+       setTimeout(this.fireLoading,2000);
    },
    changeFalse(){
        this.first_done=false;
+   },
+   fireLoading(){
+      this.$emit("startLoading")
    }
   },
   created(){

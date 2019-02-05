@@ -1922,7 +1922,7 @@ __webpack_require__.r(__webpack_exports__);
       main: "main",
       slide: "",
       visible_flag: true,
-      isloading: true
+      isloading: false
     };
   },
   components: {
@@ -1942,6 +1942,13 @@ __webpack_require__.r(__webpack_exports__);
       this.main = "main right";
       this.slide = "slide-right";
       this.visible_flag = true;
+    },
+    startLoading: function startLoading() {
+      this.isloading = true;
+      setTimeout(this.moveToMain, 5500);
+    },
+    moveToMain: function moveToMain() {
+      window.location = "/welcome";
     }
   },
   computed: {
@@ -1950,6 +1957,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     comp_slide: function comp_slide() {
       return this.slide;
+    },
+    comp_loading: function comp_loading() {
+      return this.isloading;
     }
   }
 });
@@ -3107,9 +3117,13 @@ __webpack_require__.r(__webpack_exports__);
     changeSuccess: function changeSuccess() {
       this.first_done = false;
       this.second_done = true;
+      setTimeout(this.fireLoading, 2000);
     },
     changeFalse: function changeFalse() {
       this.first_done = false;
+    },
+    fireLoading: function fireLoading() {
+      this.$emit("startLoading");
     }
   },
   created: function created() {
@@ -68290,7 +68304,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm.isloading
+  return _vm.comp_loading
     ? _c("div", { staticClass: "background_glitch imgloaded" }, [
         _vm._m(0),
         _vm._v(" "),
@@ -68308,7 +68322,10 @@ var render = function() {
               { attrs: { name: _vm.comp_slide, mode: "out-in" } },
               [
                 _vm.visible_flag
-                  ? _c("login", { key: "login" })
+                  ? _c("login", {
+                      key: "login",
+                      on: { startLoading: _vm.startLoading }
+                    })
                   : _c("signup", { key: "signup" })
               ],
               1

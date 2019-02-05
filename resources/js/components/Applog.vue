@@ -99,10 +99,30 @@ export default {
     font-family: 'Geostar';
    color: white;
    font-size: 10rem;
+   width: 120rem;
    position: absolute;
-   top: 63%;
+   top: 57%;
    left: 50%;
    transform: translate(-50%,-50%);
+
+
+    white-space: nowrap;
+    overflow: hidden;
+
+   border-right: 2px solid rgba(255,255,255,.75);
+
+   animation:typewriter 4s steps(44) 1s 1 normal both,
+             blinkTextCursor .5s steps(44) infinite normal;
+}
+
+@keyframes typewriter{
+    from{width:0;}
+    to{width:120rem;}
+}
+
+@keyframes blinkTextCursor{
+    from{border-right-color: rgba(255,255,255,.75);}
+    to{border-right-color: transparent}
 }
 
 .background_glitch{

@@ -2,40 +2,42 @@
   <section id="slideshow" @click.self="hide">
     <div class="entire-content" @click.self="hide">
       <div :class="comp_content_carrousel" @wheel.prevent="rotar" :style="{transform:'rotateZ(15deg) rotateX(-7deg) rotateY(' + rotate_per_60 + 'deg)'}">
-       <figure class="shadow shadow--1"   @click="openDescription(1)">
+
+       <figure :class="comp_shadow1"  @click="openDescription(1)" ref="shadow_1">
            <svg class="shadow__icon shadow__icon--1">
                <use xlink:href="../../Helpers/img/sprite.svg#icon-brush" class="shadow__icon--use"></use>
            </svg>
            <span class="shadow__text">Forum</span>
        </figure>
-       <figure class="shadow shadow--2"  @click="userLoggedIn?openDescription(2):openDescription(7)">
+
+       <figure :class="comp_shadow2"   @click="userLoggedIn?openDescription(2):openDescription(7)" ref="shadow_2">
            <svg class="shadow__icon shadow__icon--2">
                <use xlink:href="../../Helpers/img/sprite.svg#icon-chat" v-if="userLoggedIn" class="shadow__icon--use"></use>
                <use xlink:href="../../Helpers/img/sprite.svg#icon-lock" v-else class="shadow__icon--use"></use>
            </svg>
            <span class="shadow__text">Ask Question</span>
        </figure>
-       <figure class="shadow shadow--3" @click="userLoggedIn?openDescription(3):openDescription(7)">
+       <figure :class="comp_shadow3"  @click="userLoggedIn?openDescription(3):openDescription(7)" ref="shadow_3">
             <svg class="shadow__icon shadow__icon--3">
                <use xlink:href="../../Helpers/img/sprite.svg#icon-cog" v-if="userLoggedIn" class="shadow__icon--use"></use>
                <use xlink:href="../../Helpers/img/sprite.svg#icon-lock" v-else class="shadow__icon--use"></use>
            </svg>
            <span class="shadow__text">Setting</span>
        </figure>
-       <figure class="shadow shadow--4"  @click="openDescription(4)">
+       <figure :class="comp_shadow4"   @click="openDescription(4)" ref="shadow_4">
             <svg class="shadow__icon shadow__icon--4">
                <use xlink:href="../../Helpers/img/sprite.svg#icon-home" class="shadow__icon--use"></use>
            </svg>
            <span class="shadow__text">Home</span>
         </figure>
-       <figure class="shadow shadow--5" @click="userLoggedIn?openDescription(5):openDescription(7)">
+       <figure :class="comp_shadow5"  @click="userLoggedIn?openDescription(5):openDescription(7)" ref="shadow_5">
            <svg class="shadow__icon shadow__icon--5">
                <use xlink:href="../../Helpers/img/sprite.svg#icon-v-card" v-if="userLoggedIn" class="shadow__icon--use"></use>
                <use xlink:href="../../Helpers/img/sprite.svg#icon-lock" v-else class="shadow__icon--use"></use>
            </svg>
            <span class="shadow__text">User Profile</span>
        </figure>
-       <figure class="shadow shadow--6" @click="userLoggedIn?openDescription(6):openDescription(7)">
+       <figure :class="comp_shadow6"  @click="userLoggedIn?openDescription(6):openDescription(7)" ref="shadow_6">
             <svg class="shadow__icon shadow__icon--6">
                <use xlink:href="../../Helpers/img/sprite.svg#icon-text-document" v-if="userLoggedIn" class="shadow__icon--use"></use>
                <use xlink:href="../../Helpers/img/sprite.svg#icon-lock" v-else class="shadow__icon--use"></use>
@@ -49,12 +51,14 @@
 
 <script>
 import {mapGetters} from 'vuex'
+import {TweenMax,bezier,DirectionalRotationPlugin,CSSPlugin} from "gsap"
 // import ClickOutside from 'vue-click-outside'
 export default {
      data(){
         return{
             rotate_per_60:0,
-            push_right:false
+            push_right:false,
+            leaveflag:false
         }
      },
      computed:{
@@ -65,6 +69,24 @@ export default {
      }),
      comp_content_carrousel(){
         return this.push_right ? "content-carrousel right-mv" : "content-carrousel";
+     },
+     comp_shadow1(){
+         return this.leaveflag ? "shadow shadow_1 leave_shadow_1": "shadow shadow_1";
+     },
+     comp_shadow2(){
+         return this.leaveflag ? "shadow shadow_2 leave_shadow_2": "shadow shadow_2";
+     },
+     comp_shadow3(){
+         return this.leaveflag ? "shadow shadow_3 leave_shadow_3": "shadow shadow_3";
+     },
+     comp_shadow4(){
+         return this.leaveflag ? "shadow shadow_4 leave_shadow_4": "shadow shadow_4";
+     },
+     comp_shadow5(){
+         return this.leaveflag ? "shadow shadow_5 leave_shadow_5": "shadow shadow_5";
+     },
+     comp_shadow6(){
+         return this.leaveflag ? "shadow shadow_6 leave_shadow_6": "shadow shadow_6";
      }
      },
      methods:{
@@ -82,14 +104,39 @@ export default {
              this.$eventBus.$emit("closeDescription");
              this.push_right = false;
          }
+     },
+     beforeRouteLeave(to,from,next){
+        //  this.leaveflag=true;
+         TweenMax.to(this.$refs.shadow_1,1,{bezier:{type:"cubic",values:[{z:273,x:0,y:0}, {z:180,x:-260,y:0}, {z:136.5,x:-380,y:-16}, {z:0,x:-380,y:-31}]}, ease:Power1.easeInOut});
+         TweenMax.to(this.$refs.shadow_1,1,{scale:0.5,rotationY:-90})
+
+
+          TweenMax.to(this.$refs.shadow_6,1,{bezier:{type:"cubic",values:[{z:136,x:-268.8,y:-20}, {z:0,x:-386,y:-30}, {z:227.5,x:-247,y:-15}, {z:-273,x:-157,y:-10}]}, ease:Power1.easeInOut});
+          TweenMax.to(this.$refs.shadow_6,1,{scale:0.5,rotationY:-90})
+
+          TweenMax.to(this.$refs.shadow_5,1,{bezier:{type:"cubic",values:[{z:-137,x:-236.5,y:-18}, {z:-273,x:-147,y:-11.5}, {z:-350,x:0,y:-5}, {z:-273,x:157,y:1.5}]}, ease:Power1.easeInOut});
+          TweenMax.to(this.$refs.shadow_5,1,{scale:0.5,rotationY:90})
+
+          TweenMax.to(this.$refs.shadow_4,1,{bezier:{type:"cubic",values:[{z:-273,x:0,y:-5}, {z:-180,x:260,y:1.5}, {z:-137,x:385,y:12}, {z:0,x:385,y:30}]}, ease:Power1.easeInOut});
+          TweenMax.to(this.$refs.shadow_4,1,{scale:0.5,rotationY:90})
+
+           TweenMax.to(this.$refs.shadow_3,1,{bezier:{type:"cubic",values:[{z:-137,x:236.5,y:12}, {z:0,x:386,y:30}, {z:137,x:386,y:20}, {z:273,x:157.5,y:10}]}, ease:Power1.easeInOut});
+          TweenMax.to(this.$refs.shadow_3,1,{scale:0.5,rotationY:90})
+
+           TweenMax.to(this.$refs.shadow_2,1,{bezier:{type:"cubic",values:[{z:137,x:268.8,y:20}, {z:273,x:157.5,y:10}, {z:350,x:0,y:0}, {z:273,x:-157.5,y:-10}]}, ease:Power1.easeInOut});
+          TweenMax.to(this.$refs.shadow_2,1,{scale:0.5,rotationY:90})
+
+          next(false)
      }
 //      directives: {
 //        ClickOutside
+//["z","x","rotationY",90,false]}
 //   }
 }
 </script>
 
 <style lang="scss" scoped>
+
 #slideshow{
     margin: 0;
     padding-top:5rem;
@@ -103,7 +150,7 @@ export default {
 }
 
 .entire-content{
-    
+
     width:31.5rem;
     height:31.5rem;
     perspective:100rem;
@@ -126,7 +173,7 @@ export default {
 .content-carrousel.right-mv{
     transition:transform .5s ease-in-out,right .2s ease-in-out;
     right:35%;
-    
+
     }
 
 // @keyframes to_right{
@@ -137,7 +184,7 @@ export default {
 //         right:17.5%;
 //     }
 //     100%{
-//        right:35%; 
+//        right:35%;
 //     }
 // }
 
@@ -154,7 +201,7 @@ export default {
     @for $i from 1 through 6{
         &:nth-child(#{$i}){
             transform:rotateY((0deg+((60deg*$i)-60deg))) translateZ(27.3rem);
-           
+
 
         }
     }
@@ -171,8 +218,8 @@ export default {
     overflow: hidden;
     color:black;
     // background: #a7a7a7;
-    
-    &--1:hover{
+
+    &_1:hover{
         box-shadow: 0px 0px 10px #00ff27;
         text-shadow: 0px 0px 10px #00ff27;
         color:white;
@@ -182,7 +229,7 @@ export default {
         }
     }
 
-    &--2:hover{
+    &_2:hover{
          box-shadow: 0px 0px 10px #ff294d;
          text-shadow: 0px 0px 10px #ff294d;
          color:white;
@@ -192,7 +239,7 @@ export default {
         }
     }
 
-     &--3:hover{
+     &_3:hover{
          box-shadow: 0px 0px 10px #17f1bb;
          text-shadow: 0px 0px 10px #17f1bb;
          color:white;
@@ -202,7 +249,7 @@ export default {
         }
     }
 
-      &--4:hover{
+      &_4:hover{
          box-shadow: 0px 0px 10px #fffb11;
          text-shadow: 0px 0px 10px #fffb11;
          color:white;
@@ -212,7 +259,7 @@ export default {
         }
     }
 
-    &--5:hover{
+    &_5:hover{
          box-shadow: 0px 0px 10px #1234f7;
          text-shadow: 0px 0px 10px #1234f7;
          color:white;
@@ -222,7 +269,7 @@ export default {
         }
     }
 
-    &--6:hover{
+    &_6:hover{
          box-shadow: 0px 0px 10px #fd0000;
          text-shadow: 0px 0px 10px #fd0000;
          color:white;
@@ -232,7 +279,7 @@ export default {
         }
     }
 
-    
+
 
 
 
@@ -245,7 +292,7 @@ export default {
         fill:currentColor;
     }
 
-  
+
 
     &__text{
        font-size:1.6rem;
@@ -255,6 +302,61 @@ export default {
 
 }
 
+.leave_shadow_1{
+ animation:move1 .3s ease;
+}
+
+.leave_shadow_2{
+ animation:move2 1s ease-in-out;
+}
+
+.leave_shadow_3{
+ animation:move3 1s ease-in-out;
+}
+
+.leave_shadow_4{
+ animation:move4 1s ease-in-out;
+}
+
+.leave_shadow_5{
+ animation:move5 1s ease-in-out;
+}
+
+.leave_shadow_6{
+ animation:move6 1s ease-in-out;
+}
+
+@keyframes move1{
+
+    0%{
+        transform:rotateY(0) scale(1);
+    }
+    24.25%{
+        transform:rotateY(22.5deg) scale(0.925);
+    }
+    84.25%{
+        transform:rotateY(67.5deg) scale(0.78);
+    }
+    100%{
+        transform:rotateY(90deg) scale(.7);
+    }
+}
+
+// @keyframes move1{
+
+//     0%{
+//         transform:translate3d(0,0,27.3rem) rotateY(0) scale(1);
+//     }
+//     24.25%{
+//         transform:translate3d(-26rem,0,18rem) rotateY(22.5deg) scale(0.925);
+//     }
+//     84.25%{
+//         transform:translate3d(-38rem,-1.6rem,13.65rem) rotateY(67.5deg) scale(0.78);
+//     }
+//     100%{
+//         transform:translate3d(-38rem,-3.16rem,0) rotateY(90deg) scale(.7);
+//     }
+// }
 
 
 

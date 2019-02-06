@@ -1,15 +1,15 @@
 <template>
 
     <header class="header">
-     
-     
+
+
      <router-link to="/welcome" class="welcome">
        <!-- <div @click="toHome"> -->
            <img class="logo" src="../Helpers/img/logo.svg" @click="toHome">
        <!-- </div> -->
      </router-link>
 
-    
+
     <nav class="navigation">
 
       <app-notification v-if="userLoggedIn"></app-notification>
@@ -35,8 +35,8 @@
      </nav>
 
     </header>
-  
-  
+
+
 </template>
 
 <script>
@@ -77,7 +77,7 @@ export default {
   },
   methods:{
       toRead(){
-          this.$store.dispatch('changeReadMode');
+        //   this.$store.dispatch('changeReadMode');
           console.log(this.$store.getters.getReadFlag);
           console.log(this.$store.getters.getHomeFlag);
       },
@@ -118,7 +118,7 @@ a{
 
 .navigation{
     display:flex;
-   
+
 
 }
 

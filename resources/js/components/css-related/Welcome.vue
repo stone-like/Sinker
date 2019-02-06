@@ -1,43 +1,43 @@
 <template>
   <section id="slideshow" @click.self="hide">
     <div class="entire-content" @click.self="hide">
-      <div :class="comp_content_carrousel" @wheel.prevent="rotar" :style="{transform:'rotateZ(15deg) rotateX(-7deg) rotateY(' + rotate_per_60 + 'deg)'}">
+      <div :class="comp_content_carrousel" @wheel.prevent="rotar" :style="{transform:'rotateZ(15deg) rotateX(-7deg) rotateY(' + rotate_60_now + 'deg)'}"  ref="carrousel">
 
-       <figure :class="comp_shadow1"  @click="openDescription(1)" ref="shadow_1">
+       <figure class="shadow shadow_1"  @click="openDescription(1)" ref="shadow_1">
            <svg class="shadow__icon shadow__icon--1">
                <use xlink:href="../../Helpers/img/sprite.svg#icon-brush" class="shadow__icon--use"></use>
            </svg>
            <span class="shadow__text">Forum</span>
        </figure>
 
-       <figure :class="comp_shadow2"   @click="userLoggedIn?openDescription(2):openDescription(7)" ref="shadow_2">
+       <figure class="shadow shadow_2"   @click="userLoggedIn?openDescription(2):openDescription(7)" ref="shadow_2">
            <svg class="shadow__icon shadow__icon--2">
                <use xlink:href="../../Helpers/img/sprite.svg#icon-chat" v-if="userLoggedIn" class="shadow__icon--use"></use>
                <use xlink:href="../../Helpers/img/sprite.svg#icon-lock" v-else class="shadow__icon--use"></use>
            </svg>
            <span class="shadow__text">Ask Question</span>
        </figure>
-       <figure :class="comp_shadow3"  @click="userLoggedIn?openDescription(3):openDescription(7)" ref="shadow_3">
+       <figure class="shadow shadow_3"  @click="userLoggedIn?openDescription(3):openDescription(7)" ref="shadow_3">
             <svg class="shadow__icon shadow__icon--3">
                <use xlink:href="../../Helpers/img/sprite.svg#icon-cog" v-if="userLoggedIn" class="shadow__icon--use"></use>
                <use xlink:href="../../Helpers/img/sprite.svg#icon-lock" v-else class="shadow__icon--use"></use>
            </svg>
            <span class="shadow__text">Setting</span>
        </figure>
-       <figure :class="comp_shadow4"   @click="openDescription(4)" ref="shadow_4">
+       <figure class="shadow shadow_4"   @click="openDescription(4)" ref="shadow_4">
             <svg class="shadow__icon shadow__icon--4">
                <use xlink:href="../../Helpers/img/sprite.svg#icon-home" class="shadow__icon--use"></use>
            </svg>
            <span class="shadow__text">Home</span>
         </figure>
-       <figure :class="comp_shadow5"  @click="userLoggedIn?openDescription(5):openDescription(7)" ref="shadow_5">
+       <figure class="shadow shadow_5"  @click="userLoggedIn?openDescription(5):openDescription(7)" ref="shadow_5">
            <svg class="shadow__icon shadow__icon--5">
                <use xlink:href="../../Helpers/img/sprite.svg#icon-v-card" v-if="userLoggedIn" class="shadow__icon--use"></use>
                <use xlink:href="../../Helpers/img/sprite.svg#icon-lock" v-else class="shadow__icon--use"></use>
            </svg>
            <span class="shadow__text">User Profile</span>
        </figure>
-       <figure :class="comp_shadow6"  @click="userLoggedIn?openDescription(6):openDescription(7)" ref="shadow_6">
+       <figure class="shadow shadow_6"  @click="userLoggedIn?openDescription(6):openDescription(7)" ref="shadow_6">
             <svg class="shadow__icon shadow__icon--6">
                <use xlink:href="../../Helpers/img/sprite.svg#icon-text-document" v-if="userLoggedIn" class="shadow__icon--use"></use>
                <use xlink:href="../../Helpers/img/sprite.svg#icon-lock" v-else class="shadow__icon--use"></use>
@@ -58,7 +58,13 @@ export default {
         return{
             rotate_per_60:0,
             push_right:false,
-            leaveflag:false
+            leaveflag:false,
+            carrousel_1:"",
+            carrousel_2:"",
+            carrousel_3:"",
+            carrousel_4:"",
+            carrousel_5:"",
+            carrousel_6:""
         }
      },
      computed:{
@@ -70,31 +76,16 @@ export default {
      comp_content_carrousel(){
         return this.push_right ? "content-carrousel right-mv" : "content-carrousel";
      },
-     comp_shadow1(){
-         return this.leaveflag ? "shadow shadow_1 leave_shadow_1": "shadow shadow_1";
-     },
-     comp_shadow2(){
-         return this.leaveflag ? "shadow shadow_2 leave_shadow_2": "shadow shadow_2";
-     },
-     comp_shadow3(){
-         return this.leaveflag ? "shadow shadow_3 leave_shadow_3": "shadow shadow_3";
-     },
-     comp_shadow4(){
-         return this.leaveflag ? "shadow shadow_4 leave_shadow_4": "shadow shadow_4";
-     },
-     comp_shadow5(){
-         return this.leaveflag ? "shadow shadow_5 leave_shadow_5": "shadow shadow_5";
-     },
-     comp_shadow6(){
-         return this.leaveflag ? "shadow shadow_6 leave_shadow_6": "shadow shadow_6";
+     rotate_60_now(){
+         return this.rotate_per_60;
      }
      },
      methods:{
          rotar(){
              this.rotate_per_60+=-60
-             if(this.rotate_per_60 == -360){
-                 this.rotate_per_60 = 0
-             }
+            if(this.rotate_per_60 == -360){
+             this.rotate_per_60 = 0
+            }
          },
          openDescription(number){
              this.$eventBus.$emit("openDescription",number);
@@ -107,23 +98,103 @@ export default {
      },
      beforeRouteLeave(to,from,next){
         //  this.leaveflag=true;
-         TweenMax.to(this.$refs.shadow_1,1,{bezier:{type:"cubic",values:[{z:273,x:0,y:0}, {z:180,x:-260,y:0}, {z:136.5,x:-380,y:-16}, {z:0,x:-380,y:-31}]}, ease:Power1.easeInOut});
-         TweenMax.to(this.$refs.shadow_1,1,{scale:0.5,rotationY:-90})
+        var self = this;//こうしないとthisがずれてしまう
+        var tm0 = new TimelineMax();
+        tm0.to(self.$refs.carrousel,0.0001,{onStart:function(){
+            // switch(parseInt(self.rotate_per_60)){
+            //     case 0:
+            //      self.carrousel_1 = self.$refs.shadow_1;
+            //      self.carrousel_2 = self.$refs.shadow_2;
+            //      self.carrousel_3 = self.$refs.shadow_3;
+            //      self.carrousel_4 = self.$refs.shadow_4;
+            //      self.carrousel_5= self.$refs.shadow_5;
+            //      self.carrousel_6 = self.$refs.shadow_6;
+            //        break;
+            //     case -60:
+            //      self.carrousel_1 = self.$refs.shadow_2;
+            //      self.carrousel_6 = self.$refs.shadow_1;
+            //      self.carrousel_5 = self.$refs.shadow_6;
+            //      self.carrousel_4 = self.$refs.shadow_5;
+            //      self.carrousel_3 = self.$refs.shadow_4;
+            //      self.carrousel_2 = self.$refs.shadow_3;
 
-          TweenMax.to(this.$refs.shadow_6,1,{bezier:{type:"cubic",values:[{z:136,x:-268.8,y:-20}, {z:0,x:-386,y:-30}, {z:227.5,x:-247,y:-15}, {z:-273,x:-157,y:-10}]}, ease:Power1.easeInOut});
-          TweenMax.to(this.$refs.shadow_6,1,{scale:0.35,rotationY:-90})
+            //        break;
+            //     case -120:
+            //      self.carrousel_1 = self.$refs.shadow_3;
+            //      self.carrousel_6 = self.$refs.shadow_2;
+            //      self.carrousel_5 = self.$refs.shadow_1;
+            //      self.carrousel_4 = self.$refs.shadow_6;
+            //      self.carrousel_3 = self.$refs.shadow_5;
+            //      self.carrousel_2 = self.$refs.shadow_4;
+            //        break;
+            //     case -180:
+            //      self.carrousel_1 = self.$refs.shadow_4;
+            //      self.carrousel_6 = self.$refs.shadow_3;
+            //      self.carrousel_5 = self.$refs.shadow_2;
+            //      self.carrousel_4 = self.$refs.shadow_1;
+            //      self.carrousel_3 = self.$refs.shadow_6;
+            //      self.carrousel_2 = self.$refs.shadow_5;
+            //        break;
+            //     case -240:
+            //      self.carrousel_1 = self.$refs.shadow_5;
+            //      self.carrousel_6 = self.$refs.shadow_4;
+            //      self.carrousel_5 = self.$refs.shadow_3;
+            //      self.carrousel_4 = self.$refs.shadow_2;
+            //      self.carrousel_3 = self.$refs.shadow_1;
+            //      self.carrousel_2 = self.$refs.shadow_6;
+            //        break;
+            //     case -300:
+            //      self.carrousel_1 = self.$refs.shadow_6;
+            //      self.carrousel_6 = self.$refs.shadow_5;
+            //      self.carrousel_5 = self.$refs.shadow_4;
+            //      self.carrousel_4 = self.$refs.shadow_3;
+            //      self.carrousel_3 = self.$refs.shadow_2;
+            //      self.carrousel_2 = self.$refs.shadow_1;
+            //        break;
+            // }
 
-          TweenMax.to(this.$refs.shadow_5,1,{bezier:{type:"cubic",values:[{z:-137,x:-236.5,y:-18}, {z:-273,x:-147,y:-11.5}, {z:-350,x:0,y:-5}, {z:-273,x:157,y:1.5}]}, ease:Power1.easeInOut});
-          TweenMax.to(this.$refs.shadow_5,1,{scale:0.2,rotationY:90})
+            self.rotate_per_60-=720;
+        }})
+        .add("scene1")
+        .to(self.$refs.shadow_1,.5,{bezier:{type:"cubic",values:[{z:273,x:0,y:0}, {z:180,x:-260,y:0}, {z:136.5,x:-380,y:-16}, {z:0,x:-380,y:-31}]}, ease:Power1.easeInOut},"scene1")
+        .to(self.$refs.shadow_1,.5,{scale:0.5,rotationY:-90,ease:Power1.easeInOut},"scene1")
+        .to(self.$refs.shadow_6,.5,{bezier:{type:"cubic",values:[{z:136,x:-268.8,y:-20}, {z:0,x:-386,y:-30}, {z:227.5,x:-247,y:-15}, {z:-273,x:-157,y:-10}]}, ease:Power1.easeInOut},"scene1")
+        .to(self.$refs.shadow_6,.5,{scale:0.35,rotationY:-90},"scene1")
+        .to(self.$refs.shadow_5,.5,{bezier:{type:"cubic",values:[{z:-137,x:-236.5,y:-18}, {z:-273,x:-147,y:-11.5}, {z:-350,x:0,y:-5}, {z:-273,x:157,y:1.5}]}, ease:Power1.easeInOut},"scene1")
+        .to(self.$refs.shadow_5,.5,{scale:0.2,rotationY:90},"scene1")
+        .to(self.$refs.shadow_4,.5,{bezier:{type:"cubic",values:[{z:-273,x:0,y:-5}, {z:-180,x:260,y:1.5}, {z:-137,x:385,y:12}, {z:0,x:385,y:30}]}, ease:Power1.easeInOut},"scene1")
+        .to(self.$refs.shadow_4,.5,{scale:0.4,rotationY:90},"scene1")
+        .to(self.$refs.shadow_3,.5,{bezier:{type:"cubic",values:[{z:-137,x:236.5,y:12}, {z:0,x:386,y:30}, {z:137,x:386,y:20}, {z:273,x:157.5,y:10}]}, ease:Power1.easeInOut},"scene1")
+        .to(self.$refs.shadow_3,.5,{scale:0.5,rotationY:90},"scene1")
+        .to(self.$refs.shadow_2,.5,{bezier:{type:"cubic",values:[{z:137,x:268.8,y:20}, {z:273,x:157.5,y:10}, {z:350,x:0,y:0}, {z:273,x:-157.5,y:-10}]}, ease:Power1.easeInOut},"scene1")
+        .to(self.$refs.shadow_2,.5,{scale:0.6,rotationY:90},"scene1")
+        .add("scene2")
+        .to([this.$refs.shadow_1,this.$refs.shadow_2,this.$refs.shadow_3,this.$refs.shadow_4,this.$refs.shadow_5,this.$refs.shadow_6],.5,{opacity:0},"scene2 -=.15")
 
-          TweenMax.to(this.$refs.shadow_4,1,{bezier:{type:"cubic",values:[{z:-273,x:0,y:-5}, {z:-180,x:260,y:1.5}, {z:-137,x:385,y:12}, {z:0,x:385,y:30}]}, ease:Power1.easeInOut});
-          TweenMax.to(this.$refs.shadow_4,1,{scale:0.4,rotationY:90})
+        // var tm1 = new TimelineMax();
+        // tm1.to(this.$refs.shadow_1,.5,{bezier:{type:"cubic",values:[{z:273,x:0,y:0}, {z:180,x:-260,y:0}, {z:136.5,x:-380,y:-16}, {z:0,x:-380,y:-31}]}, ease:Power1.easeInOut}).add("scene1").to(this.$refs.shadow_1,.5,{opacity:0},"scene1 -=.25");
 
-           TweenMax.to(this.$refs.shadow_3,1,{bezier:{type:"cubic",values:[{z:-137,x:236.5,y:12}, {z:0,x:386,y:30}, {z:137,x:386,y:20}, {z:273,x:157.5,y:10}]}, ease:Power1.easeInOut});
-          TweenMax.to(this.$refs.shadow_3,1,{scale:0.5,rotationY:90})
+        // var tm2 = new TimelineMax();
+        // tm2.to(this.$refs.shadow_1,.5,{scale:0.5,rotationY:-90,ease:Power1.easeInOut})
 
-           TweenMax.to(this.$refs.shadow_2,1,{bezier:{type:"cubic",values:[{z:137,x:268.8,y:20}, {z:273,x:157.5,y:10}, {z:350,x:0,y:0}, {z:273,x:-157.5,y:-10}]}, ease:Power1.easeInOut});
-          TweenMax.to(this.$refs.shadow_2,1,{scale:0.6,rotationY:90})
+        // tm0.add(tm1,tm2);
+        //  TweenMax.to(this.$refs.shadow_1,.5,{bezier:{type:"cubic",values:[{z:273,x:0,y:0}, {z:180,x:-260,y:0}, {z:136.5,x:-380,y:-16}, {z:0,x:-380,y:-31}]}, ease:Power1.easeInOut});
+        //  TweenMax.to(this.$refs.shadow_1,.5,{scale:0.5,rotationY:-90,ease:Power1.easeInOut})
+
+        //   TweenMax.to(this.$refs.shadow_6,.5,{bezier:{type:"cubic",values:[{z:136,x:-268.8,y:-20}, {z:0,x:-386,y:-30}, {z:227.5,x:-247,y:-15}, {z:-273,x:-157,y:-10}]}, ease:Power1.easeInOut});
+        //   TweenMax.to(this.$refs.shadow_6,.5,{scale:0.35,rotationY:-90})
+
+        //   TweenMax.to(this.$refs.shadow_5,.5,{bezier:{type:"cubic",values:[{z:-137,x:-236.5,y:-18}, {z:-273,x:-147,y:-11.5}, {z:-350,x:0,y:-5}, {z:-273,x:157,y:1.5}]}, ease:Power1.easeInOut});
+        //   TweenMax.to(this.$refs.shadow_5,.5,{scale:0.2,rotationY:90})
+
+        //   TweenMax.to(this.$refs.shadow_4,.5,{bezier:{type:"cubic",values:[{z:-273,x:0,y:-5}, {z:-180,x:260,y:1.5}, {z:-137,x:385,y:12}, {z:0,x:385,y:30}]}, ease:Power1.easeInOut});
+        //   TweenMax.to(this.$refs.shadow_4,.5,{scale:0.4,rotationY:90})
+
+        //    TweenMax.to(this.$refs.shadow_3,.5,{bezier:{type:"cubic",values:[{z:-137,x:236.5,y:12}, {z:0,x:386,y:30}, {z:137,x:386,y:20}, {z:273,x:157.5,y:10}]}, ease:Power1.easeInOut});
+        //   TweenMax.to(this.$refs.shadow_3,.5,{scale:0.5,rotationY:90})
+
+        //    TweenMax.to(this.$refs.shadow_2,.5,{bezier:{type:"cubic",values:[{z:137,x:268.8,y:20}, {z:273,x:157.5,y:10}, {z:350,x:0,y:0}, {z:273,x:-157.5,y:-10}]}, ease:Power1.easeInOut});
+        //   TweenMax.to(this.$refs.shadow_2,.5,{scale:0.6,rotationY:90})
 
 
 
@@ -227,6 +298,19 @@ export default {
     }
 }
 
+.rotate_720{
+    animation:rotation_720 .4s ease-in-out;
+}
+
+@keyframes rotation_720{
+    0%{
+        transform: rotateY(0);
+    }
+    100%{
+        transform: rotateY(-720deg);
+    }
+}
+
 .shadow{
     display:flex;
     flex-direction: column;
@@ -321,62 +405,6 @@ export default {
 
 
 }
-
-.leave_shadow_1{
- animation:move1 .3s ease;
-}
-
-.leave_shadow_2{
- animation:move2 1s ease-in-out;
-}
-
-.leave_shadow_3{
- animation:move3 1s ease-in-out;
-}
-
-.leave_shadow_4{
- animation:move4 1s ease-in-out;
-}
-
-.leave_shadow_5{
- animation:move5 1s ease-in-out;
-}
-
-.leave_shadow_6{
- animation:move6 1s ease-in-out;
-}
-
-@keyframes move1{
-
-    0%{
-        transform:rotateY(0) scale(1);
-    }
-    24.25%{
-        transform:rotateY(22.5deg) scale(0.925);
-    }
-    84.25%{
-        transform:rotateY(67.5deg) scale(0.78);
-    }
-    100%{
-        transform:rotateY(90deg) scale(.7);
-    }
-}
-
-// @keyframes move1{
-
-//     0%{
-//         transform:translate3d(0,0,27.3rem) rotateY(0) scale(1);
-//     }
-//     24.25%{
-//         transform:translate3d(-26rem,0,18rem) rotateY(22.5deg) scale(0.925);
-//     }
-//     84.25%{
-//         transform:translate3d(-38rem,-1.6rem,13.65rem) rotateY(67.5deg) scale(0.78);
-//     }
-//     100%{
-//         transform:translate3d(-38rem,-3.16rem,0) rotateY(90deg) scale(.7);
-//     }
-// }
 
 
 

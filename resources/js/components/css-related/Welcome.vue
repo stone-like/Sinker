@@ -110,21 +110,41 @@ export default {
          TweenMax.to(this.$refs.shadow_1,1,{bezier:{type:"cubic",values:[{z:273,x:0,y:0}, {z:180,x:-260,y:0}, {z:136.5,x:-380,y:-16}, {z:0,x:-380,y:-31}]}, ease:Power1.easeInOut});
          TweenMax.to(this.$refs.shadow_1,1,{scale:0.5,rotationY:-90})
 
-
           TweenMax.to(this.$refs.shadow_6,1,{bezier:{type:"cubic",values:[{z:136,x:-268.8,y:-20}, {z:0,x:-386,y:-30}, {z:227.5,x:-247,y:-15}, {z:-273,x:-157,y:-10}]}, ease:Power1.easeInOut});
-          TweenMax.to(this.$refs.shadow_6,1,{scale:0.5,rotationY:-90})
+          TweenMax.to(this.$refs.shadow_6,1,{scale:0.35,rotationY:-90})
 
           TweenMax.to(this.$refs.shadow_5,1,{bezier:{type:"cubic",values:[{z:-137,x:-236.5,y:-18}, {z:-273,x:-147,y:-11.5}, {z:-350,x:0,y:-5}, {z:-273,x:157,y:1.5}]}, ease:Power1.easeInOut});
-          TweenMax.to(this.$refs.shadow_5,1,{scale:0.5,rotationY:90})
+          TweenMax.to(this.$refs.shadow_5,1,{scale:0.2,rotationY:90})
 
           TweenMax.to(this.$refs.shadow_4,1,{bezier:{type:"cubic",values:[{z:-273,x:0,y:-5}, {z:-180,x:260,y:1.5}, {z:-137,x:385,y:12}, {z:0,x:385,y:30}]}, ease:Power1.easeInOut});
-          TweenMax.to(this.$refs.shadow_4,1,{scale:0.5,rotationY:90})
+          TweenMax.to(this.$refs.shadow_4,1,{scale:0.4,rotationY:90})
 
            TweenMax.to(this.$refs.shadow_3,1,{bezier:{type:"cubic",values:[{z:-137,x:236.5,y:12}, {z:0,x:386,y:30}, {z:137,x:386,y:20}, {z:273,x:157.5,y:10}]}, ease:Power1.easeInOut});
           TweenMax.to(this.$refs.shadow_3,1,{scale:0.5,rotationY:90})
 
            TweenMax.to(this.$refs.shadow_2,1,{bezier:{type:"cubic",values:[{z:137,x:268.8,y:20}, {z:273,x:157.5,y:10}, {z:350,x:0,y:0}, {z:273,x:-157.5,y:-10}]}, ease:Power1.easeInOut});
-          TweenMax.to(this.$refs.shadow_2,1,{scale:0.5,rotationY:90})
+          TweenMax.to(this.$refs.shadow_2,1,{scale:0.6,rotationY:90})
+
+
+
+        //     TweenMax.from(this.$refs.shadow_1,1,{bezier:{type:"cubic",values:[{z:273,x:0,y:0}, {z:180,x:-260,y:0}, {z:136.5,x:-380,y:-16}, {z:0,x:-380,y:-31}]}, ease:Power1.easeInOut});
+        //  TweenMax.from(this.$refs.shadow_1,1,{scale:0.5,rotationY:-90})
+
+
+        //   TweenMax.from(this.$refs.shadow_6,1,{bezier:{type:"cubic",values:[{z:136,x:-268.8,y:-20}, {z:0,x:-386,y:-30}, {z:227.5,x:-247,y:-15}, {z:-273,x:-157,y:-10}]}, ease:Power1.easeInOut});
+        //   TweenMax.from(this.$refs.shadow_6,1,{scale:0.5,rotationY:-90})
+
+        //   TweenMax.from(this.$refs.shadow_5,1,{bezier:{type:"cubic",values:[{z:-137,x:-236.5,y:-18}, {z:-273,x:-147,y:-11.5}, {z:-350,x:0,y:-5}, {z:-273,x:157,y:1.5}]}, ease:Power1.easeInOut});
+        //   TweenMax.from(this.$refs.shadow_5,1,{scale:0.5,rotationY:90})
+
+        //   TweenMax.from(this.$refs.shadow_4,1,{bezier:{type:"cubic",values:[{z:-273,x:0,y:-5}, {z:-180,x:260,y:1.5}, {z:-137,x:385,y:12}, {z:0,x:385,y:30}]}, ease:Power1.easeInOut});
+        //   TweenMax.from(this.$refs.shadow_4,1,{scale:0.5,rotationY:90})
+
+        //    TweenMax.from(this.$refs.shadow_3,1,{bezier:{type:"cubic",values:[{z:-137,x:236.5,y:12}, {z:0,x:386,y:30}, {z:137,x:386,y:20}, {z:273,x:157.5,y:10}]}, ease:Power1.easeInOut});
+        //   TweenMax.from(this.$refs.shadow_3,1,{scale:0.5,rotationY:90})
+
+        //    TweenMax.from(this.$refs.shadow_2,1,{bezier:{type:"cubic",values:[{z:137,x:268.8,y:20}, {z:273,x:157.5,y:10}, {z:350,x:0,y:0}, {z:273,x:-157.5,y:-10}]}, ease:Power1.easeInOut});
+        //   TweenMax.from(this.$refs.shadow_2,1,{scale:0.5,rotationY:90})
 
           next(false)
      }

@@ -45,16 +45,7 @@ const routes = [
         }
     }},
     {path:'/welcome',
-    component:Welcome,
-    beforeRouteLeave(to,from,next){
-        console.log(to.params.name)
-        if(to.params.name == ("/forum" || "/ask" || "/category")){
-            store.dispatch("changeTransition_Router","HomeToRead")
-            store.dispatch("changeTransition_Tool","fade-up")
-        }else{
-            next()
-        }
-    }},
+    component:Welcome},
     {
         path:'/category',
         component:CreateCategory,

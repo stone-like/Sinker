@@ -13,8 +13,9 @@ const state={
     descriptionflag:false,
     signupflag:false,
     transition_name_router:"ReadToHome",
-    transition_name_tool:"fade-up"
- };
+    transition_name_tool:"fade-up",
+    tool_read_mode:false
+};
 
  const mutations ={
      'Token_Mutate'(state,payload=null){
@@ -47,13 +48,18 @@ const state={
         state.readflag = true;
     },
     'Signup_Mutate'(state){
-        state.signupflag = !state.signupflag;
+       state.signupflag = !state.signupflag;
     },
     'Set_Router'(state,payload=null){
         state.transition_name_router = payload;
     },
     'Set_Tool'(state,payload=null){
         state.transition_name_tool = payload;
+        //こっちはtoolbarの変化。3mode
+    },
+    'TooltoRead'(state){
+        //こっちはtoolbarの位置、2modeあってコンポーネントに入るときに切り替える
+        state.tool_read_mode != state.tool_read_mode
     }
  };
 
@@ -102,6 +108,9 @@ const state={
     },
     changeTransition_Tool:({commit},payload) => {
         commit('Set_Tool',payload);
+    },
+    changeToolRead:({commit}) => {
+        commit('TooltoRead');
     }
  };
 
@@ -146,6 +155,9 @@ const state={
    },
    getTransitionTool:state => {
        return state.transition_name_tool;
+   },
+   getTool_Read_Mode:state => {
+       return state.tool_read_mode;
    }
  };
 

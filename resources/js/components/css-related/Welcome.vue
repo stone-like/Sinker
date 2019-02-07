@@ -102,7 +102,10 @@ export default {
         if(to.path == ("/forum" || "/ask" || "/category")){
             self.$store.dispatch("changeTransition_Router","HomeToRead")
             self.$store.dispatch("changeTransition_Tool","fade-up")
+           self.$eventBus.$emit("changeToolbarMode")
+        //    self.$store.getters.getTransitionTool
         }
+
         var tm0 = new TimelineMax();
         tm0.to(self.$refs.carrousel,0.0001,{onStart:function(){
             // switch(parseInt(self.rotate_per_60)){
@@ -158,6 +161,7 @@ export default {
             // }
 
             self.rotate_per_60-=720;
+
         }})
         .add("scene1")
         .to(self.$refs.shadow_1,.5,{bezier:{type:"cubic",values:[{z:273,x:0,y:0}, {z:180,x:-260,y:0}, {z:136.5,x:-380,y:-16}, {z:0,x:-380,y:-31}]}, ease:Power1.easeInOut},"scene1")

@@ -3,10 +3,8 @@
  <div class="entiregrid">
   <modal v-if="modalflag" @close="changeModalFlag"></modal>
 
-   <transition :duration="2000" :name="transition_toolbar">
-    <toolbar class="toolbar" v-if="homeflag"></toolbar>
-    <toolbar class="toolbar-read" v-else></toolbar>
-  </transition>
+  <toolbar :class="comp_tool" ref="toolbar"></toolbar>
+
 
   <transition :name="transition_router"  @leave="leaveEl" :after-appear="leaveEl" appear>
    <router-view :class="comp_view"></router-view>
@@ -69,13 +67,14 @@ computed:{
        return this.$store.getters.getDescriptionFlag;
     },
     comp_tool(){
-        return this.$store.getters.getHomeFlag ? "toolbar" : "toolbar-read"
+        //コンポーネントから、例えばwelcomeから出るときはfalseのままでforumに入ったらそこのbeforeenterhookでtrueに切り替える
+        return this.$store.getters.getTool_Read_Mode ? "toolbar-read" :"toolbar";
     },
     comp_view(){
-        return this.$store.getters.getHomeFlag ? "router-view" : "router-view-read"
+        return this.$store.getters.getTool_Read_Mode? "router-view-read" : "router-view";
     },
     comp_foot(){
-        return this.$store.getters.getHomeFlag ? "footer" : "footer-read"
+        return this.$store.getters.getTool_Read_Mode ? "footer-read" : "footer";
     },
     transition_toolbar(){
         return this.$store.getters.getTransitionTool;
@@ -157,6 +156,23 @@ methods:{
              this.$store.dispatch("offDescriptionFlag");
              console.log(this.$store.getters.getDescriptionFlag);
     })
+
+    this.$eventBus.$on("changeToolbarMode",() => {
+               var ToolMode = this.$store.getters.getTransitionTool;
+              if(ToolMode == "fade-up"){
+                var tm_tool1 = new TimelineMax();
+　　　　　　　　　　　tm_tool1.to(this.$refs.toolbar,1,{y:-200,opacity:0,css:{'grid-row':"1/1"}})　　　
+              }
+              else if(ToolMode == "fade-side"){
+
+              }
+              else if(ToolMode == "wipe"){
+
+              }
+          })
+  },
+  beforeDestroy(){
+    this.$eventBus.$off("changeToolbarMode")
   },
   leaveEl(el){
 

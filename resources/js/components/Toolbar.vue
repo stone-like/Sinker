@@ -1,11 +1,11 @@
 <template>
 
-    <header class="header">
+    <header class="header" ref="toolbar">
 
 
      <router-link to="/welcome" class="welcome">
-       <div @click="toHome">
-           <img class="logo" src="../Helpers/img/logo.svg" @click="toHome">
+       <div>
+           <img class="logo" src="../Helpers/img/logo.svg">
        </div>
      </router-link>
 
@@ -18,16 +18,16 @@
       <v-btn flat>{{item.title}}</v-btn>
      </router-link> -->
         <router-link to='/forum'>
-         <v-btn flat @click="toRead">Forum</v-btn>
+         <v-btn flat>Forum</v-btn>
         </router-link>
         <a href='/login' v-if="!userLoggedIn">
          <v-btn flat>Login</v-btn>
         </a>
         <router-link to='/ask' v-if="userLoggedIn">
-         <v-btn flat @click="toRead">Ask Question</v-btn>
+         <v-btn flat>Ask Question</v-btn>
         </router-link>
         <router-link to='/category' v-if="userLoggedIn" >
-         <v-btn flat @click="toRead">Category</v-btn>
+         <v-btn flat>Category</v-btn>
         </router-link>
         <router-link to='/logout' v-if="userLoggedIn">
          <v-btn flat>Logout</v-btn>
@@ -43,6 +43,7 @@
 import {mapGetters} from 'vuex'
 import AppNotification from "./AppNotification"
 import Sticky from 'vue-sticky-position'
+import {TweenMax,bezier,DirectionalRotationPlugin,CSSPlugin} from "gsap"
 
 export default {
     components:{
@@ -76,19 +77,41 @@ export default {
     //   }
   },
   methods:{
-      toRead(){
-          setTimeout(this.changeToRead,5000);
-      },
-      toHome(){
-         setTimeout(this.changeToHome,5000);
-      },
-      changeToRead(){
-           this.$store.dispatch('changeReadMode');
-      },
-      changeToHome(){
-          this.$store.dispatch('changeHomeMode');
-      }
+    //   toRead(){
+    //       changeToRead()
+    //   },
+    //   toHome(){
+    //      changeToHome()
+    //   },
+    //   changeToRead(){
+    //        this.$store.dispatch('changeReadMode');
+    //   },
+    //   changeToHome(){
+    //       this.$store.dispatch('changeHomeMode');
+    //   },
+//       listen(){
+//           var self = this;
+//           self.$eventBus.$on("changeToolbarMode",() => {
+//                var ToolMode = self.$store.getters.getTransitionTool;
+//               if(ToolMode == "fade-up"){
+//                 var tm_tool1 = new TimelineMax();
+// 　　　　　　　　　　　tm_tool1.to(self.$refs.toolbar,1,{y:-200,opacity:0})　　　
+//               }
+//               else if(ToolMode == "fade-side"){
+
+//               }
+//               else if(ToolMode == "wipe"){
+
+//               }
+//           })
+//       }
   }
+//   created(){
+//       this.listen()
+//   }
+//   beforeDestroy(){
+//     this.$eventBus.$off("changeToolbarMode")
+//   }
 
 }
 </script>

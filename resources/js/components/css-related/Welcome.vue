@@ -103,6 +103,7 @@ export default {
             self.$store.dispatch("changeTransition_Router","HomeToRead")
             self.$store.dispatch("changeTransition_Tool","fade-up")
            self.$eventBus.$emit("changeToolbarMode")
+           self.$eventBus.$emit("entireParticle")
         //    self.$store.getters.getTransitionTool
         }
 

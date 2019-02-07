@@ -1,31 +1,33 @@
 <template>
-
- <div class="entiregrid">
+<ParticleEffectButton :hidden="setVinishing" :duration="setDuration">
+ <div class="entiregrid" ref="grid_master">
   <modal v-if="modalflag" @close="changeModalFlag"></modal>
 
-  <toolbar :class="comp_tool" ref="toolbar"></toolbar>
+  <toolbar :class="comp_tool" ref="toolbar_grid"></toolbar>
 
 
-  <transition :name="transition_router"  @leave="leaveEl" :after-appear="leaveEl" appear>
-   <router-view :class="comp_view"></router-view>
-  </transition>
+   <router-view :class="comp_view" ref="router-grid"></router-view>
+
 
    <transition name="slide-fade">
      <home-description v-if="homeflag && descriptionflag && number" :number="number" class="homedescription"></home-description>
    </transition>
    <app-footer :class="comp_foot"></app-footer>
  </div>
+</ParticleEffectButton>
 </template>
 
-<script src="dist/particles.min.js"></script>
+<script src="../Helpers/particles.js"></script>
+
 <script>
-import toolbar from "./Toolbar";
+import toolbar from "./Toolbar"
 import AppFooter from "./AppFooter";
 import Login from "./login/Login";
 import Modal from "../components/expantion/Modal";
 import HomeDescription from "../components/expantion/HomeDescription"
 import {TweenMax,bezier,DirectionalRotationPlugin,CSSPlugin} from "gsap"
 import anime from 'animejs'
+import Particles from "../Helpers/particles.js"
 
 //既にrouter-viewの中にLogincomponentが入っていてその中でroutertoをしてもその行き先がrouter-viewに入るみたい
 export default {
@@ -33,7 +35,9 @@ export default {
         return{
             number:"",
             transition_name_router:"",
-            transition_name_tool:""
+            transition_name_tool:"",
+            isHidden:"",
+            Duration:1000
         }
     },
     // beforeRouteUpdate(to,from,next){
@@ -81,65 +85,73 @@ computed:{
     },
     transition_router(){
         return this.$store.getters.getTransitionRouter;
+    },
+    setVinishing(){
+        return  this.isHidden;
+    },
+    setDuration(){
+        return this.Duration;
     }
 
 },
 methods:{
-    ///Entering
-    beforeEnter:function(el){
-      if(this.$store.getters.getTransitionRouter == "ReadToHome"){
-          opacity:0
-      }else if(this.$store.getters.getTransitionRouter == "HomeToRead"){
-          opacity:0
-      }
-    },
-    enter:function(el,done){
-      if(this.$store.getters.getTransitionRouter == "ReadToHome"){
-          let particles = new Particles('.entiregrid');
-          particles.integrate();
-      }else if(this.$store.getters.getTransitionRouter == "HomeToRead"){
-          let particles = new Particles('.entiregrid');
-          particles.integrate();
-      }
-      done()
-    },
-    afterEnter:function(el){
-      if(this.$store.getters.getTransitionRouter == "ReadToHome"){
-         opacity:1;
-      }else if(this.$store.getters.getTransitionRouter == "HomeToRead"){
-        opacity:1;
-      }
-    },
-    enterCancelled:function(el){
+    // ///Entering
+    // beforeEnter:function(el){
+    //   if(this.$store.getters.getTransitionRouter == "ReadToHome"){
+    //       opacity:0
+    //   }else if(this.$store.getters.getTransitionRouter == "HomeToRead"){
+    //       opacity:0
+    //   }
+    // },
+    // enter:function(el,done){
+    //   if(this.$store.getters.getTransitionRouter == "ReadToHome"){
+    //       let particles = new Particles('.entiregrid');
+    //       particles.integrate();
+    //   }else if(this.$store.getters.getTransitionRouter == "HomeToRead"){
+    //       let particles = new Particles('.entiregrid');
+    //       particles.integrate();
+    //   }
+    //   done()
+    // },
+    // afterEnter:function(el){
+    //   if(this.$store.getters.getTransitionRouter == "ReadToHome"){
+    //      opacity:1;
+    //   }else if(this.$store.getters.getTransitionRouter == "HomeToRead"){
+    //     opacity:1;
+    //   }
+    // },
+    // enterCancelled:function(el){
 
-    },//////Leaving
-    beforeLeave:function(el){
-       if(this.$store.getters.getTransitionRouter == "ReadToHome"){
-         opacity:1;
-      }else if(this.$store.getters.getTransitionRouter == "HomeToRead"){
-        opacity:1;
-      }
-    },
-    leave:function(el){
-        if(this.$store.getters.getTransitionRouter == "ReadToHome"){
-             let particles = new Particles('.entiregrid');
-          particles.disintegrate();
-      }else if(this.$store.getters.getTransitionRouter == "HomeToRead"){
-             let particles = new Particles('.entiregrid');
-          particles.disintegrate();
-      }
-        done()
-    },
-    afterLeave:function(el){
-    if(this.$store.getters.getTransitionRouter == "ReadToHome"){
-         opacity:0;
-      }else if(this.$store.getters.getTransitionRouter == "HomeToRead"){
-         opacity:0;
-      }
-    },
-    leaveCancelled:function(el){
+    // },//////Leaving
+    // beforeLeave:function(el){
+    //     console.log("ok")
+    //    if(this.$store.getters.getTransitionRouter == "ReadToHome"){
+    //      opacity:1;
+    //   }else if(this.$store.getters.getTransitionRouter == "HomeToRead"){
+    //     opacity:1;
+    //   }
+    // },
+    // leave:function(el){
+    //     console.log("wow")
+    //     if(this.$store.getters.getTransitionRouter == "ReadToHome"){
+    //          let particles = new Particles('.entiregrid');
+    //       particles.disintegrate();
+    //   }else if(this.$store.getters.getTransitionRouter == "HomeToRead"){
+    //          let particles = new Particles('.entiregrid');
+    //       particles.disintegrate();
+    //   }
+    //     done()
+    // },
+    // afterLeave:function(el){
+    // if(this.$store.getters.getTransitionRouter == "ReadToHome"){
+    //      opacity:0;
+    //   }else if(this.$store.getters.getTransitionRouter == "HomeToRead"){
+    //      opacity:0;
+    //   }
+    // },
+    // leaveCancelled:function(el){
 
-    },
+    // },
 
     changeModalFlag(){
         this.$store.dispatch('changeModalFlag');
@@ -156,23 +168,10 @@ methods:{
              this.$store.dispatch("offDescriptionFlag");
              console.log(this.$store.getters.getDescriptionFlag);
     })
-
-    this.$eventBus.$on("changeToolbarMode",() => {
-               var ToolMode = this.$store.getters.getTransitionTool;
-              if(ToolMode == "fade-up"){
-                var tm_tool1 = new TimelineMax();
-　　　　　　　　　　　tm_tool1.to(this.$refs.toolbar,1,{y:-200,opacity:0,css:{'grid-row':"1/1"}})　　　
-              }
-              else if(ToolMode == "fade-side"){
-
-              }
-              else if(ToolMode == "wipe"){
-
-              }
-          })
-  },
-  beforeDestroy(){
-    this.$eventBus.$off("changeToolbarMode")
+       this.$eventBus.$on("entireParticle",() => {
+            this.Duration = 1000;
+            this.isHidden = true;
+       })
   },
   leaveEl(el){
 
@@ -245,6 +244,8 @@ methods:{
     grid-template-columns: 13rem 1fr;
     grid-template-rows: 8rem 1fr 10rem;
     position:relative;
+    background-image: linear-gradient(to top, #c4c5c7 0%, #dcdddf 52%, #ebebeb 100%);
+
 }
 .toolbar{
 

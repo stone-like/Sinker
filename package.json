@@ -30,6 +30,7 @@
         "laravel-echo": "^1.5.2",
         "pusher-js": "^4.3.1",
         "vue-click-outside": "^1.0.7",
+        "vue-particle-effect-button": "^1.0.2",
         "vue-router": "^3.0.2",
         "vue-simplemde": "^0.5.1",
         "vue-sticky-position": "^2.0.0",

@@ -52,6 +52,9 @@ import Exception from './Helpers/Exception'
 
 
 Vue.prototype.$eventBus = new Vue();
+import ParticleEffectButton from 'vue-particle-effect-button'
+
+Vue.use(ParticleEffectButton)
 
 
 window.User = User

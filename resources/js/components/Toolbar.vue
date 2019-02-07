@@ -89,29 +89,29 @@ export default {
     //   changeToHome(){
     //       this.$store.dispatch('changeHomeMode');
     //   },
-//       listen(){
-//           var self = this;
-//           self.$eventBus.$on("changeToolbarMode",() => {
-//                var ToolMode = self.$store.getters.getTransitionTool;
-//               if(ToolMode == "fade-up"){
-//                 var tm_tool1 = new TimelineMax();
-// 　　　　　　　　　　　tm_tool1.to(self.$refs.toolbar,1,{y:-200,opacity:0})　　　
-//               }
-//               else if(ToolMode == "fade-side"){
+      listen(){
+          var self = this;
+          self.$eventBus.$on("changeToolbarMode",() => {
+               var ToolMode = self.$store.getters.getTransitionTool;
+              if(ToolMode == "fade-up"){
+                var tm_tool1 = new TimelineMax();
+　　　　　　　　　　　tm_tool1.to(self.$refs.toolbar,.9,{y:-200,opacity:0})　　　
+              }
+              else if(ToolMode == "fade-side"){
 
-//               }
-//               else if(ToolMode == "wipe"){
+              }
+              else if(ToolMode == "wipe"){
 
-//               }
-//           })
-//       }
+              }
+          })
+      }
+  },
+  created(){
+      this.listen()
+  },
+  beforeDestroy(){
+    this.$eventBus.$off("changeToolbarMode")
   }
-//   created(){
-//       this.listen()
-//   }
-//   beforeDestroy(){
-//     this.$eventBus.$off("changeToolbarMode")
-//   }
 
 }
 </script>

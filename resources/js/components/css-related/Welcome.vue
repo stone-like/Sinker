@@ -99,6 +99,10 @@ export default {
      beforeRouteLeave(to,from,next){
         //  this.leaveflag=true;
         var self = this;//こうしないとthisがずれてしまう
+        if(to.path == ("/forum" || "/ask" || "/category")){
+            self.$store.dispatch("changeTransition_Router","HomeToRead")
+            self.$store.dispatch("changeTransition_Tool","fade-up")
+        }
         var tm0 = new TimelineMax();
         tm0.to(self.$refs.carrousel,0.0001,{onStart:function(){
             // switch(parseInt(self.rotate_per_60)){
@@ -171,6 +175,8 @@ export default {
         .add("scene2")
         .to([this.$refs.shadow_1,this.$refs.shadow_2,this.$refs.shadow_3,this.$refs.shadow_4,this.$refs.shadow_5,this.$refs.shadow_6],.5,{opacity:0},"scene2 -=.15")
 
+
+
         // var tm1 = new TimelineMax();
         // tm1.to(this.$refs.shadow_1,.5,{bezier:{type:"cubic",values:[{z:273,x:0,y:0}, {z:180,x:-260,y:0}, {z:136.5,x:-380,y:-16}, {z:0,x:-380,y:-31}]}, ease:Power1.easeInOut}).add("scene1").to(this.$refs.shadow_1,.5,{opacity:0},"scene1 -=.25");
 
@@ -217,7 +223,8 @@ export default {
         //    TweenMax.from(this.$refs.shadow_2,1,{bezier:{type:"cubic",values:[{z:137,x:268.8,y:20}, {z:273,x:157.5,y:10}, {z:350,x:0,y:0}, {z:273,x:-157.5,y:-10}]}, ease:Power1.easeInOut});
         //   TweenMax.from(this.$refs.shadow_2,1,{scale:0.5,rotationY:90})
 
-          next(false)
+          next(false);
+
      }
 //      directives: {
 //        ClickOutside

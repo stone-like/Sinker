@@ -11,7 +11,9 @@ const state={
     homeflag:true,
     readflag:false,
     descriptionflag:false,
-    signupflag:false
+    signupflag:false,
+    transition_name_router:"ReadToHome",
+    transition_name_tool:"fade-up"
  };
 
  const mutations ={
@@ -46,6 +48,12 @@ const state={
     },
     'Signup_Mutate'(state){
         state.signupflag = !state.signupflag;
+    },
+    'Set_Router'(state,payload=null){
+        state.transition_name_router = payload;
+    },
+    'Set_Tool'(state,payload=null){
+        state.transition_name_tool = payload;
     }
  };
 
@@ -88,6 +96,12 @@ const state={
     },
     changeSignupFlag:({commit}) => {
         commit('Signup_Mutate');
+    },
+    changeTransition_Router:({commit},payload) => {
+        commit('Set_Router',payload);
+    },
+    changeTransition_Tool:({commit},payload) => {
+        commit('Set_Tool',payload);
     }
  };
 
@@ -126,6 +140,12 @@ const state={
     },
     getSignupFlag:state => {
        return state.signupflag;
+   },
+   getTransitionRouter:state => {
+       return state.transition_name_router;
+   },
+   getTransitionTool:state => {
+       return state.transition_name_tool;
    }
  };
 

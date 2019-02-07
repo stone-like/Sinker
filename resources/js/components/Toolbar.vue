@@ -4,9 +4,9 @@
 
 
      <router-link to="/welcome" class="welcome">
-       <!-- <div @click="toHome"> -->
+       <div @click="toHome">
            <img class="logo" src="../Helpers/img/logo.svg" @click="toHome">
-       <!-- </div> -->
+       </div>
      </router-link>
 
 
@@ -77,14 +77,16 @@ export default {
   },
   methods:{
       toRead(){
-        //   this.$store.dispatch('changeReadMode');
-          console.log(this.$store.getters.getReadFlag);
-          console.log(this.$store.getters.getHomeFlag);
+          setTimeout(this.changeToRead,5000);
       },
       toHome(){
+         setTimeout(this.changeToHome,5000);
+      },
+      changeToRead(){
+           this.$store.dispatch('changeReadMode');
+      },
+      changeToHome(){
           this.$store.dispatch('changeHomeMode');
-           console.log(this.$store.getters.getReadFlag);
-          console.log(this.$store.getters.getHomeFlag);
       }
   }
 

@@ -111,7 +111,7 @@ export default {
               else if(ToolMode == "fade-side"){
                 if(ReadMode == "HomeToRead"){
                     var tm_tool1 = new TimelineMax();
-    　　　　　　　　　tm_tool1.fromTo(self.$refs.toolbar,1,{x:-200,opacity:0},{x:0,opacity:1})
+    　　　　　　　　　tm_tool1.fromTo(self.$refs.toolbar,1,{x:-200,y:0,opacity:0},{x:0,y:0,opacity:1})
                        　
                 }else if(ReadMode == "ReadToHome"){
                       var tm_tool1 = new TimelineMax();

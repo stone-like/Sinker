@@ -2,7 +2,8 @@
  <div class="entiregrid" ref="grid_master">
   <modal v-if="modalflag" @close="changeModalFlag"></modal>
 
-  <toolbar :class="comp_tool" ref="toolbar_grid"></toolbar>
+  <sidebar class="toolbar-read" v-if="isRead"></sidebar>
+  <toolbar class="toolbar" ref="toolbar_grid" v-else></toolbar>
 
 
    <router-view :class="comp_view" ref="router-grid"></router-view>
@@ -18,11 +19,13 @@
 
 <script>
 import toolbar from "./Toolbar"
+import sidebar from "./Sidebar"
 import AppFooter from "./AppFooter";
 import Login from "./login/Login";
 import Modal from "../components/expantion/Modal";
 import HomeDescription from "../components/expantion/HomeDescription"
 import {TweenMax,bezier,DirectionalRotationPlugin,CSSPlugin} from "gsap"
+
 
 
 //既にrouter-viewの中にLogincomponentが入っていてその中でroutertoをしてもその行き先がrouter-viewに入るみたい
@@ -82,11 +85,9 @@ computed:{
     transition_router(){
         return this.$store.getters.getTransitionRouter;
     },
-    setVinishing(){
-        return  this.isHidden;
-    },
-    setDuration(){
-        return this.Duration;
+    isRead(){
+        //これは各enter時に切り替わるhomeに入るときはfalse、Readに入るときはtrueとしている
+        return this.$store.getters.getTool_Read_Mode;
     }
 
 },
@@ -248,7 +249,7 @@ methods:{
 .entiregrid{
     display:grid;
     grid-template-columns: 13rem 1fr;
-    grid-template-rows: 8rem 1fr 10rem;
+    grid-template-rows: 8rem minmax(100rem,max-content) 10rem;
     position:relative;
     background-image: linear-gradient(to top, #c4c5c7 0%, #dcdddf 52%, #ebebeb 100%);
 

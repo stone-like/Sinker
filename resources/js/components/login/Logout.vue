@@ -13,7 +13,8 @@ export default {
        this.deleteUser();
        this.deleteId();
        localStorage.clear();
-       this.$router.push({name:'forum'});
+    //    this.$router.push({name:'forum'});
+       window.location="/forum"
   }
 }
 </script>

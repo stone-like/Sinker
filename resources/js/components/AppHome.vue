@@ -1,5 +1,4 @@
 <template>
-<ParticleEffectButton :hidden="setVinishing" :duration="setDuration">
  <div class="entiregrid" ref="grid_master">
   <modal v-if="modalflag" @close="changeModalFlag"></modal>
 
@@ -14,10 +13,8 @@
    </transition>
    <app-footer :class="comp_foot"></app-footer>
  </div>
-</ParticleEffectButton>
 </template>
 
-<script src="../Helpers/particles.js"></script>
 
 <script>
 import toolbar from "./Toolbar"
@@ -26,8 +23,7 @@ import Login from "./login/Login";
 import Modal from "../components/expantion/Modal";
 import HomeDescription from "../components/expantion/HomeDescription"
 import {TweenMax,bezier,DirectionalRotationPlugin,CSSPlugin} from "gsap"
-import anime from 'animejs'
-import Particles from "../Helpers/particles.js"
+
 
 //既にrouter-viewの中にLogincomponentが入っていてその中でroutertoをしてもその行き先がrouter-viewに入るみたい
 export default {
@@ -168,9 +164,19 @@ methods:{
              this.$store.dispatch("offDescriptionFlag");
              console.log(this.$store.getters.getDescriptionFlag);
     })
-       this.$eventBus.$on("entireParticle",() => {
-            this.Duration = 1000;
-            this.isHidden = true;
+       this.$eventBus.$on("entireFade",(is_visible) => {
+           var ToolMode = this.$store.getters.getTransitionTool;
+           var ReadMode = this.$store.getters.getTransitionRouter;
+
+           if(is_visible == "invisible" ){
+               var tm_fade_invisible = new TimelineMax();
+               tm_fade_invisible.to(this.$refs.grid_master,1,{autoAlpha:0})
+           }else if(is_visible == "visible"){
+                var tm_fade_visible = new TimelineMax();
+                // tm_fade.from(this.$refs.grid_master,1,{autoAlpha:0})
+                tm_fade_visible.fromTo(this.$refs.grid_master,1,{autoAlpha:0},{autoAlpha:1})
+
+           }
        })
   },
   leaveEl(el){
@@ -262,6 +268,7 @@ methods:{
 .toolbar-read{
        grid-column:1/1;
        grid-row:1/3;
+       background-color: black;
 
 }
 .router-view{

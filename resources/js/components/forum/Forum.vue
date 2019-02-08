@@ -1,5 +1,5 @@
 <template>
-    <v-container fluid grid-list-md>
+    <v-container fluid grid-list-md ref="entire_forum">
         <v-layout row wrap>
             <v-flex xs8>
             <question v-for="question in questions" :key="question.path" :data="question"></question>
@@ -15,6 +15,7 @@
 <script>
 import Question from './Question'
 import AppSidebar from "./AppSidebar"
+import {TweenMax,bezier,DirectionalRotationPlugin,CSSPlugin} from "gsap"
 export default {
   data(){
       return{
@@ -26,6 +27,64 @@ export default {
       axios.get("api/question")
       .then(res => this.questions =res.data.data)
       .catch(error => console.log(error.response.data))
+  },
+  beforeRouteEnter(to,from,next){
+      next(vm => {
+          var  self = vm;
+          if(from.path == ("/ask" || "/category")){
+            self.$store.dispatch("changeTransition_Router","ReadToRead")
+            self.$store.dispatch("changeTransition_Tool","wipe")
+        }else if(from.path == "/welcome"){
+            self.$store.dispatch("changeTransition_Router","HomeToRead")
+            self.$store.dispatch("changeTransition_Tool","fade-side")
+         self.$store.dispatch("changeToolRead",true)
+
+         var tm0 = new TimelineMax();
+
+         tm0.to(self.$refs.entire_forum,0.00000001,{
+             onStart:function(){
+                 self.$eventBus.$emit("changeToolbarMode")
+                 self.$eventBus.$emit("entireFade","visible")
+
+             }
+         })
+         .add("scene1")
+        }
+
+      })
+  },
+  beforeRouteLeave(to,from,next){
+      var self = this;
+
+       if(to.path == ("/ask" || "/category")){
+            self.$store.dispatch("changeTransition_Router","ReadToRead")
+            self.$store.dispatch("changeTransition_Tool","wipe")
+        }else if(to.path == "/welcome"){
+            console.log("towelcome")
+            self.$store.dispatch("changeTransition_Router","ReadToHome")
+            self.$store.dispatch("changeTransition_Tool","fade-side")
+
+         var tm0 = new TimelineMax();
+
+         tm0.to(self.$refs.entire_forum,0.00000001,{
+             onStart:function(){
+                 self.$eventBus.$emit("changeToolbarMode")
+                 self.$eventBus.$emit("entireFade","invisible")
+
+             }
+         })
+         .add("scene1")
+         .to(self.$refs.entire_forum,0.00000001,{
+             onStart:function(){
+                 next()
+
+             }
+         },"scene1+=1")
+
+        }
+
+
+        next(false)
   }
 }
 </script>

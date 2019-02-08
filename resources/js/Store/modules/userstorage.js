@@ -57,9 +57,9 @@ const state={
         state.transition_name_tool = payload;
         //こっちはtoolbarの変化。3mode
     },
-    'TooltoRead'(state){
+    'TooltoRead'(state,payload){
         //こっちはtoolbarの位置、2modeあってコンポーネントに入るときに切り替える
-        state.tool_read_mode != state.tool_read_mode
+        state.tool_read_mode = payload;
     }
  };
 
@@ -109,8 +109,8 @@ const state={
     changeTransition_Tool:({commit},payload) => {
         commit('Set_Tool',payload);
     },
-    changeToolRead:({commit}) => {
-        commit('TooltoRead');
+    changeToolRead:({commit},payload) => {
+        commit('TooltoRead',payload);
     }
  };
 

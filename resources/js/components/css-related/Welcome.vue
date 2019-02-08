@@ -99,11 +99,11 @@ export default {
      beforeRouteLeave(to,from,next){
         //  this.leaveflag=true;
         var self = this;//こうしないとthisがずれてしまう
-        if(to.path == ("/forum" || "/ask" || "/category")){
+        if(to.path == "/forum" || "/ask" || "/category"){
             self.$store.dispatch("changeTransition_Router","HomeToRead")
             self.$store.dispatch("changeTransition_Tool","fade-up")
            self.$eventBus.$emit("changeToolbarMode")
-           self.$eventBus.$emit("entireParticle")
+           self.$eventBus.$emit("entireFade","invisible")
         //    self.$store.getters.getTransitionTool
         }
 
@@ -178,7 +178,13 @@ export default {
         .to(self.$refs.shadow_2,.5,{bezier:{type:"cubic",values:[{z:137,x:268.8,y:20}, {z:273,x:157.5,y:10}, {z:350,x:0,y:0}, {z:273,x:-157.5,y:-10}]}, ease:Power1.easeInOut},"scene1")
         .to(self.$refs.shadow_2,.5,{scale:0.6,rotationY:90},"scene1")
         .add("scene2")
-        .to([this.$refs.shadow_1,this.$refs.shadow_2,this.$refs.shadow_3,this.$refs.shadow_4,this.$refs.shadow_5,this.$refs.shadow_6],.5,{opacity:0},"scene2 -=.15")
+        .to([self.$refs.shadow_1,self.$refs.shadow_2,self.$refs.shadow_3,self.$refs.shadow_4,self.$refs.shadow_5,self.$refs.shadow_6],.5,{opacity:0},"scene2 -=.15")
+        .add("scene3")
+        .to(self.$refs.carrousel,0.00000001,{onStart:function(){
+            next()
+        }})
+
+
 
 
 
@@ -227,10 +233,48 @@ export default {
 
         //    TweenMax.from(this.$refs.shadow_2,1,{bezier:{type:"cubic",values:[{z:137,x:268.8,y:20}, {z:273,x:157.5,y:10}, {z:350,x:0,y:0}, {z:273,x:-157.5,y:-10}]}, ease:Power1.easeInOut});
         //   TweenMax.from(this.$refs.shadow_2,1,{scale:0.5,rotationY:90})
+          next(false)
 
-          next(false);
+     },
+     beforeRouteEnter(to,from,next){
+      next(vm => {
+          var  self = vm;
+          if(from.path == "/forum" || "/ask" || "/category"){
+            self.$store.dispatch("changeTransition_Router","ReadToHome")
+            self.$store.dispatch("changeTransition_Tool","fade-up")
+        }else if(from.path == "/"){
+            self.$store.dispatch("changeTransition_Router","HomeToHome")
+            self.$store.dispatch("changeTransition_Tool","fade-up")
+        }
+             self.$store.dispatch("changeToolRead",false)
 
-     }
+         var tm0 = new TimelineMax()
+         tm0.to(self.$refs.carrousel,0.0001,{onStart:function(){
+             self.$eventBus.$emit("changeToolbarMode")
+             self.$eventBus.$emit("entireFade","visible")
+
+         }})
+        //  .from([self.$refs.shadow_1,self.$refs.shadow_2,self.$refs.shadow_3,self.$refs.shadow_4,self.$refs.shadow_5,self.$refs.shadow_6],.5,{opacity:0})
+         .add("scene1")
+         .from(self.$refs.shadow_1,1,{bezier:{type:"cubic",values:[{z:273,x:0,y:0}, {z:180,x:-260,y:0}, {z:136.5,x:-380,y:-16}, {z:0,x:-380,y:-31}]}, ease:Power1.easeInOut},"scene1")
+        .from(self.$refs.shadow_1,1,{scale:0.5,rotationY:-90,ease:Power1.easeInOut},"scene1")
+        .from(self.$refs.shadow_6,1,{bezier:{type:"cubic",values:[{z:136,x:-268.8,y:-20}, {z:0,x:-386,y:-30}, {z:227.5,x:-247,y:-15}, {z:-273,x:-157,y:-10}]}, ease:Power1.easeInOut},"scene1+=.15")
+        .from(self.$refs.shadow_6,1,{scale:0.35,rotationY:-90},"scene1+=.15")
+        .from(self.$refs.shadow_5,1,{bezier:{type:"cubic",values:[{z:-137,x:-236.5,y:-18}, {z:-273,x:-147,y:-11.5}, {z:-350,x:0,y:-5}, {z:-273,x:157,y:1.5}]}, ease:Power1.easeInOut},"scene1+=.15")
+        .from(self.$refs.shadow_5,1,{scale:0.2,rotationY:90},"scene1+=.15")
+        .from(self.$refs.shadow_4,1,{bezier:{type:"cubic",values:[{z:-273,x:0,y:-5}, {z:-180,x:260,y:1.5}, {z:-137,x:385,y:12}, {z:0,x:385,y:30}]}, ease:Power1.easeInOut},"scene1+=.15")
+        .from(self.$refs.shadow_4,1,{scale:0.4,rotationY:90},"scene1+=.15")
+        .from(self.$refs.shadow_3,1,{bezier:{type:"cubic",values:[{z:-137,x:236.5,y:12}, {z:0,x:386,y:30}, {z:137,x:386,y:20}, {z:273,x:157.5,y:10}]}, ease:Power1.easeInOut},"scene1+=.15")
+        .from(self.$refs.shadow_3,1,{scale:0.5,rotationY:90},"scene1+=.15")
+        .from(self.$refs.shadow_2,1,{bezier:{type:"cubic",values:[{z:137,x:268.8,y:20}, {z:273,x:157.5,y:10}, {z:350,x:0,y:0}, {z:273,x:-157.5,y:-10}]}, ease:Power1.easeInOut},"scene1+=.15")
+        .from(self.$refs.shadow_2,1,{scale:0.6,rotationY:90},"scene1+=.15")
+        .add("scene2")
+        .to(self.$refs.carrousel,0.0000001,{onStart:function()
+        {
+            self.rotate_per_60-=720;
+        }},"scene2")
+      })
+  }
 //      directives: {
 //        ClickOutside
 //["z","x","rotationY",90,false]}

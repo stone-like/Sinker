@@ -20,17 +20,8 @@ const routes = [
     {path:'/modal',component:Modal},
     {path: '/signup',component: Signup},
     {path: '/forum',
-    component: Forum ,
-    name:'forum',
-    beforeRouteLeave(to,from,next){
-        if(to.params.name == "/ask" || "/category"){
-            store.dispatch("changeTransition_Router","ReadToRead")
-            store.dispatch("changeTransition_Tool","wipe")
-        }else if(to.params.name == "/welcome"){
-            store.dispatch("changeTransition_Router","ReadToHome")
-            store.dispatch("changeTransition_Tool","fade-side")
-        }
-    }},
+    component: Forum,
+    name:'forum'},
     {path: '/logout',component: Logout},
     {path:'/question/:slug',component: Read,name:'read'},
     {path:'/ask',

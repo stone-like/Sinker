@@ -62,7 +62,7 @@
                 </router-link>
             </li>
             <li class="side-nav__item">
-                <router-link to='/category' v-if="userLoggedIn" class="side-nav__link">
+                <router-link to='/category' v-if="userLoggedIn" :class="comp_Category">
                   <div class="side-nav__main">
                     <svg class="side-nav__icon">
                          <use xlink:href="../Helpers/img/sprite.svg#icon-text-document" v-if="userLoggedIn"></use>
@@ -109,7 +109,8 @@ export default {
           forum:false,
           ask:false,
           setting:false,
-          home:false
+          home:false,
+          category:false
       }
     },
  computed:{
@@ -129,6 +130,9 @@ export default {
      },
      comp_Home(){
          return this.home ?  "side-nav__link active":  "side-nav__link";
+     },
+     comp_Category(){
+         return this.category ?  "side-nav__link active":  "side-nav__link";
      }
  },
   methods:{
@@ -155,11 +159,12 @@ export default {
               }///ReadToRead
               else if(ToolMode == "wipe"){
                    if(ReadMode == "ReadToRead_enter"){
+                       //入るときにwiperは全部隠れているのでそれを左にどけたらsidebarを出現
                        var tm_tool1 = new TimelineMax();
     　　　　　　　　　tm_tool1.fromTo(self.$refs.sidebar,1,                {x:-200,y:0,opacity:0},{x:0,y:0,opacity:1})
 
                    }else if(ReadMode == "ReadToRead_leave"){
-
+                      //最初にsidebarを隠して、次にwiperしたい
                         var tm_tool1 = new TimelineMax();
     　　　　　　　　　tm_tool1.to(self.$refs.sidebar,1,                           {x:-200,opacity:0})
                    }
@@ -173,21 +178,31 @@ export default {
             this.ask= false;
             this.home = false;
              this.settig = false;
+             this.category = false;
         }else if(topath == "/ask"){
             this.ask= true;
             this.forum= false;
             this.home = false;
              this.settig = false;
+              this.category = false;
         }else if(topath == "/home"){
             this.home = true;
             this.ask= false;
             this.forum = false;
              this.settig = false;
+              this.category = false;
         }else if(topath == "/setting"){
             this.settig = true;
             this.ask= false;
             this.home = false;
              this.forum = false;
+              this.category = false;
+        }else if(topath == "/category"){
+             this.forum = false;
+            this.ask= false;
+            this.home = false;
+             this.settig = false;
+             this.category = true;
         }
       }
   },

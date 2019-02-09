@@ -1,4 +1,7 @@
 <template>
+ <div>
+
+ <div class="wiper" ref="wiper">{{to_name}}</div>
  <div class="entiregrid" ref="grid_master">
   <modal v-if="modalflag" @close="changeModalFlag"></modal>
 
@@ -13,6 +16,7 @@
      <home-description v-if="homeflag && descriptionflag && number" :number="number" class="homedescription"></home-description>
    </transition>
    <app-footer :class="comp_foot"></app-footer>
+ </div>
  </div>
 </template>
 
@@ -35,8 +39,8 @@ export default {
             number:"",
             transition_name_router:"",
             transition_name_tool:"",
-            isHidden:"",
-            Duration:1000
+            to_name:""
+
         }
     },
     // beforeRouteUpdate(to,from,next){
@@ -185,9 +189,31 @@ methods:{
 
            }
        })
+
+       this.$eventBus.$on("wipeEffectStart",(wipe_array) =>{
+           //選択した場所によって色と文字を変えたい、forumだったら文字forum、色青とか
+
+         var wipe_color = wipe_array.color;
+         this.to_name = wipe_array.name;
+         console.log(wipe_color)
+         var tm_wipe = new TimelineMax();
+         tm_wipe.to(this.$refs.wiper,1,{css:{backgroundColor:wipe_color,transform:'translateX(0%)'},ease:Power1.easeOut})
+       })
+
+       this.$eventBus.$on("wipeEffectRemove",() =>{
+         var tm_wipe = new TimelineMax();
+         tm_wipe.fromTo(this.$refs.wiper,1,{css:{transform:'translateX(0%)'},ease:Power1.easeOut},{css:{transform:'translateX(-105%)'}})
+       })
   },
   leaveEl(el){
 
+  },
+   beforeDestroy(){
+    this.$eventBus.$off("openDescription")
+    this.$eventBus.$off("closeDescription")
+    this.$eventBus.$off("entireFade")
+    this.$eventBus.$off("wipeEffectStart")
+    this.$eventBus.$off("wipeEffectRemove")
   }
 
  }
@@ -251,7 +277,21 @@ methods:{
     transform: translateX(-300px);
     opacity: 0;
 }
+.wiper{
+    //最初から画面いっぱい100vhとっておいてそれを丸ごと左に隠しておいて引っ張ってくればよい？
+    height: 100%;
+    width: 105%;
+    position: absolute;
+    background:black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 7.2rem;
+    color:white;
+    z-index:100000000;
+    transform: translateX(-105%);
 
+}
 .entiregrid{
     display:grid;
     grid-template-columns: 19rem 1fr;

@@ -32,8 +32,8 @@ export default {
       next(vm => {
           var  self = vm;
           //sidebarのactiveを外したりつけたり処理するここはforumなのでactiveをforumにつけてfrom.pathの所を外す
-          if(from.path == ("/ask" || "/category")){
-            self.$store.dispatch("changeTransition_Router","ReadToRead")
+          if(from.path == "/ask" || from.path == "/category"){
+            self.$store.dispatch("changeTransition_Router","ReadToRead_enter")
             self.$store.dispatch("changeTransition_Tool","wipe")
 
          self.$store.dispatch("changeToolRead",true)
@@ -70,7 +70,7 @@ export default {
   beforeRouteLeave(to,from,next){
       var self = this;
 
-       if(to.path == ("/ask" || "/category")){
+       if(to.path == "/ask" || to.path == "/category"){
             self.$store.dispatch("changeTransition_Router","ReadToRead_leave")
             self.$store.dispatch("changeTransition_Tool","wipe")
 

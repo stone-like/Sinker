@@ -27,18 +27,6 @@
                 </router-link>
             </li>
             <li class="side-nav__item">
-                <router-link to="/welcome" :class="comp_Setting">
-                  <div class="side-nav__main">
-                    <svg class="side-nav__icon">
-                        <use xlink:href="../Helpers/img/sprite.svg#icon-cog" v-if="userLoggedIn"></use>
-               <use xlink:href="../Helpers/img/sprite.svg#icon-lock" v-else></use>
-                    </svg>
-                    <span class="side-nav__menu">Setting</span>
-                   </div>
-                    <small class="side-nav__small">sweet home</small>
-                </router-link>
-            </li>
-            <li class="side-nav__item">
                 <router-link to="/welcome" :class="comp_Home">
                   <div class="side-nav__main">
                     <svg class="side-nav__icon">
@@ -59,6 +47,18 @@
                      <span class="side-nav__menu">User Profile</span>
                    </div>
                      <small class="side-nav__small">sweet home</small>
+                </router-link>
+            </li>
+            <li class="side-nav__item">
+                <router-link to="/welcome" :class="comp_Setting">
+                  <div class="side-nav__main">
+                    <svg class="side-nav__icon">
+                        <use xlink:href="../Helpers/img/sprite.svg#icon-cog" v-if="userLoggedIn"></use>
+               <use xlink:href="../Helpers/img/sprite.svg#icon-lock" v-else></use>
+                    </svg>
+                    <span class="side-nav__menu">Setting</span>
+                   </div>
+                    <small class="side-nav__small">sweet home</small>
                 </router-link>
             </li>
             <li class="side-nav__item">
@@ -224,6 +224,8 @@ export default {
   align-items: center;
 }
 .side-nav{
+  width: 100%;
+  height: 100%;
   font-size: 1.4rem;
   list-style: none;
   padding: 0;

@@ -99,7 +99,7 @@ export default {
      beforeRouteLeave(to,from,next){
         //  this.leaveflag=true;
         var self = this;//こうしないとthisがずれてしまう
-        if(to.path == "/forum" || "/ask" || "/category"){
+        if(to.path == "/forum" || to.path == "/ask" || to.path == "/category"){
             self.$store.dispatch("changeTransition_Router","HomeToRead")
             self.$store.dispatch("changeTransition_Tool","fade-up")
            self.$eventBus.$emit("changeToolbarMode")
@@ -240,7 +240,7 @@ export default {
      beforeRouteEnter(to,from,next){
       next(vm => {
           var  self = vm;
-          if(from.path == "/forum" || "/ask" || "/category"){
+          if(from.path == "/forum" || from.path == "/ask" || from.path == "/category"){
             self.$store.dispatch("changeTransition_Router","ReadToHome")
             self.$store.dispatch("changeTransition_Tool","fade-up")
         }else if(from.path == "/"){

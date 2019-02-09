@@ -14,7 +14,8 @@ const state={
     signupflag:false,
     transition_name_router:"ReadToHome",
     transition_name_tool:"fade-up",
-    tool_read_mode:false
+    tool_read_mode:false,
+    tool_home_mode:true
 };
 
  const mutations ={
@@ -60,6 +61,10 @@ const state={
     'TooltoRead'(state,payload){
         //こっちはtoolbarの位置、2modeあってコンポーネントに入るときに切り替える
         state.tool_read_mode = payload;
+    },
+    'TooltoHome'(state,payload){
+        //こっちはtoolbarの位置、2modeあってコンポーネントに入るときに切り替える
+        state.tool_home_mode = payload;
     }
  };
 
@@ -111,6 +116,9 @@ const state={
     },
     changeToolRead:({commit},payload) => {
         commit('TooltoRead',payload);
+    },
+    changeToolHome:({commit},payload) => {
+        commit('TooltoHome',payload);
     }
  };
 
@@ -158,6 +166,9 @@ const state={
    },
    getTool_Read_Mode:state => {
        return state.tool_read_mode;
+   },
+   getTool_Home_Mode:state => {
+    return state.tool_home_mode;
    }
  };
 

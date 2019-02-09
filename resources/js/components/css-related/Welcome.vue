@@ -181,6 +181,7 @@ export default {
         .to([self.$refs.shadow_1,self.$refs.shadow_2,self.$refs.shadow_3,self.$refs.shadow_4,self.$refs.shadow_5,self.$refs.shadow_6],.5,{opacity:0},"scene2 -=.15")
         .add("scene3")
         .to(self.$refs.carrousel,0.00000001,{onStart:function(){
+            self.$store.dispatch("changeToolHome",false)
             next()
         }})
 
@@ -246,7 +247,7 @@ export default {
             self.$store.dispatch("changeTransition_Router","HomeToHome")
             self.$store.dispatch("changeTransition_Tool","fade-up")
         }
-             self.$store.dispatch("changeToolRead",false)
+             self.$store.dispatch("changeToolHome",true)
 
          var tm0 = new TimelineMax()
          tm0.to(self.$refs.carrousel,0.0001,{onStart:function(){

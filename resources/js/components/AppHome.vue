@@ -2,8 +2,8 @@
  <div class="entiregrid" ref="grid_master">
   <modal v-if="modalflag" @close="changeModalFlag"></modal>
 
-  <sidebar class="toolbar-read" v-if="isRead"></sidebar>
-  <toolbar class="toolbar" ref="toolbar_grid" v-else></toolbar>
+  <awesome-sidebar class="toolbar-read" v-if="isRead"></awesome-sidebar>
+  <toolbar class="toolbar" ref="toolbar_grid" v-if="isHome"></toolbar>
 
 
    <router-view :class="comp_view" ref="router-grid"></router-view>
@@ -18,8 +18,8 @@
 
 
 <script>
-import toolbar from "./Toolbar"
-import sidebar from "./Sidebar"
+import toolbar from "./Toolbar";
+import AwesomeSidebar from "./AwesomeSidebar";
 import AppFooter from "./AppFooter";
 import Login from "./login/Login";
 import Modal from "../components/expantion/Modal";
@@ -54,7 +54,7 @@ export default {
     //       this.transition_name_tool = "wipe"
     //   }
 
- components:{toolbar,AppFooter,Login,Modal,HomeDescription},//toolbarはtoolbar:toolbarの略
+ components:{toolbar,AppFooter,Login,Modal,HomeDescription,AwesomeSidebar},//toolbarはtoolbar:toolbarの略
 
 created(){
     this.listen()
@@ -86,8 +86,14 @@ computed:{
         return this.$store.getters.getTransitionRouter;
     },
     isRead(){
-        //これは各enter時に切り替わるhomeに入るときはfalse、Readに入るときはtrueとしている
+        //Readから出るときはfalseでoff、isHomeはまだtrueにしない、Readに入るときにtrue
+        console.log("changed_mode")
         return this.$store.getters.getTool_Read_Mode;
+    },
+    isHome(){
+      //Homeから出るときにfalseでoff、だがisReadはまだtrueにしない、Homeに入るときにtrue,なのでHomeから出るときは両方offで入るときにReadだけonになる、逆も同じ
+        console.log("changed_mode")
+        return this.$store.getters.getTool_Home_Mode;
     }
 
 },
@@ -248,7 +254,7 @@ methods:{
 
 .entiregrid{
     display:grid;
-    grid-template-columns: 13rem 1fr;
+    grid-template-columns: 19rem 1fr;
     grid-template-rows: 8rem minmax(100rem,max-content) 10rem;
     position:relative;
     background-image: linear-gradient(to top, #c4c5c7 0%, #dcdddf 52%, #ebebeb 100%);
@@ -269,7 +275,8 @@ methods:{
 .toolbar-read{
        grid-column:1/1;
        grid-row:1/3;
-       background-color: black;
+       display:flex;
+      flex-direction: column;
 
 }
 .router-view{

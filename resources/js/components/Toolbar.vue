@@ -93,6 +93,8 @@ export default {
           var self = this;
           self.$eventBus.$on("changeToolbarMode",() => {
                //あるルートから出るときと入るときで都合二回呼ばれることになる
+               //こっちではfade-upの処理、fade-sideとwipeはsidebarへ
+               console.log("mainmodeok?")
                var ToolMode = self.$store.getters.getTransitionTool;
                var ReadMode = self.$store.getters.getTransitionRouter;
               if(ToolMode == "fade-up"){
@@ -107,19 +109,6 @@ export default {
                      var tm_tool1 = new TimelineMax();
     　　　　　　　　　tm_tool1.fromTo(self.$refs.toolbar,1,{y:-200,opacity:0},{y:0,opacity:1})
                 }
-              }
-              else if(ToolMode == "fade-side"){
-                if(ReadMode == "HomeToRead"){
-                    var tm_tool1 = new TimelineMax();
-    　　　　　　　　　tm_tool1.fromTo(self.$refs.toolbar,1,{x:-200,y:0,opacity:0},{x:0,y:0,opacity:1})
-                       　
-                }else if(ReadMode == "ReadToHome"){
-                      var tm_tool1 = new TimelineMax();
-    　　　　　　　　　tm_tool1.to(self.$refs.toolbar,1,{x:-200,opacity:0})
-                }
-              }
-              else if(ToolMode == "wipe"){
-
               }
           })
       }

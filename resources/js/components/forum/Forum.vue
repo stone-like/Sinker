@@ -31,19 +31,33 @@ export default {
   beforeRouteEnter(to,from,next){
       next(vm => {
           var  self = vm;
+          //sidebarのactiveを外したりつけたり処理するここはforumなのでactiveをforumにつけてfrom.pathの所を外す
           if(from.path == ("/ask" || "/category")){
             self.$store.dispatch("changeTransition_Router","ReadToRead")
             self.$store.dispatch("changeTransition_Tool","wipe")
+
+         self.$store.dispatch("changeToolRead",true)
+         var tm0 = new TimelineMax();
+
+         tm0.to(self.$refs.entire_forum,0.0001,{
+             onStart:function(){
+                 self.$eventBus.$emit("changeSidebarMode","/forum")
+                 self.$eventBus.$emit("entireFade","visible")
+
+             }
+         })
+         .add("scene1")
+
         }else if(from.path == "/welcome"){
             self.$store.dispatch("changeTransition_Router","HomeToRead")
             self.$store.dispatch("changeTransition_Tool","fade-side")
-         self.$store.dispatch("changeToolRead",true)
 
+         self.$store.dispatch("changeToolRead",true)
          var tm0 = new TimelineMax();
 
-         tm0.to(self.$refs.entire_forum,0.00000001,{
+         tm0.to(self.$refs.entire_forum,0.0001,{
              onStart:function(){
-                 self.$eventBus.$emit("changeToolbarMode")
+                 self.$eventBus.$emit("changeSidebarMode","/forum")
                  self.$eventBus.$emit("entireFade","visible")
 
              }
@@ -57,18 +71,14 @@ export default {
       var self = this;
 
        if(to.path == ("/ask" || "/category")){
-            self.$store.dispatch("changeTransition_Router","ReadToRead")
+            self.$store.dispatch("changeTransition_Router","ReadToRead_leave")
             self.$store.dispatch("changeTransition_Tool","wipe")
-        }else if(to.path == "/welcome"){
-            console.log("towelcome")
-            self.$store.dispatch("changeTransition_Router","ReadToHome")
-            self.$store.dispatch("changeTransition_Tool","fade-side")
 
-         var tm0 = new TimelineMax();
+            var tm0 = new TimelineMax();
 
-         tm0.to(self.$refs.entire_forum,0.00000001,{
+            tm0.to(self.$refs.entire_forum,0.00000001,{
              onStart:function(){
-                 self.$eventBus.$emit("changeToolbarMode")
+                 self.$eventBus.$emit("changeSidebarMode",to.path)
                  self.$eventBus.$emit("entireFade","invisible")
 
              }
@@ -76,6 +86,29 @@ export default {
          .add("scene1")
          .to(self.$refs.entire_forum,0.00000001,{
              onStart:function(){
+                 //完全にアニメーションが終わったらv-ifでsidebarを消す(ただし今回はReadToReadなのでtoolbarに切り替える必要はないので消さなくていい)
+                 self.$store.dispatch("changeToolRead",false)
+                 next()
+
+             }
+         },"scene1+=1")
+        }else if(to.path == "/welcome"){
+            self.$store.dispatch("changeTransition_Router","ReadToHome")
+            self.$store.dispatch("changeTransition_Tool","fade-side")
+
+         var tm0 = new TimelineMax();
+
+         tm0.to(self.$refs.entire_forum,0.00000001,{
+             onStart:function(){
+                 self.$eventBus.$emit("changeSidebarMode")
+                 self.$eventBus.$emit("entireFade","invisible")
+
+             }
+         })
+         .add("scene1")
+         .to(self.$refs.entire_forum,0.00000001,{
+             onStart:function(){
+                 self.$store.dispatch("changeToolRead",false)
                  next()
 
              }

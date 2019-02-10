@@ -26,3 +26,11 @@ Broadcast::channel('deleteReplyChannel', function () {
 Broadcast::channel('addReplyChannel', function () {
     return true;//ここにchannelの認可を書く、このままだと全ユーザーになってしまう
 });
+
+Broadcast::channel('addQuestionChannel', function () {
+    return true;//ここにchannelの認可を書く、このままだと全ユーザーになってしまう
+});
+
+Broadcast::channel('deleteQuestionChannel', function () {
+    return true;//ここにchannelの認可を書く、このままだと全ユーザーになってしまう
+});

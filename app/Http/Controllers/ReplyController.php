@@ -50,7 +50,7 @@ class ReplyController extends Controller
           $user=$question->user;//この質問をした人のusertableオブジェクト
           if($user->id != $reply->user_id){
               //もし質問者($user->id)とreplyの人($reply->user_id)が違ったら通知、自作自演で通知はなし
-          $user->notify(new NewReplyNotification($reply));//今自分が送ったリプライの全情報を送った
+          $user->notify(new NewReplyNotification($reply));//今自分が送ったリプライの全情報を送った,質問者の人がゲット
           }
           broadcast(new AddReplyEvent(new ReplyResource($reply)))->toOthers();
           return response(['reply' => new ReplyResource($reply)],Response::HTTP_CREATED);

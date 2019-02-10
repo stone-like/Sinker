@@ -1,4 +1,6 @@
 <template>
+
+
   <v-layout>
       <v-card class="width_comp mt-2">
         <v-card-title primary-title>
@@ -20,6 +22,7 @@
 
       </v-card>
   </v-layout>
+
 </template>
 
 <script>

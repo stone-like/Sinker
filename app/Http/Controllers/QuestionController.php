@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Model\Question;
 use Illuminate\Http\Request;
+use App\Events\AddQuestionEvent;
+use App\Events\DeleteQuestionEvent;
 use App\Http\Resources\QuestionResource;
 use Symfony\Component\HttpFoundation\Response;
 use App\Notifications\DeleteQuestionNotification;
@@ -43,6 +45,7 @@ class QuestionController extends Controller
     public function store(Request $request)
     {
         $question = auth()->user()->question()->create($request->all());
+        broadcast(new AddQuestionEvent(new QuestionResource($question)))->toOthers();
         return response(new QuestionResource($question),Response::HTTP_CREATED);
     }
 
@@ -101,7 +104,9 @@ class QuestionController extends Controller
                 array_push($user_array,$user->id);
              }
         }
-        $question->delete();
+        //deleteするquestionの全情報をこの$question(tableobject)から引き出せる
+        broadcast(new DeleteQuestionEvent(new QuestionResource($question)))->toOthers();
+        $question->Delete();
         return response('Deleted',Response::HTTP_NO_CONTENT);
     }
 }

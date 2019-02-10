@@ -163,6 +163,8 @@ export default {
              }
          },"scene1+=1")
 
+        }else{
+            next()
         }
 
 

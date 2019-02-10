@@ -113,6 +113,8 @@ export default {
             self.$store.dispatch("changeTransition_Router","ReadToRead_enter")
             self.$store.dispatch("changeTransition_Tool","wipe")
 
+         //ReadToReadだからsidebarのchangeはいらない
+         self.$store.dispatch("changeToolRead",true)
          var tm0 = new TimelineMax();
 
          tm0.to(self.$refs.entire_category,0.0001,{
@@ -188,7 +190,7 @@ export default {
                  //完全にアニメーションが終わったらv-ifでsidebarを消す
                  //ReadToReadだから別に消してもいいはず
 
-                //  self.$store.dispatch("changeToolRead",false)
+                 self.$store.dispatch("changeToolRead",false)
                  next()
 
              }

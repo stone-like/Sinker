@@ -331,8 +331,8 @@ export default {
 
 
 .mycontainer{
-    margin: auto;
-    padding: 24px;
+    margin: 5rem auto 5rem auto;
+    // padding: 24px;
     width: 100%;
     display: flex;
 
@@ -349,7 +349,7 @@ export default {
   height: 100%;
   display: grid;
   grid-template-columns: repeat(3,1fr);
-  grid-template-rows: repeat(4,1fr);
+  grid-template-rows: repeat(4,minmax(1fr,min-content));
   grid-template-areas:
     'card01 card02 card03'
     'card04 card05 card06'

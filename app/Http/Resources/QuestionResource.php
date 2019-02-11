@@ -24,7 +24,8 @@ class QuestionResource extends JsonResource
             'body' => $this->body,
             'created_at' => $this->created_at->diffForHumans(),
             'user' => $this->user->name,//質問をした人の名前
-            'user_id' => $this->user_id//質問をした人のid
+            'user_id' => $this->user_id,//質問をした人のid
+            'categoly_id' => $this->category_id
         ];
     }
 }

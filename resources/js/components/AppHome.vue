@@ -327,6 +327,9 @@ methods:{
 .router-view-read{
       grid-column:2/-1;
       grid-row:1/3;
+      //sidebarの分ずらす
+      margin-left: 3rem;
+      margin-right: 3rem;
 }
 .footer{
         grid-column:1/-1;

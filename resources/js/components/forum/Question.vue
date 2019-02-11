@@ -1,8 +1,8 @@
 <template>
 
 
-  <v-layout class="entire_card">
-      <v-card class="width_comp mt-2"  @click="openCover">
+  <v-layout class="entire_card" ref="entire_card">
+      <v-card class="width_comp mt-2"  @click="openCard">
         <div class="question__cover" ref="question__cover" :style="{'background-color':cover__background}"></div>
         <v-card-title primary-title>
           <div>
@@ -33,18 +33,52 @@ export default {
      return{
        text__title:"",
        text__body:"",
-       cover__background:""
+       cover__background:"",
+       w_width:window.innerWidth,//画面の横
+       w_height:window.innerHeight,//画面の縦
+       w_x:"",
+       w_y:""
      }
  },
  props:['data'],
  methods:{
-     openCover(){
+     openCard(){
+
          var self = this;
-         var tm_cover = new TimelineMax();
-         tm_cover.to(self.$refs.question__cover,.6,{rotationX:180})
+         var tm_card = new TimelineMax();
+        //  self.$eventBus.$emit("dismissOtherCards",self.data)
+         var card = self.$refs.entire_card
+
+         //要素の画面左上からの位置
+         this.getAbsolutePosition(card)
+
+         //要素の中央の位置
+         var my_x = self.w_x + ((card.getBoundingClientRect().width)/2)
+         var my_y = self.w_y + ((card.getBoundingClientRect().height)/2)
+
+
+
+         var target_x = self.w_width/2
+         var target_y = self.w_height/2
+
+         var root_x = target_x - my_x
+         var root_y = target_y - my_y
+
+
+         tm_card.to(self.$refs.entire_card,.8,{x:root_x,y:root_y})
          .add("scene1")
-        //  .to(self.$refs.question__cover,.5,{y:-100})
-        //  .to(self.$refs.question__cover,.5,{css:{'clip-path': circle(50% at 50% 50%)}});
+     },
+     handleResize(){
+         //windowsizeが変わるたびに毎回w_widthとw_heightを変えていく
+         this.w_width = window.innerWidth;
+         this.w_height = window.innerHeight;
+     },
+     getAbsolutePosition(elm){
+         const {left,top} = elm.getBoundingClientRect();
+         const {left:bleft,top:btop} = document.body.getBoundingClientRect();
+
+         this.w_x = left -bleft;
+         this.w_y = top - btop;
      }
  },
  created(){
@@ -85,18 +119,23 @@ export default {
          break
      }
 
+     //windowsizeが変わるたびに発火
+     window.addEventListener('resize',this.handleResize)
+
 
  },
- computed:{
-     isClone(){
-         return this.clone;
-     }
+
+ beforeDestroy(){
+     window.removeEventListener('resize',this.handleResize)
  }
 }//data.pathでそれぞれ個別の質問へ行けるようにしてあげる
 
 </script>
 
 <style lang="scss">
+.entire_card{
+    transform-origin: 50% 50%;
+}
 .width_comp{
     width:100%;
 
@@ -113,5 +152,7 @@ export default {
 // .entire_card:hover .question__cover{
 //    transform: rotateX(160deg);
 // }
+
+
 
 </style>

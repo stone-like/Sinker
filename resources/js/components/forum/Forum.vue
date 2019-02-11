@@ -166,6 +166,8 @@ export default {
              }
          },"scene1+=1")
 
+        }else if(to.path == '/question/:slug'){
+            next(false)
         }else{
             next()
         }

@@ -25,7 +25,7 @@
                     </li>
                 </ul>
             　</nav>
-            　<transition-group tag="ul" class="grid_ul" name="fade" mode="out-in">
+            　<transition-group tag="ul" class="grid_ul" name="fade" mode="out-in" appear>
              　<question v-for="(question,index) in displayItems" :key="question.path" 　:data="question" :class="'question_items question_items'+ index"></question>
            　 </transition-group>
             </v-flex>
@@ -45,7 +45,7 @@ export default {
         questions:{},   //表示データ
         currentPage:0,
         size:12,       //1ページ当たりの個数
-        pageRange:10 //一回に表示されるのはのは10個まで(1,2,...10)とか(2,3,....11)とか
+        pageRange:10, //一回に表示されるのはのは10個まで(1,2,...10)とか(2,3,....11)とか
 
       }
   },
@@ -83,6 +83,7 @@ export default {
                  //覆いを外したらsidebarをだす
 
                  self.$eventBus.$emit("changeSidebarMode","/forum")
+
 
              }
          },"scene1+=0.00001")
@@ -173,6 +174,7 @@ export default {
         next(false)
   },
   computed:{
+
       pages(){
           //何ページになるか取得
           return Math.ceil(this.questions.length / this.size);

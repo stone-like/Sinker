@@ -2,12 +2,13 @@
 
 namespace App\Model;
 
-use Illuminate\Database\Eloquent\Model;
-use App\User;//ちゃんとnamespaceを指定しないとうまくいかないのでUser::とかする時は注意
+use App\Model\Tag;
+use App\Model\Like;
+use App\Model\Reply;
 use App\Model\Category;
 use App\Model\Question;
-use App\Model\Reply;
-use App\Model\Like;
+use Illuminate\Database\Eloquent\Model;
+use App\User;//ちゃんとnamespaceを指定しないとうまくいかないのでUser::とかする時は注意
 
 class Question extends Model
 {
@@ -36,6 +37,10 @@ class Question extends Model
 
     public function category(){
         return $this->belongsTo(Category::class);
+    }
+
+    public function tag(){
+        return $this->belongsToMany(Tag::class);
     }
 
     public function getRouteKeyName(){

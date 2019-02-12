@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Model\Tag;
 use App\Model\Question;
 use Illuminate\Http\Request;
 use App\Events\AddQuestionEvent;
@@ -44,7 +45,36 @@ class QuestionController extends Controller
      */
     public function store(Request $request)
     {
-        $question = auth()->user()->question()->create($request->all());
+        $question = auth()->user()->question()->create($request->except("tags_string"));
+        info($question);
+        $tags_id_array = array();
+
+        if($request->filled("tags_string")){
+            $clean = trim($request->tags_string," ");
+            $tags_array = explode(" ",$clean);
+            //[anime,music,sports]とか
+            foreach($tags_array as $tag){
+                 if(Tag::all()->where('name',$tag)->exists()){
+                      //もうtagがすでにあるなら新たにtagsに追加はしない
+                 }else{
+                     //まだないなら追加
+                     Tag::all()->create( ['name' => $tag]);
+                 }
+            }
+
+            //最後に中間テーブルにすべて追加する、tags自体重複気にしたけどこれは質問自体のtagなのですべて,それで上で新しいのも追加したからそれ含めてtagsのidをとってくる,なのでtagsの名前からidに変える作業に入る　今tags_arrayには名前が入っている
+
+            foreach($tags_array as $tag){
+                //上ではまだ新しいのを追加していなかったのでwhereで取得できなかったが今はできる,まぁインスタンス使ってid取得を直後にすれば行けるけど統一したかった
+                array_push($tags_id_array,Tag::all()->where('name',$tag)->id);
+            }
+            $question->tag()->attach($tags_id_array);
+
+        }else{
+
+        }
+
+
         broadcast(new AddQuestionEvent(new QuestionResource($question)))->toOthers();
         return response(new QuestionResource($question),Response::HTTP_CREATED);
     }

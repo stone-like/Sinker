@@ -72,6 +72,11 @@ export default {
 
          var second_route_x = second_target_x - my_x;
          var second_route_y = second_target_y - my_y;
+
+         var route_array = [second_route_x,second_target_y]
+
+
+
          //一回目で絶対座標の中心に行ってもこのx:100とかというのは各々の最初の地点からどれくらい動いたかなので次にその中心からx:100とかしても結局元の位置から１００になってしまう、移動するときは常に絶対的な値(今回使っているroute、second_route)とか使わないとダメ
 
          //普通にしただけじゃtoで変化した分の値が引き継がれないので、setする

@@ -160,14 +160,17 @@ export default {
          .add("scene1")
          .to(self.$refs.entire_forum,0.00000001,{
              onStart:function(){
+                 console.log("yoyo")
                  self.$store.dispatch("changeToolRead",false)
                  next()
 
              }
          },"scene1+=1")
 
-        }else if(to.path == '/question/:slug'){
-            next(false)
+        }else if(to.name == 'read'){
+            self.$eventBus.$on("doneCardEvent",() => {
+                next()
+            })
         }else{
             next()
         }

@@ -2,11 +2,11 @@
 
 
   <v-layout class="entire_card" ref="entire_card">
-      <v-card class="width_comp mt-2"  @click="openCard">
+      <v-card class="width_comp mt-2">
         <div class="question__cover" ref="question__cover" :style="{'background-color':cover__background}"></div>
         <v-card-title primary-title>
           <div>
-            <h3 class="headline mb-0">
+            <h3 class="headline mb-0" @click="openCard">
                 <router-link :to="data.path">
                     {{data.title}}
                 </router-link>
@@ -24,6 +24,7 @@
       </v-card>
   </v-layout>
 
+
 </template>
 
 <script>
@@ -37,7 +38,9 @@ export default {
        w_width:window.innerWidth,//画面の横
        w_height:window.innerHeight,//画面の縦
        w_x:"",
-       w_y:""
+       w_y:"",
+       card_active:true
+
      }
  },
  props:['data'],
@@ -46,7 +49,7 @@ export default {
 
          var self = this;
          var tm_card = new TimelineMax();
-        //  self.$eventBus.$emit("dismissOtherCards",self.data)
+         self.$eventBus.$emit("dismissOtherCards",self.data)
          var card = self.$refs.entire_card
 
          //要素の画面左上からの位置
@@ -61,12 +64,32 @@ export default {
          var target_x = self.w_width/2
          var target_y = self.w_height/2
 
-         var root_x = target_x - my_x
-         var root_y = target_y - my_y
+         var route_x = target_x - my_x
+         var route_y = target_y - my_y
 
+         var second_target_x = self.w_width/7
+         var second_target_y = self.w_height/7
 
-         tm_card.to(self.$refs.entire_card,.8,{x:root_x,y:root_y})
+         var second_route_x = second_target_x - my_x;
+         var second_route_y = second_target_y - my_y;
+         //一回目で絶対座標の中心に行ってもこのx:100とかというのは各々の最初の地点からどれくらい動いたかなので次にその中心からx:100とかしても結局元の位置から１００になってしまう、移動するときは常に絶対的な値(今回使っているroute、second_route)とか使わないとダメ
+
+         //普通にしただけじゃtoで変化した分の値が引き継がれないので、setする
+
+         tm_card
+         .to(self.$refs.entire_card,.8,{x:route_x,y:route_y})
+         .to(self.$refs.entire_card,.8,{scale:1.4})
          .add("scene1")
+        // .to(self.$refs.entire_card,.8,{transform:'translate3d('+route_x+'px,'+route_y+'px,0)' })
+
+         .to(self.$refs.entire_card,.3,{x:second_route_x,y:second_route_y,rotationZ:135,scale:0.8},"scene1")
+
+　　　　　.to(self.$refs.question__cover,.3,{rotationX:160})
+       　.to(self.$refs.entire_card,.3,{rotationZ:165,repeat:2,yoyo:true})
+         .add("scene2")
+         .to(self.$refs.entire_card,0.0000000001,{onStart:function(){
+               self.$eventBus.$emit("doneCardEvent")
+         }},"scene2")
      },
      handleResize(){
          //windowsizeが変わるたびに毎回w_widthとw_heightを変えていく
@@ -79,6 +102,17 @@ export default {
 
          this.w_x = left -bleft;
          this.w_y = top - btop;
+     },
+     listen(){
+         var self = this
+         self.$eventBus.$on("dismissOtherCards",(card) => {
+             if(self.data.title === card.title){
+
+             }else{
+                 var tm_dismiss = new TimelineMax();
+                 tm_dismiss.to(self.$refs.entire_card,.7,{opacity:0,rotationY:180},"scene1 +=.3")
+             }
+         })
      }
  },
  created(){
@@ -122,22 +156,43 @@ export default {
      //windowsizeが変わるたびに発火
      window.addEventListener('resize',this.handleResize)
 
+     this.listen()
+
 
  },
 
  beforeDestroy(){
      window.removeEventListener('resize',this.handleResize)
  }
+//  beforeRouteLeave(to,from,next){
+//       var self = this;
+//       if(to.path == '/question/:slug'){
+//             // self.$eventBus.$on("doneCardEvent",() => {
+//             //     next()
+//             // })
+//             next(false)
+//       }
+//  }
 }//data.pathでそれぞれ個別の質問へ行けるようにしてあげる
 
 </script>
 
 <style lang="scss">
 .entire_card{
-    transform-origin: 50% 50%;
+    transform: translateX(0) translateY(0) scale(1);
+    transform-origin:50% 50%;
 }
+.rotateopac-leave-active{
+    opacity:1;
+    transform: rotateY(180deg);
+}
+.rotateopac-leave{
+    opacity: 0;
+}
+
 .width_comp{
     width:100%;
+     transition: transform .2s ease-in-out;
 
 }
 .question__cover{
@@ -149,9 +204,9 @@ export default {
     transition: transform .8s cubic-bezier(0,1.27,1,.93);
     transform-origin: top center;
 }
-// .entire_card:hover .question__cover{
-//    transform: rotateX(160deg);
-// }
+.width_comp:hover{
+   transform: translateY(-10px);
+}
 
 
 

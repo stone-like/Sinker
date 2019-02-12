@@ -18,6 +18,13 @@
 
         </v-select>
 
+           <v-textarea
+          box
+          name="input-7-4"
+          label="Please enter your tags,make sure space per one tag"
+          v-model="form.tags_string"
+        ></v-textarea>
+
         <markdown-editor v-model="form.body" ></markdown-editor>
 
         <v-btn color="green" type="submit">Create</v-btn>
@@ -35,7 +42,8 @@ export default {
           form:{
               title:null,
               category_id:null,
-              body:null
+              body:null,
+              tags_string:""
           },
           categories:{},
           errors:{}

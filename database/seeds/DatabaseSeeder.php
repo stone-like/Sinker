@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder
 
         factory(Tag::class,100)->create();
 
-        $tags = Tags::all();
+        $tags = Tag::all();
         // factory(Question::class,10)->create()->each(function($question) use($tags){
         //     return $question->tag()->attach(
         //         $tags->random(rand(1,15))->pluck('id')->toArray()
@@ -35,9 +35,10 @@ class DatabaseSeeder extends Seeder
         $questions = Question::all();
         foreach($questions as $question){
             $question->tag()->attach(
-                $tags->random(rand(1,15)->pluck('id')->toArray()
-                )
+                $tags->random(rand(1,15))->pluck('id')->toArray()
             );
+
         }
     }
+
 }

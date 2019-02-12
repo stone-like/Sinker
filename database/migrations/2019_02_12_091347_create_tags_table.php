@@ -15,7 +15,7 @@ class CreateTagsTable extends Migration
     {
         Schema::create('tags', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name')->unique();//ここでユニークを設定することもできる？validationいらない？
+            $table->string('name');//ここでユニークを設定することもできる？けどseedingのとき重複しちゃう気が・・・
             $table->timestamps();
         });
     }
@@ -28,5 +28,6 @@ class CreateTagsTable extends Migration
     public function down()
     {
         Schema::dropIfExists('tags');
+        $table->dropUnique('name');
     }
 }

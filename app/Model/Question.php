@@ -40,7 +40,7 @@ class Question extends Model
     }
 
     public function tag(){
-        return $this->belongsToMany(Tag::class);
+        return $this->belongsToMany(Tag::class)->withTimestamps();
     }
 
     public function getRouteKeyName(){

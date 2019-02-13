@@ -36,7 +36,6 @@ export default {
   created(){
       this.getQuestion()//createdの時はデータならどこでも使えるでいい？data（）はcomputatedとか参照できなかったけど
 
-      this.listen()
       },
   methods:{
       cancel(){

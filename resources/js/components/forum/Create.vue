@@ -21,7 +21,7 @@
            <v-textarea
           box
           name="input-7-4"
-          label="Please enter your tags,make sure space per one tag"
+          label="Please enter your tags,make sure comma per one tag"
           v-model="form.tags_string"
         ></v-textarea>
 

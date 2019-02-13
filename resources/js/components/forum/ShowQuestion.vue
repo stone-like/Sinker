@@ -14,6 +14,9 @@
 
          <v-card-text v-html="body"></v-card-text>
 
+         <edit-tag :tags_array="tags" :question="data" v-if="editTag"></edit-tag>
+         <app-tag :question="data" v-else></app-tag>
+
          <v-card-actions v-if="own">
              <v-btn icon small @click="edit">
                  <v-icon color="blue">
@@ -31,12 +34,17 @@
 </template>
 
 <script>
+import AppTag from "./AppTag"
+import EditTag from "./EditTag"
 export default {
+ components:{AppTag,EditTag},
  props:['data'],
  data(){
      return{
           own:this.$store.getters.checkown(this.data.user_id),
-          replyCount:this.data.reply_count//updateするならいじっていいけどこれは別にupdateじゃないのでpropsからこっちに移した
+          replyCount:this.data.reply_count,//updateするならいじっていいけどこれは別にupdateじゃないのでpropsからこっちに移した
+          editTag:false,
+          tags:{}
      }
  },
  computed:{
@@ -67,6 +75,8 @@ export default {
                this.replyCount--;
            }
     });
+
+    this.listen();
  },
  methods:{
     destroy(){
@@ -76,6 +86,17 @@ export default {
     },
     edit(){
         this.$emit("starteditting");
+    },
+    listen(){
+        this.$eventBus.$on("openEditTag",(from_tags) => {
+            this.tags = from_tags//[anime,manbo,game]としたい
+
+            this.editTag = true
+        })
+
+        this.$eventBus.$on("cancelEditTag",() => {
+            this.editTag = false;
+        })
     }
  }
 }

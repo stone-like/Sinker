@@ -29,6 +29,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         'App\Events\DeleteQuestionEvent' => [
             'App\Events\DeleteQuestionEventListener',
+        ],
+        'App\Events\EditTagEvent' => [
+            'App\Events\EditTagEventListener',
         ]
     ];
 

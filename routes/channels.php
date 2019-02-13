@@ -34,3 +34,7 @@ Broadcast::channel('addQuestionChannel', function () {
 Broadcast::channel('deleteQuestionChannel', function () {
     return true;//ここにchannelの認可を書く、このままだと全ユーザーになってしまう
 });
+
+Broadcast::channel('editTagChannel', function () {
+    return true;//ここにchannelの認可を書く、このままだと全ユーザーになってしまう
+});

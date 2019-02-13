@@ -14,7 +14,7 @@ export default {
        this.deleteId();
        localStorage.clear();
     //    this.$router.push({name:'forum'});
-       window.location="/forum"
+       window.location="/login"
   }
 }
 </script>

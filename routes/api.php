@@ -5,12 +5,17 @@ use App\User;
 Route::apiResource('/question','QuestionController');
 Route::apiResource('/category','CategoryController');
 Route::apiResource('/question/{question}/reply','ReplyController');
+Route::get('/{question}/tag','TagController@index');
+Route::patch('/{question}/tag','TagController@edit');
+
 
 Route::post('/like/{reply}','LikeController@likeIt');
 Route::delete('/like/{reply}','LikeController@unLikeIt');
 
 Route::post("notifications",'NotificationController@index');
 Route::post("markAsRead",'NotificationController@markAsRead');
+
+
 
 Route::group([
 

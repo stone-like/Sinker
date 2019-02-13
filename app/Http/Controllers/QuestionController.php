@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Model\Tag;
+use App\Model\Category;
 use App\Model\Question;
 use Illuminate\Http\Request;
 use App\Events\AddQuestionEvent;
@@ -50,7 +51,7 @@ class QuestionController extends Controller
 
         if($request->filled("tags_string")){
             $clean = trim($request->tags_string," ");
-            $tags_array = explode(" ",$clean);
+            $tags_array = explode(",",$clean);
             //[anime,music,sports]とか
             foreach($tags_array as $tag_single){
 
@@ -59,13 +60,24 @@ class QuestionController extends Controller
                 array_push($tags_id_array,$tag->id);
 
             }
-            dump($tags_id_array);
-            $question->tag()->attach($tags_id_array);
 
+
+        }else{
+            //タグが書かれていなかったらcategory名だけを追加するようにする
+            $category_name = Category::where('id',$request->category_id)->first()->name;
+
+            $tag = Tag::firstOrCreate(['name' => $category_name]);
+            array_push($tags_id_array,$tag->id);
+        }
+
+        //上から最大十個登録するようにする
+        $cnt = count($tags_id_array);
+        if($cnt > 10){
+            $tags_id_array = array_slice($tags_id_array,0,10);
         }else{
 
         }
-
+        $question->tag()->attach($tags_id_array);
 
         broadcast(new AddQuestionEvent(new QuestionResource($question)))->toOthers();
         return response(new QuestionResource($question),Response::HTTP_CREATED);

@@ -23,6 +23,7 @@ import ShowQuestion from './ShowQuestion'
 import EditQuestion from './EditQuestion'
 import Replies from '../reply/Replies'
 import NewReply from '../reply/NewReply'
+
 export default {
   components:{ShowQuestion,EditQuestion,Replies,NewReply},
   data(){

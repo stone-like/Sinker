@@ -14,7 +14,7 @@ class TagController extends Controller
 
     public function __construct()
     {
-        $this->middleware('JWT', ['except' => ['index','show']]);
+        $this->middleware('JWT', ['except' => ['index','show','TagToQuestion']]);
     }
     /**
      * Display a listing of the resource.
@@ -132,5 +132,19 @@ class TagController extends Controller
     public function destroy(Question $question,Tag $tag)
     {
         //
+    }
+
+    public function TagToQuestion(Request $request){
+        //これがうまくいかなかったのは多分名前を送ってうまくやったつもりだったけどdefaultではidで判別するのでたぶんダメだった
+        $tags = Tag::where('name','LIKE',"%{$request->keywords}%")->get();
+        $tags_question_array=array();
+        foreach($tags as $tag){
+            //とってきたtag一つ一つからさらに複数のquestionを得るんだけど、それがnestしているので[tag1:question5つ,tag2:question３つ]とか
+            //そうじゃなくて[question1,question2...question5//ここまでtag1の分question6...]みたいにしたいので単に$tag->questionとするだけではだめ
+            foreach($tag->question as $single_question){
+                array_push($tags_question_array,$single_question);
+            }
+        }
+        return $tags_question_array;
     }
 }

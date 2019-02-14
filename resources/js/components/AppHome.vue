@@ -2,6 +2,8 @@
  <div>
 
  <div class="wiper" ref="wiper">{{to_name}}</div>
+ <router-link to='/search'>to search</router-link>
+
  <div class="entiregrid" ref="grid_master">
   <modal v-if="modalflag" @close="changeModalFlag"></modal>
 
@@ -24,6 +26,7 @@
 <script>
 import toolbar from "./Toolbar";
 import AwesomeSidebar from "./AwesomeSidebar";
+import AppSearch from "./expantion/AppSearch";
 import AppFooter from "./AppFooter";
 import Login from "./login/Login";
 import Modal from "../components/expantion/Modal";
@@ -58,7 +61,7 @@ export default {
     //       this.transition_name_tool = "wipe"
     //   }
 
- components:{toolbar,AppFooter,Login,Modal,HomeDescription,AwesomeSidebar},//toolbarはtoolbar:toolbarの略
+ components:{toolbar,AppFooter,Login,Modal,HomeDescription,AwesomeSidebar,AppSearch},//toolbarはtoolbar:toolbarの略
 
 created(){
     this.listen()

@@ -7,6 +7,7 @@ Route::apiResource('/category','CategoryController');
 Route::apiResource('/question/{question}/reply','ReplyController');
 Route::get('/{question}/tag','TagController@index');
 Route::patch('/{question}/tag','TagController@edit');
+Route::get('/tag','TagController@TagToQuestion');
 
 
 Route::post('/like/{reply}','LikeController@likeIt');

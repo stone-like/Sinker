@@ -14,8 +14,10 @@ import Create from '../components/forum/Create'
 import CreateCategory from '../components/category/CreateCategory.vue'
 import Modal from "../components/expantion/Modal.vue"
 import Welcome from "../components/css-related/Welcome.vue"
+import AppSearch from "../components/expantion/AppSearch.vue"
 
 const routes = [
+    {path:'/search',component:AppSearch},
     {path: '/login',component: Login},
     {path:'/modal',component:Modal},
     {path: '/signup',component: Signup},

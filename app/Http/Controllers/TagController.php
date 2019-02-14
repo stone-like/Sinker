@@ -7,6 +7,8 @@ use App\Model\Category;
 use App\Model\Question;
 use App\Events\EditTagEvent;
 use Illuminate\Http\Request;
+use App\Http\Resources\TagResource;
+use App\Http\Resources\QuestionResource;
 use Symfony\Component\HttpFoundation\Response;
 
 class TagController extends Controller
@@ -138,11 +140,22 @@ class TagController extends Controller
         //これがうまくいかなかったのは多分名前を送ってうまくやったつもりだったけどdefaultではidで判別するのでたぶんダメだった
         $tags = Tag::where('name','LIKE',"%{$request->keywords}%")->get();
         $tags_question_array=array();
+
+        $check_question_id_array=array();//重複対策、idをここに入れてすでにidが出たかどうかをこの配列でcheck
         foreach($tags as $tag){
             //とってきたtag一つ一つからさらに複数のquestionを得るんだけど、それがnestしているので[tag1:question5つ,tag2:question３つ]とか
             //そうじゃなくて[question1,question2...question5//ここまでtag1の分question6...]みたいにしたいので単に$tag->questionとするだけではだめ
+
+            //ここでquestionの重複対策もしなければダメみたい
             foreach($tag->question as $single_question){
-                array_push($tags_question_array,$single_question);
+                if(!in_array($single_question->id,$check_question_id_array)){
+
+                    array_push($tags_question_array,new TagResource($single_question));
+
+                    array_push($check_question_id_array,$single_question->id);
+                }else{
+
+                }
             }
         }
         return $tags_question_array;

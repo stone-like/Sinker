@@ -13,11 +13,11 @@
           <option value="categories">By Categories</option>
       </select>
 
-      <input class="input_key" type="text" v-model="keywords">
+      <input class="input_key" type="text" v-model="keywords" @focus="display">
 
       <v-spacer></v-spacer>
 
-      <div class="result-view" v-if="flag">
+      <div class="result-view" v-if="questions">
           <ul>
               <li v-for="post in filteredList" :key="post.id">
                   <router-link :to="post.path">
@@ -45,7 +45,7 @@ export default {
           mode_sub:"",
           mode_main:"",//defaultだとそのままquestionで検索するようにする
         //   lists:{},
-        flag:false
+        // flag:false
       }
   },
   created(){
@@ -65,25 +65,26 @@ export default {
        axios.get("/api/category")
       .then(res => this.categories = res.data.data)
   },
-  computed:{
-
-     filteredList(){
-           var self = this;
-           var query = self.keywords;//ここが変化するたびに再計算されるでいい？
-        //    self.lists = null;
-
-           var target_category_id = null;
-        //    var lists = {};
-           if(self.mode_main == "tags"){
-               //毎回apiしなきゃいけないのは少しつらい・・・中間テーブルでもapi抜きでとってこれればいいけど...なんか一回遅れになって挙動が変だし/tag/と反応しない
-               axios.get("/api/tag",{ params: { keywords:self.keywords} })
+  methods:{
+       display(){
+          console.log("activated")
+       },
+       tagsFilter(){
+            // let filterList={}
+            var self = this;
+            axios.get("/api/tag",{ params: { keywords:self.keywords} })
                .then(res => {
+                  console.log(res.data)
+                  self.$store.dispatch('changeSearchList',res.data)
 
-                   self.lists = res.data
                })
                .catch(error => error.response.data)
-           }else if(self.mode_main == "categories"){
-              self.categories.forEach(function(category){
+
+            // return filterList;
+       },
+       categoriesFilter(query){
+           var target_category_id = null;
+            this.categories.forEach(function(category){
                   if(category.name.toLowerCase().includes(query.toLowerCase())){
                       target_category_id = category.id
                   }
@@ -93,34 +94,89 @@ export default {
               })
 
               if(target_category_id === null){
-                  //categoryがqueryと一致しなかったらなにもしない
+                   this.$store.dispatch('changeSearchList',{})
+                  //categoryがqueryと一致しなかったらlistを空に
                   return
               }
 
 
-               self.lists = self.questions.filter(function(question){
+               let categoryList = this.questions.filter(function(question){
 
                    return question.categoly_id === parseInt(target_category_id,10);
               })
+
+              this.$store.dispatch('changeSearchList',categoryList)
+
+       }
+  },
+  computed:{
+
+     filteredList(){
+
+          if(this.keywords == ""){
+               this.$store.dispatch('changeSearchList',{})
+              return
+          }
+           var query = this.keywords;//ここが変化するたびに再計算されるでいい？
+        //    self.lists = null;
+
+        //    var target_category_id = null;
+        //    var lists = {};
+           if(this.mode_main == "tags"){
+               //毎回apiしなきゃいけないのは少しつらい・・・中間テーブルでもapi抜きでとってこれればいいけど...なんか一回遅れになって挙動が変だし/tag/と反応しない
+
+               this.tagsFilter()
+            //     console.log(lists)
+            //    axios.get("/api/tag",{ params: { keywords:this.keywords} })
+            //    .then(res => {
+
+            //        self.lists = res.data
+            //    })
+            //    .catch(error => error.response.data)
+           }else if(this.mode_main == "categories"){
+
+              this.categoriesFilter(query)
+            //   self.categories.forEach(function(category){
+            //       if(category.name.toLowerCase().includes(query.toLowerCase())){
+            //           target_category_id = category.id
+            //       }
+            //       else{
+
+            //       }
+            //   })
+
+            //   if(target_category_id === null){
+            //       //categoryがqueryと一致しなかったらなにもしない
+            //       return
+            //   }
+
+
+            //    self.lists = self.questions.filter(function(question){
+
+            //        return question.categoly_id === parseInt(target_category_id,10);
+            //   })
            }else{
                //like検索みたいにしている
 
-               self.lists = self.questions.filter(function(question){
+               var lists = this.questions.filter(function(question){
                    return question.title.toLowerCase().includes(query.toLowerCase()) || question.body.toLowerCase().includes(query.toLowerCase());
                })
+
+               this.$store.dispatch('changeSearchList',lists)
            }
            //ここまででquestion、tags、categoriesで大元の検索結果は作った、あとは日付、降順、昇順
-               console.log(self.lists)
-           if(self.mode_sub == "ascending"){
-              self.flag=true
-              return _.orderBy(self.lists,"created_at",'asc')
+            //    console.log(lists)
+            //ここからまたmethodに移す
+           if(this.mode_sub == "ascending"){
 
-           }else if(self.mode_sub == "descending"){
-               self.flag=true
-               return _.orderBy(self.lists,"created_at",'desc')
+              return _.orderBy(this.$store.getters.getSearch_List,"created_at",'asc')
+
+           }else if(this.mode_sub == "descending"){
+
+               return _.orderBy(this.$store.getters.getSearch_List,"created_at",'desc')
            }else{
-               self.flag=true
-               return self.lists
+
+               return this.$store.getters.getSearch_List
            }
 
      }

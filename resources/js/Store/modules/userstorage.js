@@ -15,7 +15,8 @@ const state={
     transition_name_router:"ReadToHome",
     transition_name_tool:"fade-up",
     tool_read_mode:false,
-    tool_home_mode:true
+    tool_home_mode:true,
+    search_list:{}
 };
 
  const mutations ={
@@ -65,6 +66,9 @@ const state={
     'TooltoHome'(state,payload){
         //こっちはtoolbarの位置、2modeあってコンポーネントに入るときに切り替える
         state.tool_home_mode = payload;
+    },
+    'List_Mutate'(state,payload=null){
+        state.search_list = payload;
     }
  };
 
@@ -119,6 +123,9 @@ const state={
     },
     changeToolHome:({commit},payload) => {
         commit('TooltoHome',payload);
+    },
+    changeSearchList:({commit},payload) => {
+        commit('List_Mutate',payload);
     }
  };
 
@@ -169,6 +176,9 @@ const state={
    },
    getTool_Home_Mode:state => {
     return state.tool_home_mode;
+   },
+   getSearch_List:state => {
+       return state.search_list;
    }
  };
 

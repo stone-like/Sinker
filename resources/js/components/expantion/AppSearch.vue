@@ -13,13 +13,13 @@
           <option value="categories">By Categories</option>
       </select>
 
-      <input class="input_key" type="text" v-model="keywords" @focus="display">
+      <input class="input_key" type="text" v-model="keywords">
 
       <v-spacer></v-spacer>
 
-      <div class="result-view" v-if="questions">
+      <div class="result-view" v-if="this.$store.getters.getSearch_List">
           <ul>
-              <li v-for="post in filteredList" :key="post.id">
+              <li v-for="post in this.$store.getters.getSearch_List" :key="post.id">
                   <router-link :to="post.path">
                     {{post.title}}
                   </router-link>
@@ -33,59 +33,123 @@
 </template>
 
 <script>
+import {mapGetters,mapActions} from 'vuex'
 export default {
   data(){
       return{
-          keywords:"",
-          questions:{},
+        //   QueryParams:{
+        //       questions:{},
+        //       categories:{},
+        //       keywords:"",
+        //       mode_main:"",
+        //       mode_sub:""
+        //   }
+        //   keywords:"",
         //   tags:{},//タグで検索した場合そのタグがあるquestionを表示する
-          categories:{},
         //   tags_question:{},
         //   categories_question:{},
-          mode_sub:"",
-          mode_main:"",//defaultだとそのままquestionで検索するようにする
+        //   mode_sub:"",
+        //   mode_main:"",//defaultだとそのままquestionで検索するようにする
         //   lists:{},
-        // flag:false
+        // flag:false,
       }
   },
-  created(){
-      var self = this;
-      axios.get("/api/question")
-      .then(res => {
-          self.questions = res.data.data
-      })
-      .catch(error => console.log(error.response.data))
+  mounted(){
+    //   this.load()
 
-    //   axios.get("/api/tag")
-    //   .then(res => {
-    //       self.tags = res.data
-    //   })
-    //   .catch(error => console.log(error.response.data))
-
-       axios.get("/api/category")
-      .then(res => this.categories = res.data.data)
+    //initial value
+    this.$store.commit('setModeSub',{mode_sub:""})
+    this.$store.commit('setModeMain',{mode_main:""})
+    this.$store.commit('setKeywords',{keywords:""})
+    this.$store.dispatch('changeSearchList',{})
   },
   methods:{
-       display(){
-          console.log("activated")
+       load(){
+           console.log(this.QueryParams.keywords.keywords)
+           //loadで場合分けしてしまうか？
+        //   var self = this;
+
+          //getQueryParamsの中身はkeywords、mode_main、mode_subで、これはv-modelで繋がっていてここが変更されたらwatchが起動して変更された値をqueryとして送る...なんか最後だけlistをvuexに入れればいいだけな気が...,試してみたところQueryParamはcreatedのときに参照できない問題がでるのでこれはvuexに、でもそうなると値をセットしてあげなければならない
+
+      if(this.QueryParams.keywords.keywords == ""){
+                this.$store.dispatch('changeSearchList',{})
+              return
+        }else{
+
+            if(this.QueryParams.mode_main.mode_main == "tags"){
+
+
+                this.tagsFilter()
+
+
+            }else if(this.QueryParams.mode_main.mode_main == "categories"){
+
+               this.categoriesFilter(this.QueryParams.keywords.keywords)
+
+            }else{
+
+               this.questionFilter(this.QueryParams.keywords.keywords)
+
+            }
+
+            // if(this.QueryParams.mode_sub.mode_sub == "ascending"){
+
+            //    this.$store.dispatch("changeApplyList",_.orderBy(this.$store.getters.getSearch_List,"created_at",'asc'))
+
+            // }else if(this.QueryParams.mode_sub.mode_sub == "descending"){
+            //    this.$store.dispatch("changeApplyList",_.orderBy(this.$store.getters.getSearch_List,"created_at",'desc'))
+            // }else{
+            //      console.log(this.$store.getters.getSearch_List)
+            //      this.$store.dispatch("changeApplyList",this.$store.getters.getSearch_List)
+            // }
+        }
+
        },
        tagsFilter(){
             // let filterList={}
             var self = this;
-            axios.get("/api/tag",{ params: { keywords:self.keywords} })
+
+            axios.get("/api/tag",{ params: { keywords:self.QueryParams.keywords.keywords }})
                .then(res => {
                   console.log(res.data)
-                  self.$store.dispatch('changeSearchList',res.data)
+                  //ここでres.dataにfilterかけてしまうか・・・？
+                  if(this.QueryParams.mode_sub.mode_sub == "ascending"){
+
+                       var lists = _.orderBy(res.data,"created_at",'asc')
+
+                 }else if(this.QueryParams.mode_sub.mode_sub == "descending"){
+                       var lists = _.orderBy(res.data,"created_at",'desc')
+
+            }else{
+                 var lists = res.data
+
+            }
+                  self.$store.dispatch('changeSearchList',lists)
 
                })
-               .catch(error => error.response.data)
+               .catch(error => {
+                   error.response.data
+                //    this.$store.dispatch('changeApplyList',{})
+                   })
 
             // return filterList;
+
        },
        categoriesFilter(query){
+           var self = this;
+              axios.get("/api/category")
+             .then(res => self.$store.dispatch('setCategoryArray',res.data.data))//questionとかcategoryをQueryParamsにいれてそれをcomputedにおいておくとここでkeywordsから発火してきてここについたのにquestionも変化して二重発火になりそうだったのでquestionとかをQueryParamsからはずした
+
+             axios.get("/api/question")
+            .then(res => {
+            self.$store.dispatch('setQuestionArray',res.data.data)
+            })
+            .catch(error => console.log(error.response.data))
+
            var target_category_id = null;
-            this.categories.forEach(function(category){
+            self.$store.getters.getCategory_Array.forEach(function(category){
                   if(category.name.toLowerCase().includes(query.toLowerCase())){
+                      //target_category_idの精製
                       target_category_id = category.id
                   }
                   else{
@@ -94,93 +158,103 @@ export default {
               })
 
               if(target_category_id === null){
-                   this.$store.dispatch('changeSearchList',{})
+                   self.$store.dispatch('changeSearchList',{})
                   //categoryがqueryと一致しなかったらlistを空に
                   return
               }
 
 
-               let categoryList = this.questions.filter(function(question){
+               let categoryList = self.$store.getters.getQuestion_Array.filter(function(question){
 
                    return question.categoly_id === parseInt(target_category_id,10);
               })
 
-              this.$store.dispatch('changeSearchList',categoryList)
+              if(this.QueryParams.mode_sub.mode_sub == "ascending"){
 
-       }
-  },
-  computed:{
+                       var lists = _.orderBy(categoryList,"created_at",'asc')
 
-     filteredList(){
+                 }else if(this.QueryParams.mode_sub.mode_sub == "descending"){
+                       var lists = _.orderBy(categoryList,"created_at",'desc')
 
-          if(this.keywords == ""){
-               this.$store.dispatch('changeSearchList',{})
-              return
-          }
-           var query = this.keywords;//ここが変化するたびに再計算されるでいい？
-        //    self.lists = null;
+            }else{
+                 var lists = categoryList
 
-        //    var target_category_id = null;
-        //    var lists = {};
-           if(this.mode_main == "tags"){
-               //毎回apiしなきゃいけないのは少しつらい・・・中間テーブルでもapi抜きでとってこれればいいけど...なんか一回遅れになって挙動が変だし/tag/と反応しない
+            }
 
-               this.tagsFilter()
-            //     console.log(lists)
-            //    axios.get("/api/tag",{ params: { keywords:this.keywords} })
-            //    .then(res => {
+              self.$store.dispatch('changeSearchList',lists)
 
-            //        self.lists = res.data
-            //    })
-            //    .catch(error => error.response.data)
-           }else if(this.mode_main == "categories"){
+       },
+       questionFilter(query){
+           var self = this
+            axios.get("/api/question")
+            .then(res => {
+            self.$store.dispatch('setQuestionArray',res.data.data)
+            })
+            .catch(error => console.log(error.response.data))
 
-              this.categoriesFilter(query)
-            //   self.categories.forEach(function(category){
-            //       if(category.name.toLowerCase().includes(query.toLowerCase())){
-            //           target_category_id = category.id
-            //       }
-            //       else{
-
-            //       }
-            //   })
-
-            //   if(target_category_id === null){
-            //       //categoryがqueryと一致しなかったらなにもしない
-            //       return
-            //   }
-
-
-            //    self.lists = self.questions.filter(function(question){
-
-            //        return question.categoly_id === parseInt(target_category_id,10);
-            //   })
-           }else{
-               //like検索みたいにしている
-
-               var lists = this.questions.filter(function(question){
+           var question_lists = self.$store.getters.getQuestion_Array.filter(function(question){
                    return question.title.toLowerCase().includes(query.toLowerCase()) || question.body.toLowerCase().includes(query.toLowerCase());
                })
 
+            if(this.QueryParams.mode_sub.mode_sub == "ascending"){
+
+                       var lists = _.orderBy(question_lists,"created_at",'asc')
+
+                 }else if(this.QueryParams.mode_sub.mode_sub == "descending"){
+                       var lists = _.orderBy(question_lists,"created_at",'desc')
+
+            }else{
+                 var lists = question_lists
+
+            }
+
                this.$store.dispatch('changeSearchList',lists)
-           }
-           //ここまででquestion、tags、categoriesで大元の検索結果は作った、あとは日付、降順、昇順
-            //    console.log(lists)
-            //ここからまたmethodに移す
-           if(this.mode_sub == "ascending"){
-
-              return _.orderBy(this.$store.getters.getSearch_List,"created_at",'asc')
-
-           }else if(this.mode_sub == "descending"){
-
-               return _.orderBy(this.$store.getters.getSearch_List,"created_at",'desc')
-           }else{
-
-               return this.$store.getters.getSearch_List
-           }
-
+       },
+  },
+  computed:{
+      ...mapGetters({
+           //最初createdでloadを参照するときv-modelでhtmlのほうからkeywordsとかとってこれないのでvuexにしてあげる
+        //   getSearch_List,
+        //   getIsLoading
+          //ここでlist、QueryParam（keywords、mode_main、mode_sub）、Loadingを監視して、変更があればwatchが起動、QueryParam(keyword,mode_main,mode_sub)が変わるとwatchで発火するようにする
+           QueryParams:'getQueryParams'//↓がsetでここでgetみたいなもの
+      }),
+      mode_sub:{
+          set(mode_sub){
+              this.$store.commit('setModeSub',{mode_sub})
+          },
+          get(){
+             return this.QueryParams.mode_sub.mode_sub
+          }
+      },
+      mode_main:{
+          set(mode_main){
+              this.$store.commit('setModeMain',{mode_main})
+          },
+          get(){
+              return this.QueryParams.mode_main.mode_main
+          }
+      },
+      keywords:{
+         set(keywords){
+              this.$store.commit('setKeywords',{keywords})
+          },
+          get(){
+             return this.QueryParams.keywords.keywords
+          }
+      }
+    //   getQueryParams(){
+    //       return this.QueryParams;
+    //   }
+  },
+  watch:{
+     QueryParams:{
+         handler:function(val,oldval){
+              this.load()
+          },
+         deep:true//deepによりQueryParamsのkeywordとかまで監視可能
      }
-  }
+   }
 }
 </script>
 

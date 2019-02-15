@@ -2,6 +2,7 @@ import Vue from 'vue'
 import AppStorage from "../../Helpers/AppStorage"
 import Token from "../../Helpers/Token"
 import User from "../../Helpers/User"
+import Axios from 'axios';
 //tokenとかusernameの破棄と保存はここを呼び出して行う、呼び出し側はHelper/Userとかでやって実際の処理はここ
 const state={
     token:null,
@@ -16,7 +17,16 @@ const state={
     transition_name_tool:"fade-up",
     tool_read_mode:false,
     tool_home_mode:true,
-    search_list:{}
+    search_list:{},
+    apply_list:{},
+    questions:{},
+    categories:{},
+    queryParam:{
+        keywords:"",
+        mode_main:"",
+        mode_sub:""
+    },
+    isLoading:false
 };
 
  const mutations ={
@@ -69,6 +79,35 @@ const state={
     },
     'List_Mutate'(state,payload=null){
         state.search_list = payload;
+    },
+    'Apply_List'(state,payload=null){
+        state.apply_list = payload;
+    },
+    'Query_Param_Mutate'(state,payload=null){
+        state.queryParam = payload;
+    },
+    'Active_Loading'(state){
+        state.isLoading = true;
+    },
+    'Set_Search_List'(state,payload){
+        state.isLoading = false;
+        //ここでfilterをかけたい
+        state.search_list = payload;
+    },
+    'setModeSub'(state,payload){
+        state.queryParam.mode_sub = payload;
+    },
+    'setModeMain'(state,payload){
+        state.queryParam.mode_main = payload;
+    },
+    'setKeywords'(state,payload){
+        state.queryParam.keywords = payload;
+    },
+    'Question_Array_Mutate'(state,payload){
+        state.questions = payload;
+    },
+    'Category_Array_Mutate'(state,payload){
+        state.categories = payload;
     }
  };
 
@@ -126,6 +165,18 @@ const state={
     },
     changeSearchList:({commit},payload) => {
         commit('List_Mutate',payload);
+    },
+    changeApplyList:({commit},payload) => {
+        commit('Apply_List',payload);
+    },
+    changeQueryParam:({commit},payload) => {
+        commit('Query_Param_Mutate',payload);
+    },
+    setQuestionArray:({commit},payload) => {
+        commit('Question_Array_Mutate',payload);
+    },
+    setCategoryArray:({commit},payload) => {
+        commit('Category_Array_Mutate',payload);
     }
  };
 
@@ -179,7 +230,22 @@ const state={
    },
    getSearch_List:state => {
        return state.search_list;
-   }
+   },
+   getApply_List:state => {
+       return state.apply_list;
+   },
+   getQueryParams:state => {
+       return state.queryParam;
+   },
+   getIsLoading:state => {
+       return state.isLoading;
+   },
+   getQuestion_Array:state => {
+       return state.questions;
+   },
+   getCategory_Array:state => {
+    return state.categories;
+}
  };
 
 export default {

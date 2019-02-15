@@ -1,7 +1,5 @@
 <template>
   <div>
-      <h2>yeah</h2>
-
       <select class="DownUpDay" v-model="mode_sub">
           <option value="hide" selected>--SelectSearchType--</option>
           <option value="ascending">ascending day</option>
@@ -18,13 +16,38 @@
       <v-spacer></v-spacer>
 
       <div class="result-view" v-if="this.$store.getters.getSearch_List">
+          <nav v-if="pages">
+                <ul class="pagenation">
+                    <li class="page-item">
+                        <a @click="first" class="page-link" href="#">&laquo;</a>
+                    </li>
+                    <li class="page-item">
+                        <a @click="prev" class="page-link" href="#">&lt;</a>
+                    </li>
+
+                    <li
+                        v-for="i in displayPageRange"
+                        class="page-item"
+                        :class="{active: i-1 === currentPage}" :key=i>
+                     <a @click="pageSelect(i)" class="page-link" href="#">{{i}}</a>
+                    </li>
+
+                    <li class="page-item">
+                        <a @click="next" class="page-link" href="#">&gt;</a>
+                    </li>
+                    <li class="page-item">
+                        <a @click="last" class="page-link" href="#">&raquo;</a>
+                    </li>
+                </ul>
+          </nav>
           <ul>
-              <li v-for="post in this.$store.getters.getSearch_List" :key="post.id">
+              <li v-for="post in displayItems" :key="post.id">
                   <router-link :to="post.path">
                     {{post.title}}
                   </router-link>
               </li>
           </ul>
+
       </div>
 
       <!-- <router-link to="/entire_search">more result</router-link> -->
@@ -37,21 +60,9 @@ import {mapGetters,mapActions} from 'vuex'
 export default {
   data(){
       return{
-        //   QueryParams:{
-        //       questions:{},
-        //       categories:{},
-        //       keywords:"",
-        //       mode_main:"",
-        //       mode_sub:""
-        //   }
-        //   keywords:"",
-        //   tags:{},//タグで検索した場合そのタグがあるquestionを表示する
-        //   tags_question:{},
-        //   categories_question:{},
-        //   mode_sub:"",
-        //   mode_main:"",//defaultだとそのままquestionで検索するようにする
-        //   lists:{},
-        // flag:false,
+        currentPage:0,
+        size:12,       //1ページ当たりの個数
+        pageRange:10, //一回に表示されるのはのは10個まで(1,2,...10)とか(2,3,....11)とか
       }
   },
   mounted(){
@@ -92,16 +103,6 @@ export default {
 
             }
 
-            // if(this.QueryParams.mode_sub.mode_sub == "ascending"){
-
-            //    this.$store.dispatch("changeApplyList",_.orderBy(this.$store.getters.getSearch_List,"created_at",'asc'))
-
-            // }else if(this.QueryParams.mode_sub.mode_sub == "descending"){
-            //    this.$store.dispatch("changeApplyList",_.orderBy(this.$store.getters.getSearch_List,"created_at",'desc'))
-            // }else{
-            //      console.log(this.$store.getters.getSearch_List)
-            //      this.$store.dispatch("changeApplyList",this.$store.getters.getSearch_List)
-            // }
         }
 
        },
@@ -210,6 +211,40 @@ export default {
 
                this.$store.dispatch('changeSearchList',lists)
        },
+
+
+        first(){
+          //pageの先頭へ
+          this.currentPage = 0;
+          this.selectHandler();
+      },
+      last(){
+          //最後尾へ
+          this.currentPage = this.pages - 1;//全体のpageが1~10としたらcurtrentPageは0から始まるのでpageとcurrentPageのずれをなくす
+           this.selectHandler();
+      },
+      prev(){
+          if(0 < this.currentPage){
+              //最初のページでなければ
+              this.currentPage--;
+              this.selectHandler();
+          }
+      },
+      next(){
+          if(this.currentPage < this.pages - 1){
+              //次のページがあるなら
+              this.currentPage++;
+              this.selectHandler();
+          }
+      },
+      pageSelect(index){
+          //指定したページへ
+          this.currentPage = index - 1;
+          this.selectHandler();
+      },
+      selectHandler(){
+          //ページを移動したときの処理
+      }
   },
   computed:{
       ...mapGetters({
@@ -242,10 +277,69 @@ export default {
           get(){
              return this.QueryParams.keywords.keywords
           }
+      },
+      //多分apiリクエストをcomputedで飛ばしているわけじゃないから無限送信はされないと思うけど
+      pages(){
+          //何ページになるか取得
+
+          if(this.$store.getters.getSearch_List.length > 0){
+
+              return Math.ceil(this.$store.getters.getSearch_List.length / this.size);
+          }else{
+
+              return false;
+          }
+          //search_listが変わるたびにページ数も変わる
+      },
+      displayPageRange(){
+          //currentpageをaタグによるクリックから変えることによりそれに合わせてcomputedで再計算され描画も自動で変わる
+          //表示するページ番号の配列(1~10までとか3~12までとか)
+          const half = Math.ceil(this.pageRange / 2);
+          //一回に表示できる限界の半分
+
+          let start,end;
+
+          if(this.pages < this.pageRange){
+              //もしpaginationのrangeよりページ数が少なかったら
+              start = 1;
+              end = this.pages;
+          }else if(this.currentPage < half){
+              //10ページの半分5までは普通に進み、一回当たりの表示限界の半分を超えたら常にそのページが中央に来るようにする、つまりstartがどんどん2,3...とずれていく、最後の5個もそのまま中央には来ない,最初と最後の5個以外は常に中央
+
+              //最初の5個はstartが１
+              start = 1;
+              end = start + this.pageRange-1;
+          }else if(this.pages - half < this.currentPage){
+              //last5ページ
+
+              end = this.pages;
+              start = end - this.pageRange+1;
+          } else {
+              //それ以外はcurrentpageが中心でstratとendはそれに合わせる
+              start = this.currentPage - half + 1;
+              end = this.currentPage + half;
+          }
+
+          let indexes=[];
+          for(let i = start; i<=end; i++){
+              indexes.push(i);
+          }
+
+          return indexes;
+      },
+       displayItems(){
+          //currentpageをaタグによるクリックから変えることによりそれに合わせてcomputedで再計算され描画も自動で変わる
+          //1ページ当たりで表示する質問を取得,最初はcurrentPage0だからquestion全体を0~11まで切り取り、次はcurrentPage1で12~23まで切り取る
+          const head = this.currentPage *this.size;
+          return this.$store.getters.getSearch_List.length > 0 ? this.$store.getters.getSearch_List.slice(head,head+this.size) : {};
+          //最初、初期値の配列が{}となっていてこれに対してsliceをしようとするとerrorがでるので
+          //(0,12)だと0から12個目の前、つまり11個なので0,1,2~11までを切り取る
+      },
+      isSelected(page){
+          //今いるページか判定
+          return page-1 === this.currentPage;
       }
-    //   getQueryParams(){
-    //       return this.QueryParams;
-    //   }
+
   },
   watch:{
      QueryParams:{
@@ -260,20 +354,20 @@ export default {
 
 <style lang="scss">
 .DownUpDay{
-  background-color: green;
+  background-color: rgba(black,.8);
 
 }
 
 .TagOrCat{
-    background-color: green;
+    background-color:  rgba(black,.8);
 }
 
 .input_key{
-    background-color: green;
+    background-color:  rgba(black,.8);
 }
 
 .result-view{
-    background-color: green;
+    background-color:  rgba(black,.8);
     height: 30rem;
 
 }

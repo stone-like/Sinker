@@ -16,6 +16,27 @@
       <v-spacer></v-spacer>
 
       <div class="result-view" v-if="this.$store.getters.getSearch_List">
+          <div class="result-detail">
+              <div class="result-keywords">
+                     <div>
+                       Searchword
+                     </div>
+                     <h2>
+                       {{this.QueryParams.keywords.keywords}}
+                     </h2>
+              </div>
+              <div class="result-number">
+                  {{this.$store.getters.getSearch_List.length}}results
+              </div>
+              <div class="result-searchBy">
+                  <div class="result-searchBy-main">
+                    searchBy {{this.QueryParams.mode_main.mode_main}}
+                  </div>
+                  <div class="result-searchBy-sub">
+                    filter {{this.QueryParams.mode_sub.mode_sub}}
+                  </div>
+              </div>
+          </div>
           <nav v-if="pages">
                 <ul class="pagenation">
                     <li class="page-item">
@@ -40,13 +61,16 @@
                     </li>
                 </ul>
           </nav>
-          <ul>
-              <li v-for="post in displayItems" :key="post.id">
-                  <router-link :to="post.path">
+          <transition-group tag="ul" name="move_fade" mode="out-in" class="post_list">
+              <li v-for="post in displayItems" :key="post.path" class="post_item">
+                  <router-link :to="post.path" class="post_link">
                     {{post.title}}
                   </router-link>
+                  <div class="post_body">
+                    {{post.body}}
+                  </div>
               </li>
-          </ul>
+          </transition-group>
 
       </div>
 
@@ -71,8 +95,9 @@ export default {
     //initial value
     this.$store.commit('setModeSub',{mode_sub:""})
     this.$store.commit('setModeMain',{mode_main:""})
-    this.$store.commit('setKeywords',{keywords:""})
-    this.$store.dispatch('changeSearchList',{})
+    // this.$store.commit('setKeywords',{keywords:""})
+    // this.$store.dispatch('changeSearchList',{})
+    //この二つは小さいsearchboxから引っ張ってくる
   },
   methods:{
        load(){
@@ -348,27 +373,112 @@ export default {
           },
          deep:true//deepによりQueryParamsのkeywordとかまで監視可能
      }
+   },
+   beforeRouteLeave(to,from,next){
+      this.$store.dispatch('setSearchBoxFlag',true)
+      next()
    }
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+.result-detail{
+    padding:1.4rem 0 1.4rem 2.4rem;
+}
+.result-keywords{
+  display: flex;
+  font-size: 2rem;
+  margin-bottom: 1.3rem;
+
+  h2{
+      margin-left: 2rem;
+  }
+}
+.result-number{
+    font-size: 2rem;
+    margin-bottom: 1.3rem;
+}
+
+.result-searchBy{
+    font-size: 2rem;
+
+}
+.result-searchBy-main{
+    margin-bottom: 1.3rem;
+}
+
 .DownUpDay{
-  background-color: rgba(black,.8);
+  background-color: white;
 
 }
 
 .TagOrCat{
-    background-color:  rgba(black,.8);
+    background-color:  white;
 }
 
 .input_key{
-    background-color:  rgba(black,.8);
+    background-color:  white;
 }
 
 .result-view{
-    background-color:  rgba(black,.8);
-    height: 30rem;
+    background-color:  white;
 
+
+}
+
+.pagenation{
+    display: flex;
+    flex-grow: 1;
+    justify-content: space-around;
+}
+.page-item{
+  list-style: none;
+  height:2.5rem;
+  width:2.5rem;
+
+}
+
+.page-link{
+  text-decoration: none;
+  height:2.5rem;
+  width:2.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+}
+
+.post_list{
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    height: 100%;
+    width: 100%;
+
+
+
+}
+.post_item{
+
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid grey;
+
+}
+.post_link{
+    text-decoration: none;
+    font-size: 1.6rem;
+    color:blue;
+    margin-bottom: .4rem;
+
+}
+.post_body{
+   color: black;
+}
+
+.result-view{
+    height: 100%;
+    width: 100%;
 }
 </style>

@@ -38,7 +38,7 @@
                 </router-link>
             </li>
             <li class="side-nav__item">
-                <router-link to="/welcome"  class="side-nav__link">
+                <router-link to="/userprofile"  class="side-nav__link">
                   <div class="side-nav__main">
                     <svg class="side-nav__icon">
                          <use xlink:href="../Helpers/img/sprite.svg#icon-v-card" v-if="userLoggedIn"></use>

@@ -26,7 +26,8 @@ const state={
         mode_main:"",
         mode_sub:""
     },
-    isLoading:false
+    isLoading:false,
+    search_box_on:true
 };
 
  const mutations ={
@@ -108,6 +109,9 @@ const state={
     },
     'Category_Array_Mutate'(state,payload){
         state.categories = payload;
+    },
+    'SearchBox_Mutate'(state,payload){
+        state.search_box_on = payload;
     }
  };
 
@@ -177,6 +181,9 @@ const state={
     },
     setCategoryArray:({commit},payload) => {
         commit('Category_Array_Mutate',payload);
+    },
+    setSearchBoxFlag:({commit},payload) => {
+        commit('SearchBox_Mutate',payload);
     }
  };
 
@@ -245,7 +252,10 @@ const state={
    },
    getCategory_Array:state => {
     return state.categories;
-}
+},
+  getSearch_Flag:state => {
+      return state.search_box_on;
+  }
  };
 
 export default {

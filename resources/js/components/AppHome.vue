@@ -2,7 +2,10 @@
  <div>
 
  <div class="wiper" ref="wiper">{{to_name}}</div>
- <router-link to='/search'>to search</router-link>
+ <!-- <router-link to='/search'>to search</router-link> -->
+ <transition name="open_opacity">
+  <search-box class="search_box" v-if="isRead&&this.$store.getters.getSearch_Flag"></search-box>
+ </transition>
 
  <div class="entiregrid" ref="grid_master">
   <modal v-if="modalflag" @close="changeModalFlag"></modal>
@@ -24,6 +27,8 @@
 
 
 <script>
+import TransitionExpand from "./transition-effects/TransitionExpand"
+import SearchBox from "./expantion/SearchBox"
 import toolbar from "./Toolbar";
 import AwesomeSidebar from "./AwesomeSidebar";
 import AppSearch from "./expantion/AppSearch";
@@ -61,7 +66,7 @@ export default {
     //       this.transition_name_tool = "wipe"
     //   }
 
- components:{toolbar,AppFooter,Login,Modal,HomeDescription,AwesomeSidebar,AppSearch},//toolbarはtoolbar:toolbarの略
+ components:{toolbar,AppFooter,Login,Modal,HomeDescription,AwesomeSidebar,AppSearch,SearchBox,TransitionExpand},//toolbarはtoolbar:toolbarの略
 
 created(){
     this.listen()
@@ -224,6 +229,26 @@ methods:{
 </script>
 
 <style lang="scss" scoped>
+.open_opacity-enter{
+    transform: scaleY(0) !important;//こうしても中の要素に合わされてしまうので0スタートとはならない
+    opacity: 0 !important;
+}
+.open_opacity-enter-active{
+    transition: all .6s cubic-bezier(0.77, 0, 0.175, 1);
+    transform: scaleY(1);
+    opacity: 1;
+
+}
+
+.open_opacity-leave-active{
+    transition: all .6s cubic-bezier(0.77, 0, 0.175, 1);
+     transform: scaleY(1);
+    opacity: 1;
+    }
+.open_opacity-leave-to{
+   transform: scaleY(0);
+   opacity: 0;
+}
 .slide-fade-enter-active{
     transition:all .1s cubic-bezier(1.0, 0.5, 0.8, 1.0);
 }
@@ -279,6 +304,13 @@ methods:{
     //これがreadからhomeに出たあとの挙動
     transform: translateX(-300px);
     opacity: 0;
+}
+.search_box{
+    // position:absolute;
+    top:0;
+    right:0;
+     z-index:99;
+     position: fixed;
 }
 .wiper{
     //最初から画面いっぱい100vhとっておいてそれを丸ごと左に隠しておいて引っ張ってくればよい？

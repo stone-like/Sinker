@@ -7,7 +7,7 @@
   <search-box class="search_box" v-if="isRead&&this.$store.getters.getSearch_Flag"></search-box>
  </transition>
 
- <div class="entiregrid" ref="grid_master">
+ <div :class="comp_entire_grid" ref="grid_master">
   <modal v-if="modalflag" @close="changeModalFlag"></modal>
 
   <awesome-sidebar class="toolbar-read" v-if="isRead"></awesome-sidebar>
@@ -47,7 +47,8 @@ export default {
             number:"",
             transition_name_router:"",
             transition_name_tool:"",
-            to_name:""
+            to_name:"",
+            GridUserFlag:false
 
         }
     },
@@ -86,6 +87,9 @@ computed:{
         return this.$store.getters.getTool_Read_Mode ? "toolbar-read" :"toolbar";
     },
     comp_view(){
+        if(this.GridUserFlag){
+            return "router_user_grid";
+        }
         return this.$store.getters.getTool_Read_Mode? "router-view-read" : "router-view";
     },
     comp_foot(){
@@ -106,6 +110,9 @@ computed:{
       //Homeから出るときにfalseでoff、だがisReadはまだtrueにしない、Homeに入るときにtrue,なのでHomeから出るときは両方offで入るときにReadだけonになる、逆も同じ
         console.log("changed_mode")
         return this.$store.getters.getTool_Home_Mode;
+    },
+    comp_entire_grid(){
+          return this.$store.getters.getTool_Read_Mode? "entiregrid-read" : "entiregrid";
     }
 
 },
@@ -212,6 +219,11 @@ methods:{
          var tm_wipe = new TimelineMax();
          tm_wipe.fromTo(this.$refs.wiper,1,{css:{transform:'translateX(0%)'},ease:Power1.easeOut},{css:{transform:'translateX(-105%)'}})
        })
+
+       this.$eventBus.$on("changeGridUser",(boolean) => {
+
+               this.GridUserFlag = boolean;
+       })
   },
   leaveEl(el){
 
@@ -222,6 +234,7 @@ methods:{
     this.$eventBus.$off("entireFade")
     this.$eventBus.$off("wipeEffectStart")
     this.$eventBus.$off("wipeEffectRemove")
+    this.$eventBus.$off("changeGridUser")
   }
 
  }
@@ -335,6 +348,14 @@ methods:{
     background-image: linear-gradient(to top, #c4c5c7 0%, #dcdddf 52%, #ebebeb 100%);
 
 }
+
+.entiregrid-read{
+    display:grid;
+    grid-template-columns: 19rem 1fr;
+    grid-template-rows: 8rem minmax(100rem,max-content) 10rem;
+    position:relative;
+    background-color:#dcdddf;
+}
 .toolbar{
 
        grid-column: 1/3;
@@ -365,6 +386,12 @@ methods:{
       //sidebarの分ずらす
       margin-left: 3rem;
       margin-right: 3rem;
+}
+
+.router_user_grid{
+    grid-column:1/-1;
+    grid-row:1/3;
+
 }
 .footer{
         grid-column:1/-1;

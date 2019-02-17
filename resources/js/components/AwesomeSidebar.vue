@@ -110,7 +110,8 @@ export default {
           ask:false,
           setting:false,
           home:false,
-          category:false
+          category:false,
+          isInvisible:false
       }
     },
  computed:{
@@ -170,6 +171,10 @@ export default {
                    }
               }
           })
+
+        //   self.$eventBus.$on("invisibleSidebar",(boolean) => {
+        //       self.isInvisivle = boolean;
+        //   })
       },
       setActive(topath){
         if(topath == "/forum"){
@@ -224,12 +229,13 @@ export default {
     // justify-content: space-around;
     height: 60vh;
     position: fixed;
-    z-index:1;
+    z-index:2;
     top:0;
     left:0;
     overflow-x: hidden;
     margin-top: 20vh;//常に中心に来るように
     border-radius: 2px;
+    box-shadow:0px 0px 1.5px 0px #808080;
 
 
     //中身を中心へ

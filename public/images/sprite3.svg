@@ -1,0 +1,16 @@
+<svg aria-hidden="true" style="position: absolute; width: 0; height: 0; overflow: hidden;" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<defs>
+<symbol id="icon-direction" viewBox="0 0 20 20">
+<title>direction</title>
+<path d="M18.060 1.941c-0.586-0.586-1.144-0.033-3.041 0.879-5.075 2.439-13.919 7.396-13.919 7.396l7.599 1.084 1.085 7.599c0 0 4.958-8.843 7.396-13.916 0.912-1.898 1.465-2.456 0.88-3.042zM16.236 3.896l-5.519 10.247-0.561-4.655 6.080-5.592z"></path>
+</symbol>
+<symbol id="icon-log-out" viewBox="0 0 20 20">
+<title>log-out</title>
+<path d="M19 10l-6-5v3h-7v4h7v3l6-5zM3 3h8v-2h-8c-1.1 0-2 0.9-2 2v14c0 1.1 0.9 2 2 2h8v-2h-8v-14z"></path>
+</symbol>
+<symbol id="icon-login" viewBox="0 0 20 20">
+<title>login</title>
+<path d="M14 10l-6-5v3h-7v4h7v3l6-5zM17 17h-8v2h8c1.1 0 2-0.9 2-2v-14c0-1.1-0.9-2-2-2h-8v2h8v14z"></path>
+</symbol>
+</defs>
+</svg>

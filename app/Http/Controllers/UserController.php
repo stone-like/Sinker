@@ -32,4 +32,15 @@ class UserController extends Controller
              "total_replies" => $total_replies
          ];
     }
+
+    public function getRecent(){
+        $user = Auth::user();
+        $recent_posts = Question::where('user_id',$user->id)->LIMIT(5)->get();
+        $recent_replies = Reply::where('user_id',$user->id)->LIMIT(5)->get();
+
+        return [
+          "recent_posts" => $recent_posts,
+          "recent_replies" => $recent_replies
+        ];
+    }
 }

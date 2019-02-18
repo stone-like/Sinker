@@ -10,6 +10,9 @@ Route::patch('/{question}/tag','TagController@edit');
 Route::get('/tag','TagController@TagToQuestion');
 
 Route::get('/user','UserController@getEntireData');
+Route::post('/user','UserController@getRecent');
+
+
 
 
 Route::post('/like/{reply}','LikeController@likeIt');

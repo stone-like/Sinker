@@ -22,13 +22,44 @@
         <transition-group tag="div" name="list" :class="comp_list">
 
               <div class="items main_menu_message" key="message">
-                   {{main_menu_massage}}
+                   {{current_route}}
               </div>
-              <div class="notification_count" key="notification_count" v-if="!active">
+              <div class="notification_count" key="notification_count" v-if="this.current_route =='Notification'">
                   {{unreadCount + (unreadCount > 0 ? "unreads" : "unread")}}
               </div>
+
+               <div class="items route_current" key="route_current">
+
+                    <svg class="route_icon">
+                         <use xlink:href="../Helpers/img/sprite4.svg#icon-triangle-right"></use>
+                    </svg>
+                    <span class="route_text">
+                      {{current_route}}
+                    </span>
+              </div>
+
+              <div class="items route_next" @click="route_change_next" key=route_next>
+
+                    <!-- <svg class="route_icon">
+                         <use xlink:href="../Helpers/img/sprite4.svg#icon-triangle-right"></use>
+                    </svg> -->
+                    <span class="route_text">
+                      {{next_route}}
+                    </span>
+              </div>
+
+              <div class="items route_from" @click="route_change_prev" key=route_from>
+
+                    <!-- <svg class="route_icon">
+                         <use xlink:href="../Helpers/img/sprite3.svg#icon-triangle-right"></use>
+                    </svg> -->
+                    <span class="route_text">
+                      {{prev_route}}
+                    </span>
+              </div>
+
               <div class="items main_menu_body" key="body">
-                  <transition-group tag="ul" name="notification_list" class="notification" v-if="!active">
+                  <transition-group tag="ul" name="notification_list" class="notification" v-if='current_route =="Notification"'>
                        <li v-for="(item,index) in unread" :key="item.id" class="unread_item">
                            <div class="unread_color">
                            </div>
@@ -48,7 +79,7 @@
                            </router-link>
                        </li>
                   </transition-group>
-                  <transition-group tag="ul" name="notification_list" class="notification" v-if="!active">
+                  <transition-group tag="ul" name="notification_list" class="notification" v-if='current_route =="Notification"'>
                        <li v-for="item in read" :key="item.id" class="read_item">
                                <div class="read_color">
                                </div>
@@ -67,7 +98,7 @@
                        </li>
                   </transition-group>
 
-                  <div v-else>
+                  <div v-if='current_route =="User_status"'>
 
 
                       <div class="user_items">
@@ -113,11 +144,36 @@
 
 
                   </div>
+
+                  <div class="recent_activity" v-if='current_route =="Activity"'>
+                       <ul class="recent_posts">
+                              <span>Recent_Posts</span>
+                          <li v-for="post in recent_posts" :key="post.id">
+                              <div class="post_title">
+                               {{post.title}}
+                              </div>
+                              <div class="post_body">
+                               {{post.body}}
+                              </div>
+                          </li>
+                       </ul>
+                       <ul class="recent_replies">
+                           <span>Recent_Reolies</span>
+                           <li v-for="reply in recent_replies" :key="reply.id">
+                               <div class="reply_title">
+                                {{reply.title}}
+                               </div>
+                               <div class="reply_body">
+                                {{reply.body}}
+                               </div>
+                           </li>
+                       </ul>
+                  </div>
               </div>
 
         </transition-group>
 
-        <v-btn class="dummy" @click="change_shapes">pushToActive</v-btn>
+
         </div>
 
 
@@ -134,19 +190,23 @@ import {TweenMax,bezier,DirectionalRotationPlugin,CSSPlugin} from "gsap"
 export default {
     data(){
         return{
-            active:false,
             timenow:"",
-            main_menu_massage:"Notification",
             unread:"",
             read:"",
             unreadCount:0,
-            user:{}
+            user:{},
+            next_route:"User_status",
+            prev_route:"Activity",
+            current_route:"Notification",
+            recent_replies:{},
+            recent_posts:{}
         }
     },
     mounted(){
        this.getNotifications();
        this.starttime_val();
        this.getUser();
+       this.getRecent();
 
         Echo.private('App.User.' + this.$store.getters.getId)
         .notification((notification) => {
@@ -155,10 +215,7 @@ export default {
     });
     },
     methods:{
-        change_shapes(){
-             this.active=!this.active
-             this.main_menu_massage = "User status"
-        },
+
         set_timeval(){
             console.log("count")
             let time = new Date();
@@ -202,17 +259,76 @@ export default {
               console.log(res.data)
               this.user = res.data
           })
+      },
+      route_change_next(){
+          //routeは全部で3つあってどこか1つには絶対いるので常に2ルート表示できるようにする
+          //初期状態をnotificationとして、最初はnotificationにいるようにする、そのときはuser_statusとactivityを表示
+
+          if(this.current_route == "Notification"){
+              this.current_route = "User_status";
+               this.next_route = "Activity";
+              this.prev_route = "Notification";
+          }else if(this.current_route == "User_status"){
+              this.current_route = "Activity";
+              this.next_route = "Notification";
+              this.prev_route = "User_status";
+          }else if(this.current_route == "Activity"){
+               this.current_route = "Notification";
+              this.next_route = "User_status";
+              this.prev_route = "Activity";
+          }
+      },
+      route_change_prev(){
+          //routeは全部で3つあってどこか1つには絶対いるので常に2ルート表示できるようにする
+          //初期状態をnotificationとして、最初はnotificationにいるようにする、そのときはuser_statusとactivityを表示
+
+          if(this.current_route == "Notification"){
+               this.current_route = "Activity";
+              this.next_route = "Notification";
+              this.prev_route = "User_status";
+          }else if(this.current_route == "User_status"){
+               this.current_route = "Notification";
+              this.next_route = "User_status";
+              this.prev_route = "Activity";
+          }else if(this.current_route == "Activity"){
+                this.current_route = "User_status";
+               this.next_route = "Activity";
+              this.prev_route = "Notification";
+          }
+      },
+      getRecent(){
+          //questionと
+          axios.post("/api/user")
+          .then(res => {
+              this.recent_posts = res.data.recent_posts
+              this.recent_replies = res.data.recent_replies
+          })
+          .catch(error => error.response.data)
+
+          //replyでそれぞれ最新5つまでとってくる、別にこっちで5つに絞ってもいいけど
       }
     },
     computed:{
        comp_list(){
-           return this.active ? "list_position active" : "list_position"
+           if(this.current_route == "Notification"){
+              return "list_position notification";
+           }else if(this.current_route =="Activity"){
+               return "list_position activity";
+           }else if(this.current_route == "User_status"){
+               return "list_position user_status";
+           }
        },
        comp_timenow(){
            return this.timenow;
        },
        comp_upper_area(){
-           return this.active ? "upper_area-profile active" : "upper_area-profile";
+           if(this.current_route == "Notification"){
+              return "upper_area-profile notification";
+           }else if(this.current_route =="Activity"){
+               return "upper_area-profile activity";
+           }else if(this.current_route == "User_status"){
+               return "upper_area-profile user_status";
+           }
        }
     },
     beforeRouteEnter(to,from,next){
@@ -225,33 +341,6 @@ export default {
         var tm_user_profile = new TimelineMax();
         tm_user_profile
         .add("scene1")
-
-
-        // clip-path: polygon(100% 0, 0 0, 0 100%)　upperstartpoints、これをarrayに落とし込むと[100,0,0,0,0,100]
-
-        //clip-path: polygon(100% 0, 0 0, 0 40%); upperendpoints
-
-        // var arr1 = [100,0,0,0,0,100];
-        // var arr2 = [100,0,0,0,0,40];
-
-        // tm_user_profile.to(arr1, 3, { endArray: arr2, onUpdate: clipPath});
-
-        // function clipPath() {
-
-        // TweenMax.set("#upper_triagle", { webkitClipPath: 'polygon('+
-        // arr1[0]+'%'+arr1[1]+'%,'+
-        // arr1[2]+'%'+arr1[3]+'%,'+
-        // arr1[4]+'%'+arr1[5]+'%)'
-//   });
-//     console.log(arr1);
-// }
-
-
-
-        // tm_user_profile
-        // .add("scene1")
-        // .to(self.$refs.upper_area,.8,{y:-200,},"scene1")
-        // .to(self.$refs.lower_area,.8,{y:200},"scene1")
         })
    },
    beforeRouteLeave(to,from,next){
@@ -444,9 +533,59 @@ $search-bg-color: #242628;
     }
 }
 
+.route_icon{
+    height: 3rem;
+    width: 3rem;
+    color:currentColor;
+}
+.route_next{
+    position: absolute;
+    top:8%;
+    right: 6%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+
+    .route_text{
+      font-size: 2rem;
+    }
+
+}
+
+.route_current{
+   position: absolute;
+    top:2%;
+    right: 6%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #B4AF9A;
+    color: #4E4B42;
 
 
-.active{
+    .route_text{
+      font-size: 2rem;
+    }
+}
+
+.route_from{
+    position: absolute;
+     top:14%;
+    right: 6%;
+     display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+
+    .route_text{
+      font-size: 2rem;
+    }
+}
+
+
+
+.user_status{
     .main_menu_message{
         transform: translate3d(0,40rem,0);
     }
@@ -458,12 +597,28 @@ $search-bg-color: #242628;
     }
 }
 
-.dummy{
-    position: absolute;
-    top: 80%;
-    left: 50%;
-    transform: translate(-50%,-50%);
-    z-index:2;
+.activity{
+     .main_menu_message{
+        transform: translate3d(0,40rem,0);
+    }
+    #upper_message-profile{
+        transform: translate3d(75rem,16rem,0) scale(2);
+    }
+    .main_menu_body{
+        transform: translate3d(65rem,10rem,0);
+    }
+}
+
+.recent_activity{
+
+     display: flex;
+     flex-direction: row;
+    .recent_posts{
+     list-style: none;
+    }
+    .recent_replies{
+    list-style: none;
+    }
 }
 
 // .lower_area{

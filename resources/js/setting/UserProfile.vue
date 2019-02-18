@@ -68,21 +68,50 @@
                   </transition-group>
 
                   <div v-else>
-                      <div class="user_created_at">
-                          {{user.created_at}}
+
+
+                      <div class="user_items">
+                          <div class="user_pre">
+                              entered
+                          </div>
+                          <div class="user_post">
+                           {{user.created_at['date']}}
+                          </div>
                       </div>
-                      <div class="user_email">
+                      <div class="user_items">
+                          <div class="user_pre">
+                              email
+                          </div>
+                          <div class="user_post">
                           {{user.email}}
+                          </div>
                       </div>
-                      <div class="user_total_likes">
+                      <div class="user_items">
+                          <div class="user_pre">
+                              Total_Likes
+                          </div>
+                          <div class="user_post">
                           {{user.total_likes}}
+                          </div>
                       </div>
-                      <div class="user_total_post">
-                          {{user.total_post}}
+                      <div class="user_items">
+                          <div class="user_pre">
+                              Total_Posts
+                          </div>
+                          <div class="user_post">
+                          {{user.total_posts}}
+                          </div>
                       </div>
-                      <div class="user_total_reply">
-                          {{user_total_reply}}
+                      <div class="user_items">
+                          <div class="user_pre">
+                              Total_Replies
+                          </div>
+                          <div class="user_post">
+                          {{user.total_replies}}
+                          </div>
                       </div>
+
+
                   </div>
               </div>
 
@@ -168,7 +197,11 @@ export default {
           })
       },
       getUser(){
-          axios.get()
+          axios.get("/api/user")
+          .then(res => {
+              console.log(res.data)
+              this.user = res.data
+          })
       }
     },
     computed:{
@@ -324,8 +357,10 @@ $search-bg-color: #242628;
       margin-top: 3rem;
        margin-left: 2rem;
       font-size: 2rem;
-    //   background-color: #4E4B42;
-    //   color:#EDE9E3;
+      background-color: #4E4B42;
+      color:#EDE9E3;
+      padding: 1rem;
+
     //   height: 6rem;
     //   width: 6rem;
 
@@ -345,7 +380,7 @@ $search-bg-color: #242628;
 .main_menu_body{
 
     position: absolute;
-    top: 12%;
+    top: 13%;
     left: 0;
     display: flex;
 
@@ -390,6 +425,25 @@ $search-bg-color: #242628;
     }
 }
 
+.user_items{
+    height: 5rem;
+    widows: 10rem;
+    margin-bottom: 4rem;
+
+    .user_pre{
+        font-size:2.2rem;
+        margin-bottom: 2rem;
+        padding: 0.8rem;
+        display: inline-block;
+          background-color: #4E4B42;
+      color:#EDE9E3;
+    }
+
+    .user_post{
+        font-size: 3rem;
+    }
+}
+
 
 
 .active{
@@ -397,10 +451,10 @@ $search-bg-color: #242628;
         transform: translate3d(0,40rem,0);
     }
     #upper_message-profile{
-        transform: translate3d(75rem,12rem,0) scale(2);
+        transform: translate3d(75rem,16rem,0) scale(2);
     }
     .main_menu_body{
-        transform: translate3d(70rem,0,0);
+        transform: translate3d(65rem,10rem,0);
     }
 }
 

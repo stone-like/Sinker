@@ -9,6 +9,8 @@ Route::get('/{question}/tag','TagController@index');
 Route::patch('/{question}/tag','TagController@edit');
 Route::get('/tag','TagController@TagToQuestion');
 
+Route::get('/user','UserController@getEntireData');
+
 
 Route::post('/like/{reply}','LikeController@likeIt');
 Route::delete('/like/{reply}','LikeController@unLikeIt');

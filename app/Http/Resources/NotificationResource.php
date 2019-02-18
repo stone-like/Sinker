@@ -19,7 +19,8 @@ class NotificationResource extends JsonResource
             'replyBy' => $this->data['replyBy'],
             'question' => $this->data['question'],
             'path' => $this->data['path'],
-            'class' => "replied"
+            'class' => "replied",
+            'created_at' => $this->created_at
         ];
     }
 }

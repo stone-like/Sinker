@@ -1,7 +1,7 @@
 <template>
   <div class="entire_user_profile">
-        <div :class="comp_upper_area" ref="upper_area-profile" id="upper_triagle-profile">
-            <span id="upper_message-profile" class="items">
+        <div :class="comp_upper_area" ref="upper_area-profile"  v-if="this.current_route !='Notification'">
+            <span class="items upper_message-profile">
               {{this.$store.getters.getUser}}
             </span>
 
@@ -15,6 +15,7 @@
                 {{comp_timenow}}
             </span>
         </div>
+
 
 
         <div class="main_menu">
@@ -64,7 +65,7 @@
                            <div class="unread_color">
                            </div>
                            <router-link :to="item.path" class="unread_link">
-                               <div @click="readIt(item,index)" key="unread">
+                               <div @click="readIt(item,index)" key="unread" class="item_wrapper">
                                 <div class="item_class">
                                  {{item.class}}
                                  {{item.created_at['date']}}
@@ -83,7 +84,7 @@
                        <li v-for="item in read" :key="item.id" class="read_item">
                                <div class="read_color">
                                </div>
-                               <div key="read">
+                               <div key="read" class="item_wrapper">
                                 <div class="item_class">
                                  {{item.class}}
                                 {{item.created_at['date']}}
@@ -146,28 +147,38 @@
                   </div>
 
                   <div class="recent_activity" v-if='current_route =="Activity"'>
+                       <div class="posts_wrapper">
+                       <span class="recents">Recent_Posts</span>
                        <ul class="recent_posts">
-                              <span>Recent_Posts</span>
-                          <li v-for="post in recent_posts" :key="post.id">
-                              <div class="post_title">
-                               {{post.title}}
-                              </div>
+                          <li v-for="post in recent_posts" :key="post.id" class="post_items">
+                                <div class="title_wrapper">
+                                   <span class="recent_title">title:</span>
+                                   <div class="post_title">
+                                     {{post.title}}
+                                  </div>
+                                </div>
                               <div class="post_body">
                                {{post.body}}
                               </div>
                           </li>
                        </ul>
+                       </div>
+                       <div class="replies_wrapper">
+                        <span class="recents">Recent_Reolies</span>
                        <ul class="recent_replies">
-                           <span>Recent_Reolies</span>
-                           <li v-for="reply in recent_replies" :key="reply.id">
-                               <div class="reply_title">
-                                {{reply.title}}
-                               </div>
+                           <li v-for="reply in recent_replies" :key="reply.id" class="reply_items">
+                               <div class="title_wrapper">
+                                   <span class="recent_title">title:</span>
+                                   <div class="reply_title">
+                                     {{reply.created_at}}
+                                   </div>
+                                </div>
                                <div class="reply_body">
                                 {{reply.body}}
                                </div>
                            </li>
                        </ul>
+                       </div>
                   </div>
               </div>
 
@@ -231,13 +242,13 @@ export default {
           axios.post("/api/notifications")
           .then(res => {
               console.log(res.data)
-              if(res.data.read.length > 12){
-                  this.read = res.data.read.slice(0,12);
+              if(res.data.read.length > 11){
+                  this.read = res.data.read.slice(0,11);
               }else{
                   this.read = res.data.read
               }
-              if(res.data.unread.length > 12){
-                  this.unread = res.data.unread.slice(0,12);
+              if(res.data.unread.length > 11){
+                  this.unread = res.data.unread.slice(0,11);
               }else{
                   this.unread = res.data.unread
               }
@@ -370,6 +381,7 @@ $search-bg-color: #242628;
 }
 
 .upper_area-profile{
+//   height: 10rem;
   height: 10rem;
   width: 95vw;
   margin-left: 2.5vw;
@@ -386,12 +398,12 @@ $search-bg-color: #242628;
 
 }
 
-#upper_message-profile{
+.upper_message-profile{
   margin-right: auto;
 }
 
 .main_menu{
-    flex-grow: 1;
+    flex:1;
     width: 95vw;
     margin-left: 2.5vw;
     margin-right: 2.5vw;
@@ -476,13 +488,28 @@ $search-bg-color: #242628;
     .notification{
         list-style: none;
 
+        .item_class{
+           margin-bottom: 1.2rem;
+        }
 
+        .item_title{
+          margin-bottom: 1.2rem;
+        }
+
+        .item_replyBy{
+          align-self: flex-end;
+        }
+
+        .item_wrapper{
+            display: flex;
+            flex-direction: column;
+        }
 
 
         .read_item{
             display: flex;
-            margin-bottom: 1rem;
-            font-size: 1rem;
+            margin-bottom: 2rem;
+            font-size: 1.4rem;
 
            .read_color{
              height: 1rem;
@@ -496,8 +523,8 @@ $search-bg-color: #242628;
 
         .unread_item{
             display: flex;
-            margin-bottom: 1rem;
-            font-size: 1rem;
+            margin-bottom: 2rem;
+            font-size: 1.4rem;
 
             .unread_link{
                 text-decoration: none;
@@ -583,29 +610,83 @@ $search-bg-color: #242628;
     }
 }
 
+.notification{
 
+    // .upper_area-profile{
+    //    height: 0;
+
+    // }
+
+
+    .notification_count{
+         transform: translate3d(110rem,40rem,0);
+    }
+     .main_menu_message{
+        transform: translate3d(110rem,40rem,0);
+    }
+    .main_menu_body{
+        transform: translate3d(20rem,-10rem,0);
+    }
+}
 
 .user_status{
+    // .upper_area-profile{
+    //     height: 10rem;
+    // }
     .main_menu_message{
         transform: translate3d(0,40rem,0);
     }
-    #upper_message-profile{
+    .upper_message-profile{
         transform: translate3d(75rem,16rem,0) scale(2);
     }
     .main_menu_body{
         transform: translate3d(65rem,10rem,0);
+    }
+
+    .route_current{
+       transform: translate3d(-120rem,-11.5rem,0);
+    }
+
+    .route_next{
+       transform: translate3d(-104rem,-16rem,0);
+    }
+
+    .route_from{
+        transform: translate3d(-84rem,-21.5rem,0);
     }
 }
 
 .activity{
+    // .upper_area-profile{
+    //     height: 10rem;
+    // }
      .main_menu_message{
-        transform: translate3d(0,40rem,0);
+        transform: translate3d(60rem,-12rem,0);
     }
-    #upper_message-profile{
-        transform: translate3d(75rem,16rem,0) scale(2);
+    .upper_message-profile{
+        transform: translate3d(0,0,0) scale(1);
     }
     .main_menu_body{
-        transform: translate3d(65rem,10rem,0);
+        transform: translate3d(70rem,-7rem,0);
+        width: 80rem;
+
+        .recent_activity{
+            width: 100%;
+            justify-content: space-between;
+        }
+
+    }
+
+    .route_current{
+       transform: translate3d(-120rem,7rem,0);
+    }
+
+    .route_next{
+       transform: translate3d(-120rem,7rem,0);
+    }
+
+    .route_from{
+        transform: translate3d(-120rem,7rem,0);
     }
 }
 
@@ -613,24 +694,71 @@ $search-bg-color: #242628;
 
      display: flex;
      flex-direction: row;
+    .recents{
+        font-size: 3rem;
+        background-color: #4E4B42;
+        color:#EDE9E3;
+        padding: 1rem;
+     }
+     .title_wrapper{
+        background-color: #B4AF9A;
+        color: #4E4B42;
+        padding: .5rem 0 .5rem 0;
+        margin-bottom: 2rem;
+     }
+     .recent_title{
+       margin-right: 1rem;
+
+     }
     .recent_posts{
      list-style: none;
+     margin-top: 4rem;
+     padding: 0;
+
+      .post_items{
+          font-size: 2rem;
+          height: 10rem;
+
+
+          .post_title{
+            display: inline-block;
+          }
+      }
     }
     .recent_replies{
     list-style: none;
+    margin-top: 4rem;
+    padding: 0;
+
+    .reply_items{
+         font-size: 2rem;
+           height: 10rem;
+
+           .reply_title{
+                display: inline-block;
+          }
+      }
     }
 }
 
-// .lower_area{
-//     background-color: #BF0000;
-//      height: 100%;
-//     width: 100%;
-//     bottom: 0;
-//     right: 0;
-//      z-index: 1;
-//     //  clip-path: polygon(100% 0, 100% 100%, 0 100%);
-//      position: absolute;
+// .height_effect-enter,
+// .height_effect-leave-to{
+//    height: 0 !important;
 // }
+
+// .height_effect-enter-active,
+// .height_effect-leave-active{
+//    height: 6rem !important;
+
+//    transition: all .4s ease-in-out;
+// }
+
+// .height_effect-enter-active,
+// .height_effect-leave-active{
+//    height: 10rem !important;
+// }
+
+
 
 
 </style>

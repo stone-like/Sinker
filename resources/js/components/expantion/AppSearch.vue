@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="entire_search">
       <select class="DownUpDay" v-model="mode_sub">
           <option value="hide" selected>--SelectSearchType--</option>
           <option value="ascending">ascending day</option>
@@ -13,7 +13,6 @@
 
       <input class="input_key" type="text" v-model="keywords">
 
-      <v-spacer></v-spacer>
 
       <div class="result-view" v-if="this.$store.getters.getSearch_List">
           <div class="result-detail">
@@ -374,14 +373,30 @@ export default {
          deep:true//deepによりQueryParamsのkeywordとかまで監視可能
      }
    },
+    beforeRouteEnter(to,from,next){
+      next(vm => {
+          var  self = vm;
+          //これでgridを全域にまで伸ばす
+          self.$eventBus.$emit("changeGridUser",true)
+      })
+    },
    beforeRouteLeave(to,from,next){
+
       this.$store.dispatch('setSearchBoxFlag',true)
+      self.$eventBus.$emit("changeGridUser",false)
       next()
    }
 }
 </script>
 
 <style lang="scss" scoped>
+$background-color: #EDE9E3;
+
+.entire_search{
+    width:100%;
+    height: 100%;
+    background-color: $background-color;
+}
 .result-detail{
     padding:1.4rem 0 1.4rem 2.4rem;
 }

@@ -20,12 +20,13 @@
             <span class="form_message"  v-if="!category_flag">Category:</span>
             <span class="focus_message" v-else>Now selecting...</span>
           </div>
-        <select v-model="form.category_id" class="create_select" @focus="onFocusCategory" @blur="onBlurCategory">
-          <option :value="null" disabled selected hidden class="option_placeholder">Select Category</option>
-         <option v-for="option in categories" :value="option.id" :key="option.id" class="create_option">
+         <select v-model="form.category_id"  class="create_select" @focus="onFocusCategory"   @blur="onBlurCategory" @click="changeOpen">
+           <option :value="null" disabled selected hidden class="option_placeholder">Select Category</option>
+          <option v-for="option in categories" :value="option.id" :key="option.id" class="create_option">
              {{option.name}}
-         </option>
-        </select>
+          </option>
+         </select>
+
         </div>
 
         <div :class="comp_wrapper_tag">
@@ -74,7 +75,8 @@ export default {
           tag_flag:false,
           title_flag:false,
           body_flag:false,
-          category_flag:false
+          category_flag:false,
+          isOpen:false
       }
   },
   created(){
@@ -111,6 +113,9 @@ export default {
       },
       onBlurCategory(){
            this.category_flag = false;
+      },
+      changeOpen(){
+          this.isOpen = !this.isOpen;
       }
   },
   computed:{

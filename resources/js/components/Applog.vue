@@ -18,7 +18,7 @@
 
          <transition :name="comp_slide" mode="out-in">
           <login v-if="visible_flag" key="login" @startLoading="startLoading"></login>
-          <signup v-else key="signup"></signup>
+          <signup v-else key="signup" @startLoading="startLoading"></signup>
          </transition>
 
          <div class="login_msg">Have an account?</div>

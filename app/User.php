@@ -16,13 +16,22 @@ class User extends Authenticatable implements JWTSubject
 {
     use Notifiable;
 
+    protected static function boot(){
+
+        parent::boot();
+
+        static::creating(function($user){
+            $user->img_path = public_path('images')."\\sks.jpeg";
+        });
+    }
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password','img_path'
     ];
 
     /**

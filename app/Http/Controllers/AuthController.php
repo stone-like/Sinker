@@ -85,7 +85,8 @@ class AuthController extends Controller
 
     public function signup(SignupRequest $request){
 
-        User::create($request->all());
+        $user = User::create($request->all());
+        // $user->create(['img_path' => '../../../resources/js/Helpers/img/sks.jpeg']);
         return $this->login($request);
     }
 }

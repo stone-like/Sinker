@@ -69,17 +69,17 @@ export default {
   methods:{
       signup(){
           var self = this
-          this.first_done=true;
-         axios.post("/api/auth/signup",this.form)
+          self.first_done=true;
+         axios.post("/api/auth/signup",self.form)
          .then(res =>{
             User.responseAfterLogin(res)
-            setTimeout(this.changeSuccess,2000);
+            setTimeout(self.changeSuccess,2000);
             // window.location="/forum"
             // self.$router.push({name:'forum'})
          })
          .catch(error => {
              self.errors = error.response.data.errors
-             setTimeout(this.changeFalse);
+             setTimeout(self.changeFalse,2000);
          })//ここからerrors['email']とかでアクセス、各一番目をとっていけばいいのでerrors['email'][0]
 
       },
@@ -89,14 +89,18 @@ export default {
     changeSuccess(){
        this.first_done=false;
        this.second_done=true;
+       setTimeout(this.fireLoading,2000);
    },
    changeFalse(){
        this.first_done=false;
+   },
+   fireLoading(){
+      this.$emit("startLoading")
    }
   },
   created(){
       if(this.$store.getters.userLoggedIn){
-           window.location="/forum"
+           window.location="/welcome"
         //   this.$router.push({name:'forum'});
       }
   },

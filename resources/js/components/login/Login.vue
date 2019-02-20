@@ -76,7 +76,7 @@ export default {
   },
   created(){
       if(this.$store.getters.userLoggedIn){
-           window.location="/forum"
+           window.location="/welcome"
         //   this.$router.push({name:'forum'});
       }
   },

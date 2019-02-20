@@ -50,7 +50,7 @@
                 </router-link>
             </li>
             <li class="side-nav__item">
-                <router-link to="/welcome" :class="comp_Setting">
+                <router-link to="/setting" :class="comp_Setting">
                   <div class="side-nav__main">
                     <svg class="side-nav__icon">
                         <use xlink:href="../Helpers/img/sprite.svg#icon-cog" v-if="userLoggedIn"></use>

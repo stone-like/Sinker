@@ -11,6 +11,9 @@ Route::get('/tag','TagController@TagToQuestion');
 
 Route::get('/user','UserController@getEntireData');
 Route::post('/user','UserController@getRecent');
+Route::patch('/user','UserController@updateUser');
+
+Route::post('/image','UserController@updateImage');
 
 
 

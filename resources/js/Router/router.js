@@ -16,8 +16,10 @@ import Modal from "../components/expantion/Modal.vue"
 import Welcome from "../components/css-related/Welcome.vue"
 import AppSearch from "../components/expantion/AppSearch.vue"
 import UserProfile from "../setting/UserProfile.vue"
+import Setting from "../setting/Setting.vue"
 
 const routes = [
+    {path:'/setting',component:Setting},
     {path:'/userprofile',component:UserProfile},
     {path:'/search',component:AppSearch},
     {path: '/login',component: Login},

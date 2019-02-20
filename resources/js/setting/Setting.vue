@@ -55,22 +55,22 @@
  </button>
 </div>
 
-<div :class="comp_wrapper2" key="wrapper2">
+<div :class="comp_wrapper2" key="wrapper2" v-if="!resultflag">
   <div class="form_items2" key=outer_wrapper>
     <span class="form_message">User_Img:</span>
   <input type="file" @change="change" placeholder="Input_your_img"  class="input_img" v-if="!resultflag" ref="fileElem" name="foo">
 
   <div class="button_wrapper">
-    <button class="fileSelect" @click.prevent="fileSelect">Input_your_img</button>
-    <button class="cancelSeclect" @click.prevent="cancelSelect">cancel</button>
+    <button class="fileSelect" @click.prevent="fileSelect" v-if="!resultflag2">Input_your_img</button>
+    <button class="cancelSeclect" @click.prevent="cancelSelect" v-if="!resultflag2">cancel</button>
   </div>
-  <span class="error_message" v-if="errors.previous">{{errors.previous}}</span>
-  <div v-if="preview">
-        <img :src="preview">
+  <span class="error_message" v-if="errors.image">{{errors.image[0]}}</span>
+  <div v-if="preview" class="my_image_wrapper">
+        <img :src="preview" class="my_image">
   </div>
 </div>
 <button class="setting_button2" @click.prevent="InputOrDisplay2" key="button">
-      {{resultflag ? "ToInput":"Upload"}}
+      {{resultflag2 ? "ToInput":"Upload"}}
  </button>
 
 
@@ -104,11 +104,13 @@ export default {
           changed_email:"",
           changed_password:"",
           resultflag:false,
+          resultflag2:false,
           changed_image:""
        }
    },
    methods:{
        fileSelect(e){
+           self.errors = []//入力ミスで生じたerrorを消しておく
           var fileElem = this.$refs.fileElem
           if(fileElem){
               fileElem.click()
@@ -137,7 +139,7 @@ export default {
           }
        },
        InputOrDisplay2(){
-        if(this.resultflag){
+        if(this.resultflag2){
              this.returnInput2()
           }else{
               this.updateSetting2()
@@ -151,8 +153,15 @@ export default {
 
                this.resultflag = false
        },
+       returnInput2(){
+            //    var fileElem = this.$refs.fileElem//inputのvalueをクリア
+            //   fileElem.value = ""
+
+               this.resultflag2 = false
+       },
        updateSetting(){
            var self = this
+           self.errors = []//入力ミスで生じたerrorを消しておく
            axios.patch("/api/user",self.form)
            .then(res => {
                //updateした分vuexの情報を更新
@@ -179,6 +188,7 @@ export default {
        },
        updateSetting2(){
            var self = this
+           self.errors = []//入力ミスで生じたerrorを消しておく
         //    console.log(self.user_img)
             const formData = new FormData()
             formData.append('image',self.user_img)
@@ -194,22 +204,23 @@ export default {
 
               self.changed_image = res.data
 
-               self.resultflag = true
+               self.resultflag2 = true
 
            })
            .catch(error => {
                self.errors = error.response.data.errors
                console.log(error.response.data.errors)
               })
+       },
+       dummy(){
+           this.resultflag = ! this.resultflag
+        //    this.$refs.password.type="text"
+        //    console.log(this.$refs.password.type)
        }
-    //    dummy(){
-    //        this.$refs.password.type="text"
-    //        console.log(this.$refs.password.type)
-    //    }
    },
    computed:{
        comp_setting(){
-           return this.resultflag ? "setting_form result" : "setting_form";
+           return this.resultflag || this.resultflag2 ? "setting_form result" : "setting_form";
        },
        comp_wrapper2(){
            return this.preview ? "form_wrapper2 image_mode" : "form_wrapper2";
@@ -417,11 +428,33 @@ export default {
   }
 
   .setting_button{
-      transform: translate3d(-55rem,-10rem,0);
+      transform: translate3d(-20rem,-20rem,0);
   }
   .setting_input{
       transform: translate3d(35rem,-10rem,0);
   }
+
+  .setting_button2{
+     transform: translate3d(-81.5rem,34rem,0);
+  }
+
+  .my_image_wrapper{
+       height: 40rem;
+     width: 40rem;
+  }
+
+  .my_image{
+       height: 40rem;
+     width: 40rem;
+     background-image: cover;
+
+  }
+
+  .form_wrapper2{
+
+      transform:translate3d(30rem,-15rem,0);
+
+      }
 
 
 

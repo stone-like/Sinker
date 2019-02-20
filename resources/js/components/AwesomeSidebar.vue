@@ -223,7 +223,7 @@ export default {
 
 <style lang="scss">
 .sidebar{
-    background-color: #fff;
+    background-color: #363636;
     // display:flex;
     // flex-direction: column;
     // justify-content: space-around;
@@ -255,7 +255,7 @@ export default {
       position: relative;
       &:not(:last-child){
           margin-bottom: .5rem;
-          border-bottom: 1px solid #EEE;
+          border-bottom: 1px solid #2c2c2c;
       }
   }
 
@@ -263,7 +263,7 @@ export default {
   &__link:visited{
      text-decoration: none;
      text-transform: uppercase;
-     color:#777;
+     color:rgb(223, 221, 221);
      display: block;
      padding: 1.5rem 3rem;
      display: flex;

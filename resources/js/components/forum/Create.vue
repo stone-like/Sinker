@@ -1,37 +1,61 @@
 <template>
-    <v-container>
-        <v-form @submit.prevent="create" ref="entire_create">
+    <div class="entire_create_container">
+        <form @submit.prevent="create" ref="entire_create" class="entire_create">
 
-        <v-text-field label="Title"
+        <div :class="comp_wrapper_title">
+          <div class="message_wrapper">
+            <div class="message_shape" v-if="!title_flag"></div>
+            <span class="form_message" v-if="!title_flag">Title:</span>
+            <span class="focus_message" v-else>Now entering...</span>
+          </div>
+        <input
           v-model="form.title"
           type="text"
-          required>
-        </v-text-field>
+          required class="create_title" @focus="onFocusTitle" @blur="onBlurTitle">
+        </div>
 
-        <v-select
-         :items="categories"
-         item-text="name"
-         item-value="id"
-         v-model="form.category_id"
-         label="Category"
-         autocomplete>
+        <div :class="comp_wrapper_category">
+        　　<div class="message_wrapper">
+            <div class="message_shape"  v-if="!category_flag"></div>
+            <span class="form_message"  v-if="!category_flag">Category:</span>
+            <span class="focus_message" v-else>Now selecting...</span>
+          </div>
+        <select v-model="form.category_id" class="create_select" @focus="onFocusCategory" @blur="onBlurCategory">
+          <option :value="null" disabled selected hidden class="option_placeholder">Select Category</option>
+         <option v-for="option in categories" :value="option.id" :key="option.id" class="create_option">
+             {{option.name}}
+         </option>
+        </select>
+        </div>
 
-        </v-select>
-
-           <v-textarea
-          box
-          name="input-7-4"
-          label="Please enter your tags,make sure comma per one tag"
+        <div :class="comp_wrapper_tag">
+        <div class="message_wrapper">
+            <div class="message_shape" v-if="!tag_flag"></div>
+            <span class="form_message" v-if="!tag_flag">Tags:</span>
+            <span class="focus_message" v-else>Now entering...</span>
+          </div>
+        <textarea
+          name="input"
           v-model="form.tags_string"
-        ></v-textarea>
+          cols="60" rows="5"
+          class="create_textarea"
+        placeholder="Please enter your tags,make sure comma per one tag" @focus="onFocusTextArea" @blur="onBlurTextArea"></textarea>
+        </div>
 
-        <markdown-editor v-model="form.body" ></markdown-editor>
+        <div :class="comp_wrapper_body">
+        <div class="message_wrapper">
+            <div class="message_shape" v-if="!body_flag"></div>
+            <span class="form_message" v-if="!body_flag">Body:</span>
+            <span class="focus_message" v-else>Now entering...</span>
+          </div>
+        <markdown-editor v-model="form.body" @focus.prevent="onFocusBody" @blur.prevent="onBlurBody"></markdown-editor>
+        </div>
 
-        <v-btn color="green" type="submit">Create</v-btn>
+        <button type="submit"  class="create_button">Create</button>
 
 
-       </v-form>
-    </v-container>
+       </form>
+    </div>
 </template>
 
 <script>
@@ -46,7 +70,11 @@ export default {
               tags_string:""
           },
           categories:{},
-          errors:{}
+          errors:{},
+          tag_flag:false,
+          title_flag:false,
+          body_flag:false,
+          category_flag:false
       }
   },
   created(){
@@ -59,11 +87,52 @@ export default {
         axios.post("/api/question",this.form)
         .then(res => this.$router.push(res.data.path))
         .catch(error => this.errors = error.response.data.error)
+      },
+      onFocusTextArea(){
+           this.tag_flag = true;
+      },
+      onBlurTextArea(){
+           this.tag_flag = false;
+      },
+      onFocusTitle(){
+           this.title_flag = true;
+      },
+      onBlurTitle(){
+           this.title_flag = false;
+      },
+      onFocusBody(){
+           this.body_flag = true;
+      },
+      onBlurBody(){
+           this.body_flag = false;
+      },
+      onFocusCategory(){
+           this.category_flag = true;
+      },
+      onBlurCategory(){
+           this.category_flag = false;
+      }
+  },
+  computed:{
+      comp_wrapper_title(){
+        return this.title_flag ?  "form_wrapper active" :"form_wrapper";
+      },
+       comp_wrapper_tag(){
+        return this.tag_flag ?  "form_wrapper active" :"form_wrapper";
+      },
+      comp_wrapper_body(){
+        return this.body_flag ?  "form_wrapper active" :"form_wrapper";
+      },
+       comp_wrapper_category(){
+        return this.category_flag ?  "form_wrapper active" :"form_wrapper";
       }
   },
    beforeRouteEnter(to,from,next){
       next(vm => {
           var  self = vm;
+          //これでgridを全域にまで伸ばす
+          self.$eventBus.$emit("changeGridUser",true)
+
           //sidebarのactiveを外したりつけたり処理するここはforumなのでactiveをforumにつけてfrom.pathの所を外す
           if(from.path == "/forum" || from.path == "/category"){
             self.$store.dispatch("changeTransition_Router","ReadToRead_enter")
@@ -110,6 +179,7 @@ export default {
   },
   beforeRouteLeave(to,from,next){
       var self = this;
+         self.$eventBus.$emit("changeGridUser",false);
 
        if(to.path == "/category" ||  to.path == "/forum"){
             self.$store.dispatch("changeTransition_Router","ReadToRead_leave")
@@ -183,6 +253,130 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
+// *{
+//     font-family: 'Geostar', cursive;
+// }
+$background-color: #EDE9E3;
+$search-bg-color: #242628;
+
+.entire_create_container{
+    height: 100%;
+    width: 100%;
+    background-color: $background-color;
+}
+
+.entire_create{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    padding: 10rem 20rem 5rem 22rem;
+}
+
+.create_title{
+    font-size: 1.6rem;
+    padding: 1rem;
+    background-color: #fff;
+    outline: none;
+
+}
+
+.create_select{
+   font-size: 1.6rem;
+    background-color: #fff;
+    outline: none;
+    height: 5rem;
+
+}
+
+.create_option{
+   font-size: 1.6rem;
+   outline: none;
+}
+
+// .option_placeholder{
+//   display: none;
+//   font-size: 1.6rem;
+//   color:black;
+// }
+
+.create_textarea{
+   font-size: 1.6rem;
+   background-color: #fff;
+   outline: none;
+}
+
+.create_button{
+  font-size: 3rem;
+  font-family: 'Geostar', cursive;
+  padding: 1rem;
+  background-color: #B4AF9A;
+    color: #4E4B42;
+    width: 18rem;
+    align-self: flex-end;
+    box-shadow:1px 1px 3px 2px rgb(71, 68, 60);
+    transition: all .2s ease;
+    &:hover{
+         transform: translateY(-10px);
+    }
+}
+
+.form_wrapper{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 3rem;
+}
+
+.message_wrapper{
+    display: flex;
+    background-color: #4E4B42;
+     color:#EDE9E3;
+     padding: 1rem;
+     justify-content: center;
+}
+
+.message_shape{
+    height: 2rem;
+    width: 2rem;
+    transform: rotate(45deg);
+    background-color: #363636;
+    margin-right: 2rem;
+}
+
+.form_message{
+    font-family: 'Geostar', cursive;
+    font-size: 3rem;
+
+}
+
+.active{
+
+   .message_wrapper{
+       background-color: #363636;
+
+   }
+   .focus_message{
+       font-family: 'Geostar', cursive;
+       color: #CD664D;
+       font-size: 3rem;
+
+       animation: Flash 1s infinite;
+   }
+
+
+
+}
+
+@keyframes Flash{
+    50%{
+        opacity:0;
+    }
+}
+
+.message_wrapper{
+    transition: all .4s ease-in-out;
+}
+
 
 </style>

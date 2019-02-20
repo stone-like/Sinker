@@ -110,8 +110,9 @@ export default {
 
 <style lang="scss" scoped>
 $background-color: #2A2E37;
-$search-bg-color: #242628;
-$icon-color: #00FEDE;
+$search-bg-color: #363636;
+// $icon-color: #00FEDE;
+$icon-color:#E4E5DA;
 $transition: all .5s ease;
 
 .search_wrapper{

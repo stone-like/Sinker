@@ -1,21 +1,45 @@
 <template>
   <div class="entire_search">
-      <select class="DownUpDay" v-model="mode_sub">
-          <option value="hide" selected>--SelectSearchType--</option>
-          <option value="ascending">ascending day</option>
-          <option value="descending">descending day</option>
-      </select>
-      <select class="TagOrCat" v-model="mode_main">
-          <option value="hide" selected>--SearchBy--</option>
-          <option value="tags">By Tags</option>
-          <option value="categories">By Categories</option>
-      </select>
+      <div class="main_menu_wrapper">
 
-      <input class="input_key" type="text" v-model="keywords">
+           <!-- <div class="input_shape" v-if="isInput">
+           </div> -->
+          <input class="input_key" type="text" v-model="keywords" placeholder="enter your searchwords..." @focus="onFocusInput" @blur="onBlurInput">
 
+          <div class="nav_detail">
+                 <div class="result-number">
+                  {{this.$store.getters.getSearch_List.length}}results
+               </div>
+
+              <nav v-if="pages" class="page_wrapper">
+                <ul class="pagenation">
+                    <li class="page-item">
+                        <a @click="first" class="page-link" href="#">&laquo;</a>
+                    </li>
+                    <li class="page-item">
+                        <a @click="prev" class="page-link" href="#">&lt;</a>
+                    </li>
+
+                    <li
+                        v-for="i in displayPageRange"
+                        class="page-item"
+                        :class="{active: i-1 === currentPage}" :key=i>
+                     <a @click="pageSelect(i)" class="page-link" href="#">{{i}}</a>
+                    </li>
+
+                    <li class="page-item">
+                        <a @click="next" class="page-link" href="#">&gt;</a>
+                    </li>
+                    <li class="page-item">
+                        <a @click="last" class="page-link" href="#">&raquo;</a>
+                    </li>
+                </ul>
+          </nav>
+
+          </div>
 
       <div class="result-view" v-if="this.$store.getters.getSearch_List">
-          <div class="result-detail">
+          <!-- <div class="result-detail">
               <div class="result-keywords">
                      <div>
                        Searchword
@@ -59,19 +83,75 @@
                         <a @click="last" class="page-link" href="#">&raquo;</a>
                     </li>
                 </ul>
-          </nav>
+          </nav> -->
+
+          <div class="main_result">
+              <div class="side_shape"></div>
           <transition-group tag="ul" name="move_fade" mode="out-in" class="post_list">
               <li v-for="post in displayItems" :key="post.path" class="post_item">
+                  <div class="hexagon">
+                      <div class="hexagon_inner">
+
+                      </div>
+                  </div>
+
+                  <div class="post_main_wrapper">
                   <router-link :to="post.path" class="post_link">
                     {{post.title}}
                   </router-link>
                   <div class="post_body">
                     {{post.body}}
                   </div>
+                  </div>
               </li>
           </transition-group>
+          </div>
 
       </div>
+    </div>
+
+    <div class="side_menu_wrapper">
+      <h1 class="route_message">Search</h1>
+
+      <div class="bottom_line"></div>
+
+       <div class="result-detail">
+              <div class="result-keywords">
+                     <div>
+                       [Searchword]
+                     </div>
+                     <h2>
+                       {{this.QueryParams.keywords.keywords}}
+                     </h2>
+              </div>
+              <!-- <div class="result-number">
+                  {{this.$store.getters.getSearch_List.length}}results
+              </div> -->
+              <div class="result-searchBy">
+                  <div class="result-searchBy-main">
+                    [searchBy] {{this.QueryParams.mode_main.mode_main}}
+                  </div>
+                  <div class="result-searchBy-sub">
+                    [filter] {{this.QueryParams.mode_sub.mode_sub}}
+                  </div>
+              </div>
+          </div>
+
+     <div class="select_wrapper">
+      <select class="DownUpDay" v-model="mode_sub">
+          <option value="" selected disable hidden>--SelectSearchType--</option>
+          <option value="ascending">ascending day</option>
+          <option value="descending">descending day</option>
+      </select>
+      <select class="TagOrCat" v-model="mode_main">
+          <option value="" selected disable hidden>--SearchBy--</option>
+          <option value="tags">By Tags</option>
+          <option value="categories">By Categories</option>
+      </select>
+     </div>
+    </div>
+
+
 
       <!-- <router-link to="/entire_search">more result</router-link> -->
   </div>
@@ -86,6 +166,7 @@ export default {
         currentPage:0,
         size:12,       //1ページ当たりの個数
         pageRange:10, //一回に表示されるのはのは10個まで(1,2,...10)とか(2,3,....11)とか
+        isInput:false
       }
   },
   mounted(){
@@ -99,6 +180,12 @@ export default {
     //この二つは小さいsearchboxから引っ張ってくる
   },
   methods:{
+      onFocusInput(){
+       this.isInput = true;
+      },
+       onBlurInput(){
+       this.isInput = false;
+      },
        load(){
            console.log(this.QueryParams.keywords.keywords)
            //loadで場合分けしてしまうか？
@@ -396,6 +483,8 @@ $background-color: #EDE9E3;
     width:100%;
     height: 100%;
     background-color: $background-color;
+    display: flex;
+
 }
 .result-detail{
     padding:1.4rem 0 1.4rem 2.4rem;
@@ -410,8 +499,14 @@ $background-color: #EDE9E3;
   }
 }
 .result-number{
-    font-size: 2rem;
-    margin-bottom: 1.3rem;
+    font-size: 1.6rem;
+    // margin-bottom: 1.3rem;
+     font-family: 'Geostar', cursive;
+     background-color: #363636;
+     color: #EDE9E3;
+     padding: .5rem;
+     align-self: flex-start;
+     margin-right: auto;
 }
 
 .result-searchBy{
@@ -422,6 +517,10 @@ $background-color: #EDE9E3;
     margin-bottom: 1.3rem;
 }
 
+.select_wrapper{
+    display: flex;
+    flex-direction: column;
+}
 .DownUpDay{
   background-color: white;
 
@@ -431,36 +530,137 @@ $background-color: #EDE9E3;
     background-color:  white;
 }
 
+.main_menu_wrapper{
+    margin-top: 3rem;
+    margin-left: 25rem;
+
+    display: flex;
+    flex-direction: column;
+
+
+    width: 90rem;
+}
+.side_menu_wrapper{
+    margin-left: 10rem;
+    margin-top: 3rem;
+    display: flex;
+    flex-direction: column;
+
+    flex-grow: 1;
+
+    .route_message{
+      font-size: 4rem;
+      margin-left: 20rem;
+      font-family: 'Geostar', cursive;
+
+    }
+}
+
+.bottom_line{
+    height: 1px;
+    background-color: #2E4A64;
+    margin-top: 1rem;
+}
+
+// ::-webkit-input-placeholder{
+//         font-size: 1.5rem;
+//         color: black;
+//     }
+
 .input_key{
-    background-color:  white;
+    border:1px solid black;
+    height:5rem;
+    width: 70rem;
+     align-self: center;
+
+    outline:none;
+
+
+    transition: all .4s ease;
+
+    &::-webkit-input-placeholder{
+        font-size: 1.5rem;
+        color: black;
+    }
+
+    // &:focus{
+    //     outline:none;
+    //     height: 8rem;
+    //     width: 90rem;
+
+    //     .input_key::-webkit-input-placeholder{
+    //     font-size: 1.8rem;
+    //     color: black;
+    //   }
+    // }
+}
+
+.input_shape{
+    height: 5rem;
+    width: 5rem;
+    background-color:#CD664D;
+    display: inline-block;
+     transition: all .4s ease;
 }
 
 .result-view{
-    background-color:  white;
 
-
+display: flex;
+flex-direction: column;
 }
 
+.main_result{
+    display: flex;
+}
+
+.side_shape{
+    // height: 100%;
+    width:2rem;
+    background-color:  rgb(77, 79, 205);
+    align-self: stretch;
+}
+
+.nav_detail{
+    display: flex;
+    margin-top: 1.8rem;
+    margin-bottom: 1.8rem;
+}
+.page_wrapper{
+
+}
 .pagenation{
     display: flex;
-    flex-grow: 1;
-    justify-content: space-around;
+    // flex-grow: 1;
+    // justify-content: space-around;
 }
 .page-item{
   list-style: none;
   height:2.5rem;
   width:2.5rem;
 
+  &:not(:last-child){
+      margin-right: 1.8rem;
+  }
+
 }
 
 .page-link{
+  outline: none;
+  display: inline-flex;
   text-decoration: none;
-  height:2.5rem;
-  width:2.5rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 2rem;
+  color: #4C4940;
+  width: 2.5rem;
+  height: 2.5rem;
+  line-height: 2.5rem;
+  border-radius: 50%;
+  border: double 4px #4C4940;
+//   text-align: center;
+//   vertical-align: middle;
+justify-content: center;
+align-items: center;
+  overflow: hidden;
+
+  font-size: 1.3rem;
 }
 
 .post_list{
@@ -470,6 +670,7 @@ $background-color: #EDE9E3;
     flex-wrap: wrap;
     height: 100%;
     width: 100%;
+    padding: 0;
 
 
 
@@ -477,14 +678,42 @@ $background-color: #EDE9E3;
 .post_item{
 
     display: flex;
-    flex-direction: column;
     border-bottom: 1px solid grey;
 
+    &:not(:last-child){
+
+    margin-bottom: 2rem;
+    }
+
 }
+
+.hexagon{
+   height: 3rem;
+   width: 3rem;
+   clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+   background-color:rgb(241, 241, 241);
+   display: flex;
+   justify-content: center;
+   align-items: center;
+
+
+   .hexagon_inner{
+   height: 1.5rem;
+   width: 1.5rem;
+   clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+   background-color:#363636;
+   }
+}
+
+.post_main_wrapper{
+  display: flex;
+  flex-direction: column;
+}
+
 .post_link{
     text-decoration: none;
     font-size: 1.6rem;
-    color:blue;
+    color:rgb(77, 79, 205);
     margin-bottom: .4rem;
 
 }
@@ -492,8 +721,4 @@ $background-color: #EDE9E3;
    color: black;
 }
 
-.result-view{
-    height: 100%;
-    width: 100%;
-}
 </style>

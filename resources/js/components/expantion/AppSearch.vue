@@ -138,16 +138,33 @@
           </div>
 
      <div class="select_wrapper">
-      <select class="DownUpDay" v-model="mode_sub">
-          <option value="" selected disable hidden>--SelectSearchType--</option>
-          <option value="ascending">ascending day</option>
-          <option value="descending">descending day</option>
-      </select>
-      <select class="TagOrCat" v-model="mode_main">
+      <!-- <select class="DownUpDay" v-model="mode_sub" ref="DownUpDay">
+          <option value="" selected disable hidden >--SelectSearchType--</option>
+          <option value="" class="option">By default</option>
+          <option value="ascending" class="option">ascending day</option>
+          <option value="descending" class="option">descending day</option>
+      </select> -->
+      <!-- <select class="TagOrCat" v-model="mode_main">
           <option value="" selected disable hidden>--SearchBy--</option>
-          <option value="tags">By Tags</option>
-          <option value="categories">By Categories</option>
-      </select>
+           <option value="" class="option">By Questions</option>
+          <option value="tags" class="option">By Tags</option>
+          <option value="categories" class="option">By Categories</option>
+      </select> -->
+       <transition-group tag="ul" class="DownUpDay" v-model="mode_sub"  name="list_time_lag">
+       <li key="dummy_sub" @click="openLi_sub" ref=dummy_sub class="li_title">--SelectSearchType--</li>
+       <li @click.prevent="mode_sub='';closeAndTextchange_sub($event)"v-if="li_open_sub" key="option_default" class="li_options li_anime0">By default</li>
+       <li @click.prevent="mode_sub='ascending';closeAndTextchange_sub($event)"  v-if="li_open_sub" key="option_ascending" class="li_options li_anime1">ascending day</li>
+       <li 
+       @click.prevent="mode_sub='descending';closeAndTextchange_sub($event)"  v-if="li_open_sub" key="option_descending" class="li_options li_anime2">descending day</li>
+      </transition-group>
+
+      <transition-group tag="ul" class="TagOrCat" v-model="mode_main"  name="list_time_lag">
+       <li key="dummy" @click="openLi" ref=dummy class="li_title">--SearchBy--</li>
+       <li @click.prevent="mode_main='';closeAndTextchange($event)"v-if="li_open" key="option_question" class="li_options li_anime0">By Questions</li>
+       <li @click.prevent="mode_main='tags';closeAndTextchange($event)"  v-if="li_open" key="option_tag" class="li_options li_anime1">By Tags</li>
+       <li 
+       @click.prevent="mode_main='categories';closeAndTextchange($event)"  v-if="li_open" key="option_category" class="li_options li_anime2">By Categories</li>
+      </transition-group>
      </div>
     </div>
 
@@ -166,7 +183,10 @@ export default {
         currentPage:0,
         size:12,       //1ページ当たりの個数
         pageRange:10, //一回に表示されるのはのは10個まで(1,2,...10)とか(2,3,....11)とか
-        isInput:false
+        isInput:false,
+        select_style_flag:false,
+        li_open:false,
+        li_open_sub:false
       }
   },
   mounted(){
@@ -180,6 +200,39 @@ export default {
     //この二つは小さいsearchboxから引っ張ってくる
   },
   methods:{
+//       changeSelect(e){
+//           var selected = e.target;
+//          var numberOfOptions = e.target.children.length;
+//           selected.className += " select-hidden"
+//           selected.outerHTML = '<div class="select">' +   selected.outerHTML + '</div>';
+
+//           selected.parentNode.insertBefore()
+     
+//           var styledSelect = this.$refs.styledSelect;
+
+//           //やっていることは元のselectからoption含めて情報を引き出して,
+//           それを一旦新しいdivで囲ってからそのすぐ下にstyledselectを作って要素をコピーしている
+//           //innerHTMLでもいいが全ブラウザ対応のtextContentを使う
+//           styledSelect.textContent = selected.children[0].textContent;
+
+//         //   this.select_options_flag = true;//新たなstyleのul
+// 　　　　　// this.option_li_flag = true;//li
+        
+//       }, 
+      closeAndTextchange(e){
+          this.li_open = ! this.li_open
+          this.$refs.dummy.textContent = e.target.textContent;
+      },
+      closeAndTextchange_sub(e){
+          this.li_open_sub = ! this.li_open_sub
+          this.$refs.dummy_sub.textContent = e.target.textContent;
+      },
+      openLi(){
+          this.li_open = ! this.li_open
+      },
+      openLi_sub(){
+          this.li_open_sub = ! this.li_open_sub
+      },
       onFocusInput(){
        this.isInput = true;
       },
@@ -520,15 +573,48 @@ $background-color: #EDE9E3;
 .select_wrapper{
     display: flex;
     flex-direction: column;
+    margin-top: 7rem;
 }
 .DownUpDay{
-  background-color: white;
+//   background-color: #4E4B42;
+//   color:#EDE9E3;
+//    font-family: 'Geostar', cursive;
+//    align-self: center;
+   font-size: 2rem;
+   padding:0;
+
+   margin-bottom: 4rem;
+
+    outline:none;
+
+    &:focus{
+        outline:none;
+    }
+
 
 }
 
 .TagOrCat{
-    background-color:  white;
+//       background-color: #4E4B42;
+//   color:#EDE9E3;
+//    font-family: 'Geostar', cursive;
+//    align-self: center;
+   font-size: 2rem;
+   padding:0;
+
+    outline:none;
+
+    &:focus{
+        outline:none;
+    }
+
+
+
+
 }
+
+
+
 
 .main_menu_wrapper{
     margin-top: 3rem;
@@ -720,5 +806,74 @@ align-items: center;
 .post_body{
    color: black;
 }
+
+.li_options{
+    background-color:darken(#EDE9E3,5);
+    padding:1rem;
+     color:#363636;
+     list-style:none;
+     cursor:pointer;
+
+     &:hover{
+         background-color:#fff;
+         
+     }
+}
+
+.li_title{
+    padding:1rem;
+    background-color: #4E4B42;
+    color:#EDE9E3;
+   font-family: 'Geostar', cursive;
+}
+
+
+@for $i from 0 through 2{
+    $enter-delay:.2s;
+    .list_time_lag-enter-active{
+        opacity:0;
+
+        animation:fade-in .5s;
+
+        &.li_anime#{$i}{
+            animation-delay:#{.2s*$i+$enter-delay};
+        }
+    }
+}
+.list_time_lag-leave-active{
+   transition: all .3s;
+    transform: translateX(-100px);
+    opacity: 0;
+    position:absolute;
+}
+
+@keyframes fade-in{
+    0%{
+        opacity: 0;
+        transform: translateY(-15px);
+    }
+    100%{
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.move_fade-enter-active{
+    transition: all .3s;
+    opacity:0;
+    transform:translateX(-200px);
+}
+
+.move_fade-leave-active{
+    transition: all .3s;
+    opacity:0;
+    transform:translateX(-200px);
+}
+
+.move_fade-move{
+    transition: all .5s cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+
 
 </style>

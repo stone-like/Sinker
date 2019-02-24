@@ -34,6 +34,7 @@
         "vue-router": "^3.0.2",
         "vue-simplemde": "^0.5.1",
         "vue-sticky-position": "^2.0.0",
+        "vuedraggable": "^2.17.0",
         "vuetify": "^1.4.3",
         "vuex": "^3.1.0",
         "vuex-persistedstate": "^2.5.4",

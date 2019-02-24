@@ -7,6 +7,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\User;//ちゃんとnamespaceを指定しないとうまくいかないのでUser::とかする時は注意
+use App\Model\Bookmark;
 use App\Model\Category;
 use App\Model\Question;
 use App\Model\Reply;
@@ -70,5 +71,9 @@ class User extends Authenticatable implements JWTSubject
     public function setPasswordAttribute($value){
         //自動的にUsertableのpasswordをエンコード
         $this->attributes['password'] = bcrypt($value);
+    }
+
+    public function bookmark(){
+        return $this->hasMany(Bookmark::class);
     }
 }

@@ -74,6 +74,18 @@
                 </router-link>
             </li>
             <li class="side-nav__item">
+                <router-link to='/bookmark' v-if="userLoggedIn" :class="comp_Bookmark">
+                  <div class="side-nav__main">
+                    <svg class="side-nav__icon">
+                         <use xlink:href="../Helpers/img/sprite5.svg#icon-star-outlined" v-if="userLoggedIn"></use>
+               <use xlink:href="../Helpers/img/sprite.svg#icon-lock" v-else></use>
+                    </svg>
+                     <span class="side-nav__menu">Bookmark</span>
+                  </div>
+                     <small class="side-nav__small">sweet home</small>
+                </router-link>
+            </li>
+            <li class="side-nav__item">
                 <router-link to='/logout' v-if="userLoggedIn" class="side-nav__link">
                   <div class="side-nav__main">
                     <svg class="side-nav__icon">
@@ -134,6 +146,9 @@ export default {
      },
      comp_Category(){
          return this.category ?  "side-nav__link active":  "side-nav__link";
+     },
+     comp_Bookmark(){
+         return this.bookmark ?  "side-nav__link active":  "side-nav__link";
      }
  },
   methods:{
@@ -227,13 +242,13 @@ export default {
     // display:flex;
     // flex-direction: column;
     // justify-content: space-around;
-    height: 60vh;
+    height: 66vh;
     position: fixed;
     z-index:2;
     top:0;
     left:0;
     overflow-x: hidden;
-    margin-top: 20vh;//常に中心に来るように
+    margin-top: 17vh;//常に中心に来るように
     border-radius: 2px;
     box-shadow:0px 0px 1.5px 0px #808080;
 

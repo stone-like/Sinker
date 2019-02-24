@@ -17,8 +17,9 @@ import Welcome from "../components/css-related/Welcome.vue"
 import AppSearch from "../components/expantion/AppSearch.vue"
 import UserProfile from "../setting/UserProfile.vue"
 import Setting from "../setting/Setting.vue"
-
+import Bookmark from "../components/bookmark/Bookmark.vue"
 const routes = [
+    {path:'/bookmark',component:Bookmark},
     {path:'/setting',component:Setting},
     {path:'/userprofile',component:UserProfile},
     {path:'/search',component:AppSearch},

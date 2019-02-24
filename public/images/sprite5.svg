@@ -1,0 +1,36 @@
+<svg aria-hidden="true" style="position: absolute; width: 0; height: 0; overflow: hidden;" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<defs>
+<symbol id="icon-triangle-down" viewBox="0 0 20 20">
+<title>triangle-down</title>
+<path d="M5 6h10l-5 9-5-9z"></path>
+</symbol>
+<symbol id="icon-triangle-left" viewBox="0 0 20 20">
+<title>triangle-left</title>
+<path d="M14 5v10l-9-5 9-5z"></path>
+</symbol>
+<symbol id="icon-triangle-right" viewBox="0 0 20 20">
+<title>triangle-right</title>
+<path d="M15 10l-9 5v-10l9 5z"></path>
+</symbol>
+<symbol id="icon-triangle-up" viewBox="0 0 20 20">
+<title>triangle-up</title>
+<path d="M15 14h-10l5-9 5 9z"></path>
+</symbol>
+<symbol id="icon-direction" viewBox="0 0 20 20">
+<title>direction</title>
+<path d="M18.060 1.941c-0.586-0.586-1.144-0.033-3.041 0.879-5.075 2.439-13.919 7.396-13.919 7.396l7.599 1.084 1.085 7.599c0 0 4.958-8.843 7.396-13.916 0.912-1.898 1.465-2.456 0.88-3.042zM16.236 3.896l-5.519 10.247-0.561-4.655 6.080-5.592z"></path>
+</symbol>
+<symbol id="icon-log-out" viewBox="0 0 20 20">
+<title>log-out</title>
+<path d="M19 10l-6-5v3h-7v4h7v3l6-5zM3 3h8v-2h-8c-1.1 0-2 0.9-2 2v14c0 1.1 0.9 2 2 2h8v-2h-8v-14z"></path>
+</symbol>
+<symbol id="icon-login" viewBox="0 0 20 20">
+<title>login</title>
+<path d="M14 10l-6-5v3h-7v4h7v3l6-5zM17 17h-8v2h8c1.1 0 2-0.9 2-2v-14c0-1.1-0.9-2-2-2h-8v2h8v14z"></path>
+</symbol>
+<symbol id="icon-star-outlined" viewBox="0 0 20 20">
+<title>star-outlined</title>
+<path d="M18.8 8.022h-6.413l-2.387-6.722-2.389 6.722h-6.412l5.232 3.947-1.871 6.929 5.44-4.154 5.438 4.154-1.869-6.929 5.231-3.947zM10 12.783l-3.014 2.5 1.243-3.562-2.851-2.3 3.522 0.101 1.1-4.040 1.099 4.040 3.521-0.101-2.851 2.3 1.243 3.562-3.012-2.5z"></path>
+</symbol>
+</defs>
+</svg>

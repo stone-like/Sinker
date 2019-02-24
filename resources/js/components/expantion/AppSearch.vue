@@ -152,17 +152,17 @@
       </select> -->
        <transition-group tag="ul" class="DownUpDay" v-model="mode_sub"  name="list_time_lag">
        <li key="dummy_sub" @click="openLi_sub" ref=dummy_sub class="li_title">--SelectSearchType--</li>
-       <li @click.prevent="mode_sub='';closeAndTextchange_sub($event)"v-if="li_open_sub" key="option_default" class="li_options li_anime0">By default</li>
+       <li @click.prevent="mode_sub='';closeAndTextchange_sub($event)" v-if="li_open_sub" key="option_default" class="li_options li_anime0">By default</li>
        <li @click.prevent="mode_sub='ascending';closeAndTextchange_sub($event)"  v-if="li_open_sub" key="option_ascending" class="li_options li_anime1">ascending day</li>
-       <li 
+       <li
        @click.prevent="mode_sub='descending';closeAndTextchange_sub($event)"  v-if="li_open_sub" key="option_descending" class="li_options li_anime2">descending day</li>
       </transition-group>
 
       <transition-group tag="ul" class="TagOrCat" v-model="mode_main"  name="list_time_lag">
        <li key="dummy" @click="openLi" ref=dummy class="li_title">--SearchBy--</li>
-       <li @click.prevent="mode_main='';closeAndTextchange($event)"v-if="li_open" key="option_question" class="li_options li_anime0">By Questions</li>
+       <li @click.prevent="mode_main='';closeAndTextchange($event)" v-if="li_open" key="option_question" class="li_options li_anime0">By Questions</li>
        <li @click.prevent="mode_main='tags';closeAndTextchange($event)"  v-if="li_open" key="option_tag" class="li_options li_anime1">By Tags</li>
-       <li 
+       <li
        @click.prevent="mode_main='categories';closeAndTextchange($event)"  v-if="li_open" key="option_category" class="li_options li_anime2">By Categories</li>
       </transition-group>
      </div>
@@ -207,7 +207,7 @@ export default {
 //           selected.outerHTML = '<div class="select">' +   selected.outerHTML + '</div>';
 
 //           selected.parentNode.insertBefore()
-     
+
 //           var styledSelect = this.$refs.styledSelect;
 
 //           //やっていることは元のselectからoption含めて情報を引き出して,
@@ -217,8 +217,8 @@ export default {
 
 //         //   this.select_options_flag = true;//新たなstyleのul
 // 　　　　　// this.option_li_flag = true;//li
-        
-//       }, 
+
+//       },
       closeAndTextchange(e){
           this.li_open = ! this.li_open
           this.$refs.dummy.textContent = e.target.textContent;
@@ -816,7 +816,7 @@ align-items: center;
 
      &:hover{
          background-color:#fff;
-         
+
      }
 }
 

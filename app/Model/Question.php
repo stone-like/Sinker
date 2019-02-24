@@ -43,6 +43,8 @@ class Question extends Model
         return $this->belongsToMany(Tag::class)->withTimestamps();
     }
 
+    //questionからはtaskを参照しないのでこっちには書かなくていい、書くのはtask側
+
     public function getRouteKeyName(){
         return 'slug';
     }

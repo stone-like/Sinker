@@ -1,7 +1,26 @@
 <template>
   <div class="entire_wrapper">
       <!-- <draggable element="div" class="entire_draggable" v-model="bookmarks" :options="dragOptions"> -->
-          <transition-group tag="div" class="entire_transition">
+       <transition-group tag="div" :class="comp_upper_wrapper" name="upper">
+         <div class="message_wrapper items" key="message_wrapper">
+           <h1 class="route_message">Bookmark</h1>
+
+           <div class="bottom_line items"></div>
+         </div>
+
+         <div class="input_wrapper items" key="input_wrapper">
+          <input class="input_list items" type="text" placeholder="add new list..." v-model="addname" @focus="inputmodeOn" @blur="inputmodeOff">
+
+          <div :class="comp_button_wrapper">
+            <svg class="input_icon">
+                         <use xlink:href="../../Helpers/img/sprite4.svg#icon-triangle-right"></use>
+            </svg>
+            <button @mousedown.prevent="addNewList"  class="input_button" :disabled='addname === ""'>addNewList</button>
+           </div>
+          </div>
+       </transition-group>
+
+          <transition-group tag="div" class="entire_transition" name="list">
                <div class="outer_bookmark" v-for="(element,index) in bookmarks" :key="element.id">
                  <div class="tasks">
 
@@ -29,9 +48,7 @@
                </div>
           </transition-group>
 
-　　　　　　<input type="text" v-model="addname">
-          <button @click.prevent="addNewList">addNewList</button>
-
+　　　　　
       <!-- </draggable> -->
 
   </div>
@@ -46,7 +63,8 @@ export default {
     data(){
       return{
           bookmarks:[],
-          addname:""
+          addname:"",
+          isActive:false
         //   tasks:[]
       }
     },
@@ -57,28 +75,12 @@ export default {
 
     },
     methods:{
-        // listen(){
-
-        // this.$eventBus.$on('Bookmark_add_task',(bookmark,question_id) => {
-        //         console.log("mmmmmmmmmmmm")
-        //         console.log(bookmark,question_id)
-        //       //taskを追加するときはbookmark_id、order、question_idが必要でquestion_idはemitから持ってきて、bookmark_idもemit、orderはbookmark_idからそのbookmarkのtaskの数+1
-        //       let bookmark_id = bookmark.id
-        //       let order = bookmark.tasks.length
-        //     //   let question_id = question_id
-
-        //         axios.post('/api/task',{"bookmark_id":bookmark_id,"order":order,"question_id":question_id })
-        //         .then(res => {
-        //               let id = res.data.bookmark_id
-        //               this.bookmarks.foreach(function(bookmark){
-        //                   if(bookmark.id === id){
-        //                       bookmark.tasks.push(res.data)
-        //                   }else{}
-        //               })
-        //         })
-        //         .catch(error => console.log(error.response.data))
-        //   })
-        // },
+        inputmodeOn(){
+             this.isActive = true;
+        },
+        inputmodeOff(){
+             this.isActive = false;
+        },
         deleteBookmark(element_id,index){
              axios.delete('/api/bookmark/'+element_id)
              .then(res => {
@@ -86,17 +88,7 @@ export default {
              })
              .catch(error => error.response.data)
         },
-        // sortArrays(array){
-        //     console.log(_.orderBy(array,'order','asc')
-        //     )
-        //    return _.orderBy(array,'order','asc');
-        //    //なんかおかしくなってしまうとおもったらこのsort自体はいいんだけど変更前のorderが適用されてしまう例えば移動前のorderが1とかで変更後のorder0として変更後のorder0でsortされてほしいのに変更前のorder1でsortされてしまう
-        //   //それならcomputedで変化したあとに適用すればいい？
-        //   //あとは選択ミス?みたいなバグもある、AをつかんだのにBをつかんだことになって、それでもデータ上はAを移動したことになっている・・・
-
-        // },
         addNewList(){
-
             axios.post('/api/bookmark',{"name":this.addname})
             .then(res => {
                 //tasksは空でよくてあとのidとnameをthis.bookmarksにpush
@@ -161,6 +153,12 @@ export default {
         }
     },
     computed:{
+        comp_button_wrapper(){
+           return (this.addname === "") ? "button_wrapper" :"button_wrapper activate"
+        },
+        comp_upper_wrapper(){
+            return this.isActive ? "upper_wrapper active" :"upper_wrapper";
+        },
         // comp_Bookmark(){
         //      this.bookmarks.foreach(function(bookmark){
         //         bookmark.tasks.sort((a,b) => {
@@ -204,11 +202,128 @@ export default {
 <style lang="scss" scoped>
 $background-color: #EDE9E3;
 
+//動かしたい要素にitemsつけてあげる
+.upper-move,
+.items,
+.list-move{
+    transition:all .4s ease-in-out;
+}
+
+.active{
+    .message_wrapper{
+        transform: translate3d(0,2rem,0);
+    }
+    .input_wrapper{
+        transform: translate3d(57rem,-3.6rem,0);
+    }
+    .bottom_line{
+        width: 28rem;
+        background-color: rgb(100, 50, 46);
+    }
+    .input_wrapper{
+        //こういう風に入れ子で書いたときはtransitionさせたいときも入れ子で
+
+       .input_list{
+         height:4rem;
+         width: 50rem;
+         font-size: 2rem;
+
+         &::-webkit-input-placeholder{
+        font-size: 2rem;
+
+       }
+       }
+    }
+
+    // .button_wrapper{
+
+    //     .input_button{
+    //         color:#CD664D;
+    //     }
+    //     .input_icon{
+    //           fill:#CD664D;
+    //     }
+
+    //        }
+}
+
+.activate{
+       .input_button{
+            color:#CD664D;
+        }
+        .input_icon{
+              fill:#CD664D;
+        }
+
+}
+
 .entire_wrapper{
     height: 100%;
     width: 100%;
     background-color: $background-color;
 
+}
+
+.message_wrapper{
+    margin-left: 3rem;
+    margin-top: 3rem;
+   display: flex;
+   flex-direction: column;
+}
+
+.route_message{
+    font-size: 4rem;
+     font-family: 'Geostar', cursive;
+}
+
+.bottom_line{
+    height: 1px;
+    background-color: rgb(100, 70, 46);
+    margin-top: 1rem;
+    width: 40rem;
+}
+
+.input_wrapper{
+     margin-left: 3rem;
+    margin-top: 2rem;
+    display: flex;
+    align-items: center;
+
+
+    .input_list{
+         border:1px solid black;
+         height:2.5rem;
+         width: 30rem;
+         outline:none;
+         font-size: 1.6rem;
+
+         &::-webkit-input-placeholder{
+        font-size: 1.6rem;
+        color: black;
+    }
+    }
+
+    .button_wrapper{
+        margin-left: 2rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .input_icon{
+              height: 3rem;
+              width: 3rem;
+              color:currentColor;
+        }
+
+        .input_button{
+          margin-top: .2rem;
+        }
+
+        .bottom_line2{
+             height: 1px;
+    background-color: #333;
+        }
+    }
 }
 
 .entire_draggable{

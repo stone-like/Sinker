@@ -1,11 +1,16 @@
 <template>
   <div class="entire_wrapper">
-      <draggable element="div" class="entire_draggable" v-model="bookmarks" :options="dragOptions">
+      <!-- <draggable element="div" class="entire_draggable" v-model="bookmarks" :options="dragOptions"> -->
           <transition-group tag="div" class="entire_transition">
-               <div class="outer_bookmark" v-for="element in bookmarks" :key="element.id">
+               <div class="outer_bookmark" v-for="(element,index) in bookmarks" :key="element.id">
                  <div class="tasks">
+
+                     <div class="header_wrapper">
                      <div class="task_header">
                          <h4 class="task_title">{{element.name}}</h4>
+                     </div>
+
+                     <button class="delete_button" @click.prevent="deleteBookmark(element.id,index)">delete</button>
                      </div>
 
                      <div class="task_body">
@@ -20,13 +25,14 @@
 
                         </draggable>
                      </div>
-
-                     <button @click.prevent="addNewList">addNewList</button>
                  </div>
                </div>
           </transition-group>
 
-      </draggable>
+　　　　　　<input type="text" v-model="addname">
+          <button @click.prevent="addNewList">addNewList</button>
+
+      <!-- </draggable> -->
 
   </div>
 </template>
@@ -35,18 +41,51 @@
 import draggable from 'vuedraggable'
 export default {
     components: {
-             draggable,
+             draggable
          },
     data(){
       return{
-          bookmarks:[]
+          bookmarks:[],
+          addname:""
         //   tasks:[]
       }
     },
     created(){
-      this.getBookmark()
+        // this.listen();
+
+      this.getBookmark();
+
     },
     methods:{
+        // listen(){
+
+        // this.$eventBus.$on('Bookmark_add_task',(bookmark,question_id) => {
+        //         console.log("mmmmmmmmmmmm")
+        //         console.log(bookmark,question_id)
+        //       //taskを追加するときはbookmark_id、order、question_idが必要でquestion_idはemitから持ってきて、bookmark_idもemit、orderはbookmark_idからそのbookmarkのtaskの数+1
+        //       let bookmark_id = bookmark.id
+        //       let order = bookmark.tasks.length
+        //     //   let question_id = question_id
+
+        //         axios.post('/api/task',{"bookmark_id":bookmark_id,"order":order,"question_id":question_id })
+        //         .then(res => {
+        //               let id = res.data.bookmark_id
+        //               this.bookmarks.foreach(function(bookmark){
+        //                   if(bookmark.id === id){
+        //                       bookmark.tasks.push(res.data)
+        //                   }else{}
+        //               })
+        //         })
+        //         .catch(error => console.log(error.response.data))
+        //   })
+        // },
+        deleteBookmark(element_id,index){
+             axios.delete('/api/bookmark/'+element_id)
+             .then(res => {
+                 this.bookmarks.splice(index,1);
+             })
+             .catch(error => error.response.data)
+        },
         // sortArrays(array){
         //     console.log(_.orderBy(array,'order','asc')
         //     )
@@ -56,8 +95,15 @@ export default {
         //   //あとは選択ミス?みたいなバグもある、AをつかんだのにBをつかんだことになって、それでもデータ上はAを移動したことになっている・・・
 
         // },
-        addNewList(id){
+        addNewList(){
 
+            axios.post('/api/bookmark',{"name":this.addname})
+            .then(res => {
+                //tasksは空でよくてあとのidとnameをthis.bookmarksにpush
+                console.log(res)
+                this.bookmarks.push(res.data.data)
+                this.addname=""
+            })
         },
         getBookmark(){
             var self = this
@@ -165,46 +211,50 @@ $background-color: #EDE9E3;
 
 }
 
-// .entire_draggable{
-//      height: 100%;
-//     width: 100%;
-// }
+.entire_draggable{
+     height: 100%;
+    width: 100%;
+}
 
-// .entire_transition{
-//     display:grid;
-//     margin-left:25rem;
-//     padding:15rem 15rem 15rem 10rem;
-//     grid-template-columns: repeat(auto-fit,minmax(10rem,1fr));
-//     grid-row-gap: 1rem;
-//     grid-column-gap: 1rem;
+.entire_transition{
+    display:grid;
+    margin-left:25rem;
+    padding:15rem 15rem 15rem 10rem;
+    grid-template-columns: repeat(auto-fit,minmax(10rem,1fr));
+    grid-row-gap: 1rem;
+    grid-column-gap: 1rem;
 
-//     grid-auto-rows:minmax(min-content,max-content);
+    grid-auto-rows:minmax(min-content,max-content);
 
-// }
+}
 
-// .tasks{
-//     width: 100%;
-//     height: 100%;
-//     padding: 2rem 5rem 5rem 2rem;
-//     display: flex;
-//     flex-direction: column;
-//     align-items: center;
-// }
+.tasks{
+    width: 100%;
+    height: 100%;
+    padding: 2rem 5rem 5rem 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 
-// .task_header{
-//      font-size: 3rem;
-//      margin-bottom: 2rem;
-// }
+.task_header{
+     font-size: 3rem;
+     margin-bottom: 2rem;
+}
 
-// // .task_body{
-// //     height: 70%;
-// //     width: 70%;
-// // }
+.task_body{
+    height: 70%;
+    width: 70%;
+}
 
-// .single_task{
-//     height: 5rem;
-//     width: 10rem;
-//      margin-bottom: 2rem;
-// }
+.single_task{
+    height: 5rem;
+    width: 100%;
+     margin-bottom: 2rem;
+}
+
+.header_wrapper{
+    display: flex;
+}
 
 </style>

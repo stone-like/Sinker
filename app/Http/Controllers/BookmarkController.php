@@ -6,6 +6,7 @@ use App\Model\Bookmark;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\BookmarkResource;
+use Symfony\Component\HttpFoundation\Response;
 
 class BookmarkController extends Controller
 {
@@ -40,7 +41,10 @@ class BookmarkController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //bookmarksにここで登録したいのはuser_idと$request->name
+        $bookmark = auth()->user()->bookmark()->create(["name" => $request->name]);
+
+        return new BookmarkResource($bookmark);
     }
 
     /**
@@ -85,6 +89,7 @@ class BookmarkController extends Controller
      */
     public function destroy(Bookmark $bookmark)
     {
-        //
+        $bookmark->Delete();
+        return response('Deleted',Response::HTTP_NO_CONTENT);
     }
 }

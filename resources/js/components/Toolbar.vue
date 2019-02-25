@@ -26,7 +26,7 @@
         <router-link to='/ask' v-if="userLoggedIn">
          <v-btn flat>Ask Question</v-btn>
         </router-link>
-        <router-link to='/category' v-if="userLoggedIn" >
+        <router-link to='/category' v-if="userLoggedIn&&this.$store.getters.checkadmin" >
          <v-btn flat>Category</v-btn>
         </router-link>
         <router-link to='/logout' v-if="userLoggedIn">

@@ -48,6 +48,7 @@ const routes = [
         path:'/category',
         component:CreateCategory,
         beforeEnter (to,from,next){
+            //これwipeeffectをbeforerouteleaveでかけているのでmodalはその前に出ないとだめなので個々のbeforerouteleaveでtoがcategoryか判定しなくてはいけない？まぁそもそもautherしかいじれないようにしているからまぁcategoryをsidebarとかにもautherしか出す必要がなさそうだし、このチェックの必要もそもそもなさそうだが
             if(store.getters.checkadmin){
 
                 next()

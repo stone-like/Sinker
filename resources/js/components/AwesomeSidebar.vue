@@ -1,6 +1,6 @@
 <template>
  <div>
-    <nav class="sidebar" ref="sidebar">
+    <nav :class="comp_Sidebar" ref="sidebar">
         <ul class="side-nav">
             <li class="side-nav__item">
                 <router-link to='/forum' :class="comp_Forum">
@@ -14,7 +14,7 @@
                      <small class="side-nav__small">sweet home</small>
                 </router-link>
             </li>
-            <li class="side-nav__item">
+            <li class="side-nav__item"  v-if="userLoggedIn" >
                 <router-link to='/ask' v-if="userLoggedIn" :class="comp_Question">
                    <div class="side-nav__main">
                     <svg class="side-nav__icon">
@@ -37,7 +37,7 @@
                    <small class="side-nav__small">sweet home</small>
                 </router-link>
             </li>
-            <li class="side-nav__item">
+            <li class="side-nav__item"  v-if="userLoggedIn" >
                 <router-link to="/userprofile"  class="side-nav__link">
                   <div class="side-nav__main">
                     <svg class="side-nav__icon">
@@ -49,7 +49,7 @@
                      <small class="side-nav__small">sweet home</small>
                 </router-link>
             </li>
-            <li class="side-nav__item">
+            <li class="side-nav__item"  v-if="userLoggedIn" >
                 <router-link to="/setting" :class="comp_Setting">
                   <div class="side-nav__main">
                     <svg class="side-nav__icon">
@@ -61,7 +61,7 @@
                     <small class="side-nav__small">sweet home</small>
                 </router-link>
             </li>
-            <li class="side-nav__item">
+            <li class="side-nav__item" v-if="userLoggedIn&&this.$store.getters.checkadmin">
                 <router-link to='/category' v-if="userLoggedIn" :class="comp_Category">
                   <div class="side-nav__main">
                     <svg class="side-nav__icon">
@@ -73,7 +73,7 @@
                      <small class="side-nav__small">sweet home</small>
                 </router-link>
             </li>
-            <li class="side-nav__item">
+            <li class="side-nav__item"  v-if="userLoggedIn" >
                 <router-link to='/bookmark' v-if="userLoggedIn" :class="comp_Bookmark">
                   <div class="side-nav__main">
                     <svg class="side-nav__icon">
@@ -85,7 +85,7 @@
                      <small class="side-nav__small">sweet home</small>
                 </router-link>
             </li>
-            <li class="side-nav__item">
+            <li class="side-nav__item"  v-if="userLoggedIn" >
                 <router-link to='/logout' v-if="userLoggedIn" class="side-nav__link">
                   <div class="side-nav__main">
                     <svg class="side-nav__icon">
@@ -97,10 +97,10 @@
                 </router-link>
             </li>
             <li class="side-nav__item" v-if="!userLoggedIn" >
-                <a to='/login' class="side-nav__link">
+                <a href='/login' class="side-nav__link">
                   <div class="side-nav__main">
                     <svg class="side-nav__icon">
-                         <use xlink:href="../Helpers/img/sprite2.svg#icon-login" v-if="userLoggedIn"></use>
+                         <use xlink:href="../Helpers/img/sprite2.svg#icon-login"></use>
                     </svg>
                      <span class="side-nav__menu">Login</span>
                  </div>
@@ -149,6 +149,9 @@ export default {
      },
      comp_Bookmark(){
          return this.bookmark ?  "side-nav__link active":  "side-nav__link";
+     },
+     comp_Sidebar(){
+         return this.userLoggedIn ? "sidebar" : "sidebar mini";
      }
  },
   methods:{
@@ -258,6 +261,11 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.sidebar.mini{
+    height: 25vh;
+    margin-top: 37.5vh;
 }
 .side-nav{
   width: 100%;

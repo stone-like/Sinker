@@ -176,7 +176,7 @@ methods:{
     // },
 
     changeModalFlag(){
-        this.$store.dispatch('changeModalFlag');
+        this.$store.dispatch('changeModalFlag',null);
     },
     listen(){
         this.$eventBus.$on("openDescription",(number) =>{

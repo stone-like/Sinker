@@ -109,7 +109,7 @@ export default {
       next(vm => {
           var  self = vm;
           //sidebarのactiveを外したりつけたり処理するここはforumなのでactiveをforumにつけてfrom.pathの所を外す
-          if(from.path == "/forum" || from.path == "/ask"){
+          if(from.path == "/forum" || from.path == "/ask" || from.path == "/setting" || from.path == "/userprofile" || from.path == "/bookmark"){
             self.$store.dispatch("changeTransition_Router","ReadToRead_enter")
             self.$store.dispatch("changeTransition_Tool","wipe")
 
@@ -155,7 +155,7 @@ export default {
   beforeRouteLeave(to,from,next){
       var self = this;
 
-       if(to.path == "/ask" ||  to.path == "/forum"){
+       if(to.path == "/ask" ||  to.path == "/forum" || to.path == "/setting" || to.path == "/userprofile" || to.path == "/bookmark"){
             self.$store.dispatch("changeTransition_Router","ReadToRead_leave")
             self.$store.dispatch("changeTransition_Tool","wipe")
 
@@ -178,6 +178,12 @@ export default {
                 var wipe_array = {name:"QUESTION",color:"#c0392b"}
             }else if(to.path == "/forum"){
                 var wipe_array = {name:"FORUM",color:"#3498db"}
+            }else if(to.path == "/setting"){
+                var wipe_array = {name:"SETTING",color:"#FDA7DF"}
+            }else if(to.path == "/userprofile"){
+                 var wipe_array = {name:"USERPROFILE",color:"#8e44ad"}
+            }else if(to.path == "/bookmark"){
+                 var wipe_array = {name:"BOOKMARK",color:"#2ecc71"}
             }
                   self.$eventBus.$emit("wipeEffectStart",wipe_array)
                 //sidebarが引っ込んだらこれをapphomeに送って一面を覆う

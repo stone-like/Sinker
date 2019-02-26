@@ -206,12 +206,135 @@ export default {
           var  self = vm;
           //これでgridを全域にまで伸ばす
           self.$eventBus.$emit("changeGridUser",true)
+
+            if(from.path == "/ask" || from.path == "/category" || from.path == "/forum" || from.path == "/userprofile" || from.path == "/setting"){
+            self.$store.dispatch("changeTransition_Router","ReadToRead_enter")
+            self.$store.dispatch("changeTransition_Tool","wipe")
+
+         self.$store.dispatch("changeToolRead",true)
+         var tm0 = new TimelineMax();
+
+         tm0.to("html",0.0001,{
+             onStart:function(){
+                 //時系列を作る代わりの者があればそっちを使ったほうがいいはず
+                 //こっちは覆いを外す側でまず外すのが最初
+                  self.$eventBus.$emit("wipeEffectRemove")
+                //  self.$eventBus.$emit("entireFade","visible")
+             }
+         })
+         .add("scene1")
+         .to("html",0.0001,{
+             onStart:function(){
+                 //覆いを外したらsidebarをだす
+
+                 self.$eventBus.$emit("changeSidebarMode","/bookmark")
+
+
+             }
+         },"scene1+=0.00001")
+
+
+        }else if(from.path == "/welcome"){
+            self.$store.dispatch("changeTransition_Router","HomeToRead")
+            self.$store.dispatch("changeTransition_Tool","fade-side")
+
+         self.$store.dispatch("changeToolRead",true)
+         var tm0 = new TimelineMax();
+         tm0.to("html",0.0001,{
+             onStart:function(){
+                 self.$eventBus.$emit("changeSidebarMode","/setting")
+                 self.$eventBus.$emit("entireFade","visible")
+
+             }
+         })
+         .add("scene1")
+        }
+
       })
     },
    beforeRouteLeave(to,from,next){
 
-      this.$eventBus.$emit("changeGridUser",false)
-      next()
+        var self = this;
+
+       if(to.path == "/ask" || to.path == "/category"  || to.path == "/forum" || to.path == "/userprofile" || to.path == "/setting"){
+            self.$store.dispatch("changeTransition_Router","ReadToRead_leave")
+            self.$store.dispatch("changeTransition_Tool","wipe")
+
+            var tm0 = new TimelineMax();
+
+            tm0.to("html",0.00000001,{
+             onStart:function(){
+                 self.$eventBus.$emit("changeSidebarMode",to.path)
+
+             }
+         })
+         .add("scene1")
+         .to("html",0.000001,{
+             onStart:function(){
+                   //ここでwipeするときの色と文字を送る
+            if(to.path == "/category"){
+                var wipe_array = {name:"CATEGORY",color:"#f39c12"}
+            }else if(to.path == "/ask"){
+                var wipe_array = {name:"QUESTION",color:"#c0392b"}
+            }else if(to.path == "/forum"){
+                var wipe_array = {name:"FORUM",color:"#3498db"}
+            }else if(to.path == "/userprofile"){
+                 var wipe_array = {name:"USERPROFILE",color:"#8e44ad"}
+            }else if(to.path == "/setting"){
+                 var wipe_array = {name:"SETTING",color:"#FDA7DF"}
+            }
+                  self.$eventBus.$emit("wipeEffectStart",wipe_array)
+                //sidebarが引っ込んだらこれをapphomeに送って一面を覆う
+             }
+         },"scene1+=0.000001")
+         .add("scene2")
+         .to("html",0.00000001,{
+             onStart:function(){
+                 //完全にアニメーションが終わったらv-ifでsidebarを消す(ただし今回はReadToReadなのでtoolbarに切り替える必要はないので消さなくていい)
+                  self.$store.dispatch("changeToolRead",false)
+                   self.$eventBus.$emit("changeGridUser",false)
+                 next()
+
+             }
+         },"scene2+=1")
+        }else if(to.path == "/welcome"){
+            self.$store.dispatch("changeTransition_Router","ReadToHome")
+            self.$store.dispatch("changeTransition_Tool","fade-side")
+
+         var tm0 = new TimelineMax();
+
+         tm0.to("html",0.00000001,{
+             onStart:function(){
+                 self.$eventBus.$emit("changeSidebarMode")
+                 self.$eventBus.$emit("entireFade","invisible")
+
+             }
+         })
+         .add("scene1")
+         .to("html",0.00000001,{
+             onStart:function(){
+
+                 self.$store.dispatch("changeToolRead",false)
+                  self.$eventBus.$emit("changeGridUser",false)
+                 next()
+
+             }
+         },"scene1+=1")
+
+        }else if(to.name == 'read'){
+            self.$eventBus.$on("doneCardEvent",() => {
+                next()
+            })
+        }else{
+             self.$eventBus.$emit("changeGridUser",false)
+            next()
+        }
+
+        // this.$eventBus.$emit("changeGridUser",false)
+
+        next(false)
+
+    //   next()
 
    }
 }

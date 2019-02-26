@@ -123,6 +123,8 @@ export default {
           setting:false,
           home:false,
           category:false,
+          bookmark:false,
+          userprofile:false,
           isInvisible:false
       }
     },
@@ -200,32 +202,58 @@ export default {
             this.forum = true;
             this.ask= false;
             this.home = false;
-             this.settig = false;
+             this.setting = false;
              this.category = false;
+             this.bookmark = false;
+             this.userprofile = false;
         }else if(topath == "/ask"){
             this.ask= true;
             this.forum= false;
             this.home = false;
-             this.settig = false;
+             this.setting = false;
               this.category = false;
+              this.bookmark = false;
+             this.userprofile = false;
         }else if(topath == "/home"){
             this.home = true;
             this.ask= false;
             this.forum = false;
-             this.settig = false;
+             this.setting = false;
               this.category = false;
+              this.bookmark = false;
+             this.userprofile = false;
         }else if(topath == "/setting"){
-            this.settig = true;
+            this.setting = true;
             this.ask= false;
             this.home = false;
              this.forum = false;
               this.category = false;
+              this.bookmark = false;
+             this.userprofile = false;
         }else if(topath == "/category"){
              this.forum = false;
             this.ask= false;
             this.home = false;
-             this.settig = false;
+             this.setting = false;
              this.category = true;
+             this.bookmark = false;
+             this.userprofile = false;
+        }else if(topath == "/bookmark"){
+             this.forum = false;
+            this.ask= false;
+            this.home = false;
+             this.setting = false;
+             this.category = false;
+             this.bookmark = true;
+             this.userprofile = false;
+        }else if(topath == "userprofile"){
+            this.forum = false;
+            this.ask= false;
+            this.home = false;
+             this.setting = false;
+             this.category = false;
+             this.bookmark = false;
+             this.userprofile = true;
         }
       }
   },

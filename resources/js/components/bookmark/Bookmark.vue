@@ -24,13 +24,13 @@
                <div class="outer_bookmark" v-for="(element,index) in bookmarks" :key="element.id">
                  <div class="tasks">
 
-                     <div class="header_wrapper">
+                     <!-- <div class="header_wrapper"> -->
                      <div class="task_header">
                          <h4 class="task_title">{{element.name}}</h4>
                      </div>
 
                      <button class="delete_button" @click.prevent="deleteBookmark(element.id,index)">delete</button>
-                     </div>
+                     <!-- </div> -->
 
                      <div class="task_body">
                         <draggable :options="dragOptions" element="div" @end="changeOrder" v-model="element.tasks">
@@ -64,17 +64,31 @@ export default {
       return{
           bookmarks:[],
           addname:"",
-          isActive:false
+          isActive:false,
+          delete_id:"",
+          delete_index:""
         //   tasks:[]
       }
     },
     created(){
-        // this.listen();
+        this.listen();
 
       this.getBookmark();
 
     },
     methods:{
+        listen(){
+           this.$eventBus.$on('startDeleting',(deletetype) => {
+               if(deletetype === "bookmark"){
+
+                   axios.delete('/api/bookmark/'+this.delete_id)
+                .then(res => {
+                    this.bookmarks.splice(this.delete_index,1);
+                })
+                .catch(error => error.response.data)
+               }
+           })
+        },
         inputmodeOn(){
              this.isActive = true;
         },
@@ -82,11 +96,15 @@ export default {
              this.isActive = false;
         },
         deleteBookmark(element_id,index){
-             axios.delete('/api/bookmark/'+element_id)
-             .then(res => {
-                 this.bookmarks.splice(index,1);
-             })
-             .catch(error => error.response.data)
+
+            this.delete_id = element_id
+            this.delete_index = index
+            this.$store.dispatch("changeModalFlag",["Notification","If you click delete,tasks inside bookmark vanish are you sure to delete?","delete"])
+            //  axios.delete('/api/bookmark/'+element_id)
+            //  .then(res => {
+            //      this.bookmarks.splice(index,1);
+            //  })
+            //  .catch(error => error.response.data)
         },
         addNewList(){
             axios.post('/api/bookmark',{"name":this.addname})
@@ -264,6 +282,10 @@ $background-color: #EDE9E3;
 
 }
 
+.outer_bookmark{
+    border: 1px solid #363636;
+}
+
 .message_wrapper{
     margin-left: 3rem;
     margin-top: 3rem;
@@ -335,9 +357,9 @@ $background-color: #EDE9E3;
     display:grid;
     margin-left:25rem;
     padding:15rem 15rem 15rem 10rem;
-    grid-template-columns: repeat(auto-fit,minmax(10rem,1fr));
-    grid-row-gap: 1rem;
-    grid-column-gap: 1rem;
+    grid-template-columns: repeat(auto-fit,minmax(30rem,1fr));
+    grid-row-gap: 5rem;
+    grid-column-gap: 5rem;
 
     grid-auto-rows:minmax(min-content,max-content);
 
@@ -346,14 +368,17 @@ $background-color: #EDE9E3;
 .tasks{
     width: 100%;
     height: 100%;
-    padding: 2rem 5rem 5rem 2rem;
+    padding: 2rem 4rem 2rem 4rem;
     display: flex;
     flex-direction: column;
     align-items: center;
+    position: relative;
 }
 
 .task_header{
      font-size: 3rem;
+     font-family: Arial, Helvetica, sans-serif;
+     color:#363636;
      margin-bottom: 2rem;
 }
 
@@ -366,10 +391,19 @@ $background-color: #EDE9E3;
     height: 5rem;
     width: 100%;
      margin-bottom: 2rem;
+     border: 1px solid #363636;
 }
 
 .header_wrapper{
     display: flex;
+    align-self: center;
+
+}
+
+.delete_button{
+    position: absolute;
+    top: 5%;
+    right: 5%;
 }
 
 </style>

@@ -19,6 +19,8 @@ class BookmarkController extends Controller
     {
         //今ログインしているユーザーのbookmarkをget
         $user = Auth::user();
+
+
         // dump(Bookmark::where('user_id',$user->id)->get());
         return BookmarkResource::collection(Bookmark::where('user_id',$user->id)->get());
     }

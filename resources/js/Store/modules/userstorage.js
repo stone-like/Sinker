@@ -4,6 +4,35 @@ import Token from "../../Helpers/Token"
 import User from "../../Helpers/User"
 import Axios from 'axios';
 //tokenとかusernameの破棄と保存はここを呼び出して行う、呼び出し側はHelper/Userとかでやって実際の処理はここ
+const initial_state = {
+    token:null,
+    username:null,
+    id:null,
+    modalflag:false,
+    homeflag:true,
+    readflag:false,
+    descriptionflag:false,
+    signupflag:false,
+    transition_name_router:"ReadToHome",
+    transition_name_tool:"fade-up",
+    tool_read_mode:false,
+    tool_home_mode:true,
+    search_list:{},
+    apply_list:{},
+    questions:{},
+    categories:{},
+    queryParam:{
+        keywords:"",
+        mode_main:"",
+        mode_sub:""
+    },
+    isLoading:false,
+    search_box_on:true,
+    modalHeader:"",
+    modalBody:"",
+    modalFooter:""
+};
+
 const state={
     token:null,
     username:null,
@@ -124,6 +153,9 @@ const state={
     },
     'SearchBox_Mutate'(state,payload){
         state.search_box_on = payload;
+    },
+    'Initial_return'(state){
+        Object.assign(state,initial_state);
     }
  };
 
@@ -199,6 +231,9 @@ const state={
     },
     setSearchBoxFlag:({commit},payload) => {
         commit('SearchBox_Mutate',payload);
+    },
+    setInitialstate:({commit}) => {
+        commit('Initial_return');
     }
  };
 

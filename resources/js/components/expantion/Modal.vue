@@ -21,14 +21,22 @@
           </div>
 
           <div class="modal-footer" v-if="!closeflag">
-            <div v-if="footer==='like'">
-                <a href="/login">
+            <div v-if="footer==='like'" class="login_button">
+                <a href="/login" class="modal_link">
                    login
                 </a>
             </div>
+            <div v-if="footer==='delete'">
+                <button class="modal-delete-button" @click.prevent="DeleteOn('bookmark')">
+                      Delete
+                </button>
+                <button class="modal-cancel-button" @click.prevent="closeEffect">
+                   Cancel
+                </button>
+            </div>
           </div>
 
-          <button class="modal-default-button" @click="closeEffect"  v-if="!closeflag">
+          <button class="modal-default-button" @click.prevent="closeEffect"  v-if="!closeflag&&footer==='like'">
                 close
          </button>
         </div>
@@ -83,6 +91,14 @@ export default {
        },
        emitClose(){
            this.$emit('close')
+       },
+    //    CancelDelete(){
+    //        this.$emit('close')
+    //    },
+       DeleteOn(deletetype){
+           this.$eventBus.$emit('startDeleting',deletetype)
+           setTimeout(this.emitClose,300)
+        this.closeflag = true;
        }
     },
     computed:{
@@ -158,6 +174,42 @@ export default {
    position: absolute;
     right:5%;
     top: 10%;
+}
+
+.modal-delete-button{
+ position: absolute;
+    top: 80%;
+    left: 30%;
+    transform: translate(-50%,-50%);
+    color: azure;
+    border: 1px solid azure;
+    padding: 2rem 3rem;
+}
+
+.modal-cancel-button{
+ position: absolute;
+    top: 80%;
+    left: 70%;
+    transform: translate(-50%,-50%);
+    color: azure;
+    border: 1px solid azure;
+    padding: 2rem 3rem;
+}
+
+.login_button{
+    position: absolute;
+    top: 80%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    color: azure;
+    border: 1px solid azure;
+    padding: 2rem 3rem;
+}
+
+.modal_link{
+  text-decoration: none;
+  color: azure;
+  font-size: 2rem;
 }
 
 /*

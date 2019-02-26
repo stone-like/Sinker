@@ -49,6 +49,7 @@ export default {
          this.first_done=true;
          axios.post("api/auth/login",this.form)
         .then(res =>{
+                  this.$store.dispatch('setInitialstate')
                   User.responseAfterLogin(res)
                   setTimeout(this.changeSuccess,2000);
                 //   window.location="/forum"

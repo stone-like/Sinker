@@ -9,6 +9,7 @@ export default {
         ...mapActions(['deleteToken','deleteId','deleteUser'])
     },
     created(){
+        this.$store.dispatch('setInitialstate')
        this.deleteToken();
        this.deleteUser();
        this.deleteId();

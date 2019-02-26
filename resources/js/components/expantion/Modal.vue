@@ -1,51 +1,94 @@
 <template>
    <!-- <script type="text/x-template" id="modal-template"> -->
-  <transition name="modal">
+  <!-- <transition name="modal"> -->
     <div class="modal-mask">
       <div class="modal-wrapper">
-        <div class="modal-container">
+        <transition tag="div" name="modal" appear>
 
-          <div class="modal-header">
+        <div :class="comp_modal"  ref="clickToClose">
+          <div class="modal-header" v-if="!closeflag">
             <!-- <slot name="header">
               default header
             </slot> -->
             {{header}}
           </div>
 
-          <div class="modal-body">
+          <div class="modal-body" v-if="!closeflag">
             <!-- <slot name="body">
               default body
             </slot> -->
             {{body}}
           </div>
 
-          <div class="modal-footer">
-            <!-- <slot name="footer">
-              default footer -->
-              <button class="modal-default-button" @click="$emit('close')">
-                close
-              </button>
-            <!-- </slot> -->
+          <div class="modal-footer" v-if="!closeflag">
+            <div v-if="footer==='like'">
+                <a href="/login">
+                   login
+                </a>
+            </div>
           </div>
+
+          <button class="modal-default-button" @click="closeEffect"  v-if="!closeflag">
+                close
+         </button>
         </div>
+
+        </transition>
       </div>
-    </div>
-  </transition>
+   </div>
+  <!-- </transition> -->
 <!-- </script> -->
 
 </template>
 
 <script>
+import Child_Transition from "./Child_Transition"
+import {TweenMax,bezier,DirectionalRotationPlugin,CSSPlugin} from "gsap"
+// import Slot_Modules from "./Slot_Modules"
 export default {
+    components:{Child_Transition},
     data(){
         return{
           header:"",
           body:"",
+          footer:"",
+          closeflag:false,
+        //   text_close_flag:false
         }
     },
     created(){
+        // this.text_close_flag = false
+        this.closeflag = false
          this.header = this.$store.getters.getModalHeader
          this.body = this.$store.getters.getModalBody
+         this.footer = this.$store.getters.getModalFooter
+    },
+    methods:{
+       closeEffect(){
+        //   var  self = this
+        //   let tm_modal = new TimelineMax();
+
+        //   , ease: newEase(BezierEasing(.17,.67,.83,.67) )これでcssのeaseと同じにできる
+        //   CustomEase.create("custom",".17,.67,.83,.67")
+        //   tm_modal.to(self.$refs.clickToClose,.3,{css:{height:'0px'}, ease: "custom"})
+        //   .to("html",0.00000000001,{onStart:function(){
+        //       self.$emit('close');
+        //   }})
+
+        //本文がある中でスムーズに閉じる処理を行うために本文をv-ifで消し終わったらheightを小さくしたい,今文字を消すのもheightを小さくするのもcloseflagでやってしまっているからダメ,
+        //v-ifの処理は前もやったんだけど結構遅い？っぽくて順番関係なく時間も遅くしてもだめっぽいだったらcss側でdisplay：noneにしてみる？
+        //そういうのじゃなく原因はpaddingがあったからだった、その分が突っかかってしまっていた
+        setTimeout(this.emitClose,300)
+        this.closeflag = true;
+       },
+       emitClose(){
+           this.$emit('close')
+       }
+    },
+    computed:{
+        comp_modal(){
+           return this.closeflag ? "modal-container active" :"modal-container";
+        }
     }
 }
 </script>
@@ -53,15 +96,16 @@ export default {
 <style>
 .modal-mask {
   position: fixed;
-  z-index: 9998;
+  z-index: 9998;/* これで背景クリックできないように */
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, .5);
+  background-color: transparent;
   display: table;
-  transition: opacity .3s ease;
+  /* transition: opacity .3s ease; */
 }
+
 
 .modal-wrapper {
   display: table-cell;
@@ -69,27 +113,51 @@ export default {
 }
 
 .modal-container {
-  width: 300px;
-  margin: 0px auto;
-  padding: 20px 30px;
-  background-color: #fff;
-  border-radius: 2px;
+  height: 30vh;
+  width: 100%;
+  margin: 0px;
+  /* padding: 3rem 3rem; */
+  background-color: rgba(0, 0, 0, .5);
+  /* border-radius: 2px; */
   box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
   transition: all .3s ease;
   font-family: Helvetica, Arial, sans-serif;
+
+  position: relative;
 }
 
-.modal-header h3 {
-  margin-top: 0;
-  color: #42b983;
+.active{
+    height: 0;
+}
+
+.none{
+    display: none;
+}
+
+.modal-header{
+
+    position: absolute;
+    left:10%;
+    top: 10%;
+   font-size: 3rem;
+   color: azure;
+    font-family: 'Geostar', cursive;
+
 }
 
 .modal-body {
-  margin: 20px 0;
+  /* margin: 20px 0; */
+  position: absolute;
+    left:10%;
+    top: 30%;
+  font-size: 2rem;
+  color: azure;
 }
 
 .modal-default-button {
-  float: right;
+   position: absolute;
+    right:5%;
+    top: 10%;
 }
 
 /*
@@ -101,17 +169,29 @@ export default {
  * these styles.
  */
 
-.modal-enter {
+ .modal-enter,
+ .modal-leave-to{
+   opacity: 0;
+   height: 0vh;
+ }
+
+ .modal-enter-active,
+ .modal-leave-active{
+      transition: all .3s ease;
+ }
+
+/* .modal-enter {
   opacity: 0;
 }
 
 .modal-leave-active {
   opacity: 0;
+
 }
 
 .modal-enter .modal-container,
 .modal-leave-active .modal-container {
   -webkit-transform: scale(1.1);
   transform: scale(1.1);
-}
+} */
 </style>

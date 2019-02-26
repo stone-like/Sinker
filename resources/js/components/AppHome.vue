@@ -176,7 +176,7 @@ methods:{
     // },
 
     changeModalFlag(){
-        this.$store.dispatch('changeModalFlag',null);
+        this.$store.dispatch('changeModalFlag',["","",""]);
     },
     listen(){
         this.$eventBus.$on("openDescription",(number) =>{
@@ -224,6 +224,11 @@ methods:{
 
                this.GridUserFlag = boolean;
        })
+
+    //     this.$eventBus.$on("closeModal",() => {
+
+    //            this.$store.dispatch('changeModalFlag',null);
+    //    })
   },
   leaveEl(el){
 

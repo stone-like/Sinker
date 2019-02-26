@@ -29,7 +29,8 @@ const state={
     isLoading:false,
     search_box_on:true,
     modalHeader:"",
-    modalBody:""
+    modalBody:"",
+    modalFooter:""
 };
 
  const mutations ={
@@ -50,6 +51,9 @@ const state={
      },
      'Set_Modal_Body'(state,payload=null){
         state.modalBody = payload;
+    },
+    'Set_Modal_Footer'(state,payload=null){
+        state.modalFooter = payload;
     },
      'Grid_Mutate'(state){
         state.gridflag = !state.gridflag;
@@ -146,6 +150,7 @@ const state={
         commit('Modal_Mutate');
         commit('Set_Modal_Header',payload[0])
         commit('Set_Modal_Body',payload[1])
+        commit('Set_Modal_Footer',payload[2])
     },
     changeHomeMode:({commit}) => {
         commit('HomeMode');
@@ -271,6 +276,9 @@ const state={
   },
   getModalBody:state => {
       return state.modalBody;
+  },
+  getModalFooter:state => {
+      return state.modalFooter;
   }
  };
 

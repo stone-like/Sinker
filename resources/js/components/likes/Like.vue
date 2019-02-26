@@ -34,7 +34,7 @@ export default {
               this.liked = !this.liked
              }
           else{
-              this.$store.dispatch("changeModalFlag",["Notification","you have to login to use like button"])
+              this.$store.dispatch("changeModalFlag",["Notification","you have to login to use like button","like"])
           }
       },
       incr(){

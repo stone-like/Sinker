@@ -2,8 +2,8 @@
  <div>
     <nav :class="comp_Sidebar" ref="sidebar">
         <ul class="side-nav">
-            <li class="side-nav__item">
-                <router-link to='/forum' :class="comp_Forum">
+            <li :class="comp_Forum">
+                <router-link to='/forum' class="side-nav__link">
                     <div class="side-nav__main">
 
                      <svg class="side-nav__icon">
@@ -14,8 +14,8 @@
                      <small class="side-nav__small">sweet home</small>
                 </router-link>
             </li>
-            <li class="side-nav__item"  v-if="userLoggedIn" >
-                <router-link to='/ask' v-if="userLoggedIn" :class="comp_Question">
+            <li :class="comp_Question"  v-if="userLoggedIn" >
+                <router-link to='/ask' v-if="userLoggedIn" class="side-nav__link">
                    <div class="side-nav__main">
                     <svg class="side-nav__icon">
                          <use xlink:href="../Helpers/img/sprite.svg#icon-chat" v-if="userLoggedIn"></use>
@@ -26,8 +26,8 @@
                     <small class="side-nav__small">sweet home</small>
                 </router-link>
             </li>
-            <li class="side-nav__item">
-                <router-link to="/welcome" :class="comp_Home">
+            <li :class="comp_Home">
+                <router-link to="/welcome" class="side-nav__link">
                   <div class="side-nav__main">
                     <svg class="side-nav__icon">
                          <use xlink:href="../Helpers/img/sprite.svg#icon-home"></use>
@@ -49,8 +49,8 @@
                      <small class="side-nav__small">sweet home</small>
                 </router-link>
             </li>
-            <li class="side-nav__item"  v-if="userLoggedIn" >
-                <router-link to="/setting" :class="comp_Setting">
+            <li :class="comp_Setting"  v-if="userLoggedIn" >
+                <router-link to="/setting" class="side-nav__link">
                   <div class="side-nav__main">
                     <svg class="side-nav__icon">
                         <use xlink:href="../Helpers/img/sprite.svg#icon-cog" v-if="userLoggedIn"></use>
@@ -61,8 +61,8 @@
                     <small class="side-nav__small">sweet home</small>
                 </router-link>
             </li>
-            <li class="side-nav__item" v-if="userLoggedIn&&this.$store.getters.checkadmin">
-                <router-link to='/category' v-if="userLoggedIn" :class="comp_Category">
+            <li :class="comp_Category" v-if="userLoggedIn&&this.$store.getters.checkadmin">
+                <router-link to='/category' v-if="userLoggedIn" class="side-nav__link">
                   <div class="side-nav__main">
                     <svg class="side-nav__icon">
                          <use xlink:href="../Helpers/img/sprite.svg#icon-text-document" v-if="userLoggedIn"></use>
@@ -73,8 +73,8 @@
                      <small class="side-nav__small">sweet home</small>
                 </router-link>
             </li>
-            <li class="side-nav__item"  v-if="userLoggedIn" >
-                <router-link to='/bookmark' v-if="userLoggedIn" :class="comp_Bookmark">
+            <li :class="comp_Bookmark"  v-if="userLoggedIn" >
+                <router-link to='/bookmark' v-if="userLoggedIn" class="side-nav__link">
                   <div class="side-nav__main">
                     <svg class="side-nav__icon">
                          <use xlink:href="../Helpers/img/sprite5.svg#icon-star-outlined" v-if="userLoggedIn"></use>
@@ -133,22 +133,22 @@ export default {
 
      }),
      comp_Forum(){
-         return this.forum ? "side-nav__link active":  "side-nav__link";
+         return this.forum ? "side-nav__item active":  "side-nav__item";
      },
      comp_Question(){
-         return this.ask ?  "side-nav__link active":  "side-nav__link";
+         return this.ask ?  "side-nav__item active":  "side-nav__item";
      },
      comp_Setting(){
-         return this.setting ?  "side-nav__link active":  "side-nav__link";
+         return this.setting ?  "side-nav__item active":  "side-nav__item";
      },
      comp_Home(){
-         return this.home ?  "side-nav__link active":  "side-nav__link";
+         return this.home ?  "side-nav__item active":  "side-nav__item";
      },
      comp_Category(){
-         return this.category ?  "side-nav__link active":  "side-nav__link";
+         return this.category ?  "side-nav__item active":  "side-nav__item";
      },
      comp_Bookmark(){
-         return this.bookmark ?  "side-nav__link active":  "side-nav__link";
+         return this.bookmark ?  "side-nav__item active":  "side-nav__item";
      },
      comp_Sidebar(){
          return this.userLoggedIn ? "sidebar" : "sidebar mini";
@@ -338,39 +338,65 @@ export default {
     color:#e67e22;
   }
 
-  &__item &__link.active{
+  .active{
+     //なぜかheight0がかかってしまうのでheight:autoをかけてあげる
+     height: auto;
+      .side-nav__link{
+
       position: relative;
       color: #e67e22;
       border:0;
-      box-shadow: 0 0 5px #DDD;
+    //   box-shadow: 0 0 5px #DDD;
 
     //   border-left: 4px solid #e67e22;
     //   border-right: 4px solid #e67e22;
     //   margin: 0 -4px;
+      }
+
+       .side-nav__link::before{
+          content:"";
+          position: absolute;
+          top: 42%;
+          left: 0;
+          border-left: 5px solid #e67e22;
+          border-top: 5px solid transparent;
+          border-bottom: 5px solid transparent;
+        //左の三角部分
+       }
+
+        .side-nav__link::after{
+           content:"";
+           position: absolute;
+           top: 42%;
+           right: 0;
+           border-right: 5px solid #e67e22;
+           border-top: 5px solid transparent;
+           border-bottom: 5px solid transparent;
+       }
 
   }
 
-  &__item &__link.active:before{
-      content:"";
-      position: absolute;
-      top: 42%;
-      left: 0;
-      border-left: 5px solid #e67e22;
-      border-top: 5px solid transparent;
-      border-bottom: 5px solid transparent;
-      //左の三角部分
-  }
+//   &__item &__link.active:before{
+//       content:"";
+//       position: absolute;
+//       top: 42%;
+//       left: 0;
+//       border-left: 5px solid #e67e22;
+//       border-top: 5px solid transparent;
+//       border-bottom: 5px solid transparent;
+//       //左の三角部分
+//   }
 
-   &__item &__link.active:after{
-       content:"";
-       position: absolute;
-       top: 42%;
-       right: 0;
-       border-right: 5px solid #e67e22;
-       border-top: 5px solid transparent;
-       border-bottom: 5px solid transparent;
+//    &__item &__link.active:after{
+//        content:"";
+//        position: absolute;
+//        top: 42%;
+//        right: 0;
+//        border-right: 5px solid #e67e22;
+//        border-top: 5px solid transparent;
+//        border-bottom: 5px solid transparent;
 
-   }
+//    }
 }
 
 @keyframes moveFromTop{

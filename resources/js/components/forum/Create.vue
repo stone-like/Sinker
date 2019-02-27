@@ -363,6 +363,8 @@ $search-bg-color: #242628;
 
 .active{
 
+    height: auto;
+
    .message_wrapper{
        background-color: #363636;
 

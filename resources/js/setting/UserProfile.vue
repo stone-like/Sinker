@@ -347,19 +347,79 @@ export default {
             console.log("enter")
           var  self = vm;
         self.$eventBus.$emit("changeGridUser",true)
-        self.$store.dispatch("changeToolRead",false)
+        // self.$store.dispatch("changeToolRead",false)
 
-        var tm_user_profile = new TimelineMax();
-        tm_user_profile
-        .add("scene1")
+         if(from.path == "/ask" || from.path == "/category" || from.path == "/forum" || from.path == "/bookmark" || from.path == "/setting"){
+             //ここのifを付けておかないとリロードしたとき、つまり自分次寸から来たときにもすでに覆いがないのに覆いを外す処理をしてしまう
+
+        var tm0 = new TimelineMax();
+
+         tm0.to("html",0.0001,{
+             onStart:function(){
+                 //時系列を作る代わりの者があればそっちを使ったほうがいいはず
+                 //こっちは覆いを外す側でまず外すのが最初
+                  self.$eventBus.$emit("wipeEffectRemove")
+                //  self.$eventBus.$emit("entireFade","visible")
+             }
+         })
+
+         }
+
         })
    },
    beforeRouteLeave(to,from,next){
+       var self = this
     this.$eventBus.$emit("changeGridUser",false);
-     this.$store.dispatch("changeToolRead",true)
-    clearInterval(this.intervalid)
-    console.log("clearinterval")
-    next();
+
+
+   if(to.path == "/forum"){
+
+       var tm0 = new TimelineMax();
+
+       tm0.to("html",0.000001,{
+                onStart:function(){
+                      //ここでwipeするときの色と文字を送る
+            //    if(to.path == "/category"){
+            //        var wipe_array = {name:"CATEGORY",color:"#f39c12"}
+            //    }else if(to.path == "/ask"){
+            //        var wipe_array = {name:"QUESTION",color:"#c0392b"}
+            //    }else if(to.path == "/forum"){
+            //        var wipe_array = {name:"FORUM",color:"#3498db"}
+            //    }else if(to.path == "/bookmark"){
+            //         var wipe_array = {name:"BOOKMARK",color:"#2ecc71"}
+            //    }else if(to.path == "/setting"){
+            //         var wipe_array = {name:"SETTING",color:"#FDA7DF"}
+            //    }
+                     var wipe_array = {name:"FORUM",color:"#3498db"}
+                     self.$eventBus.$emit("wipeEffectStart",wipe_array)
+                   //sidebarが引っ込んだらこれをapphomeに送って一面を覆う
+                }
+            })
+            .add("scene1")
+            .to("html",0.00000001,{onStart:function(){
+                clearInterval(self.intervalid)
+                 console.log("clearinterval")
+                   next();
+            }
+            },"scene1+=1")
+       //  this.$store.dispatch("changeToolRead",true)
+   }else if(to.path == "/welcome"){
+        var tm0 = new TimelineMax();
+
+         tm0.to("html",0.00000001,{
+             onStart:function(){
+                  self.$eventBus.$emit("entireFade","invisible")
+
+             }
+         })
+         .add("scene1")
+
+         clearInterval(self.intervalid)
+       console.log("clearinterval")
+       next();
+   }
+
+
    }
 }
 </script>

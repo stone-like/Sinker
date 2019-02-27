@@ -348,7 +348,7 @@ methods:{
 .entiregrid{
     display:grid;
     grid-template-columns: 19rem 1fr;
-    grid-template-rows: 8rem minmax(100rem,max-content) 10rem;
+    grid-template-rows: 8rem minmax(120rem,max-content) 10rem;
     position:relative;
     background-image: linear-gradient(to top, #c4c5c7 0%, #dcdddf 52%, #ebebeb 100%);
 
@@ -357,9 +357,10 @@ methods:{
 .entiregrid-read{
     display:grid;
     grid-template-columns: 19rem 1fr;
-    grid-template-rows: 8rem minmax(100rem,max-content) 10rem;
+    grid-template-rows: 8rem minmax(120rem,max-content) 10rem;
     position:relative;
-    background-color:#dcdddf;
+    // background-color:#dcdddf;
+    background-color:  #EDE9E3;
 }
 .toolbar{
 

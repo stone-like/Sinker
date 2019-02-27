@@ -52,12 +52,15 @@ export default {
          self.$eventBus.$emit("dismissOtherCards",self.data)
          var card = self.$refs.entire_card
 
+
          //要素の画面左上からの位置
          this.getAbsolutePosition(card)
 
          //要素の中央の位置
          var my_x = self.w_x + ((card.getBoundingClientRect().width)/2)
          var my_y = self.w_y + ((card.getBoundingClientRect().height)/2)
+
+         console.log( self.w_x,self.w_y)
 
 
 
@@ -79,7 +82,6 @@ export default {
 
          //一回目で絶対座標の中心に行ってもこのx:100とかというのは各々の最初の地点からどれくらい動いたかなので次にその中心からx:100とかしても結局元の位置から１００になってしまう、移動するときは常に絶対的な値(今回使っているroute、second_route)とか使わないとダメ
 
-         //普通にしただけじゃtoで変化した分の値が引き継がれないので、setする
 
          tm_card
          .to(self.$refs.entire_card,.8,{x:route_x,y:route_y})

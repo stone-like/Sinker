@@ -1,7 +1,14 @@
 <template>
     <div class="mycontainer" ref="entire_forum">
+          <div class="message_wrapper" key="message_wrapper">
+           <h1 class="route_message">Forum</h1>
+
+           <div class="bottom_line"></div>
+         </div>
+         <div class="main_wrapper">
+
             <v-flex xs9 class="rightflex">
-            <nav>
+            <nav class="page_wrapper">
                 <ul class="pagenation">
                     <li class="page-item">
                         <a @click="first" class="page-link" href="#">&laquo;</a>
@@ -32,6 +39,7 @@
             <v-flex xs3 class="app-sidebar">
                <app-sidebar></app-sidebar>
             </v-flex>
+         </div>
     </div>
 </template>
 
@@ -60,7 +68,7 @@ export default {
   beforeRouteEnter(to,from,next){
       next(vm => {
           var  self = vm;
-
+          self.$eventBus.$emit("changeGridUser",true)
           //sidebarのactiveを外したりつけたり処理するここはforumなのでactiveをforumにつけてfrom.pathの所を外す
           if(from.path == "/ask" || from.path == "/category" || from.path == "/setting" || from.path == "/userprofile" || from.path == "/bookmark" || from.path == "/search"){
             self.$store.dispatch("changeTransition_Router","ReadToRead_enter")
@@ -108,8 +116,9 @@ export default {
   },
   beforeRouteLeave(to,from,next){
       var self = this;
-
+        //   self.$eventBus.$emit("changeGridUser",false)
        if(to.path == "/ask" || to.path == "/category" || to.path == "/setting" || to.path == "/userprofile" || to.path == "/bookmark"){
+           self.$eventBus.$emit("changeGridUser",false)
             self.$store.dispatch("changeTransition_Router","ReadToRead_leave")
             self.$store.dispatch("changeTransition_Tool","wipe")
 
@@ -346,14 +355,41 @@ export default {
     //  transform: translateY(0px);//fade-enter-activeでtransformY(0px)の位置まで動く
     }
 
+.message_wrapper{
+    margin-left: 3rem;
+    margin-top: 3rem;
+   display: flex;
+   flex-direction: column;
+}
+
+.route_message{
+    font-size: 4rem;
+     font-family: 'Geostar', cursive;
+}
+
+.bottom_line{
+    height: 1px;
+    background-color: rgb(39, 67, 83);
+    margin-top: 1rem;
+    width: 40rem;
+}
 
 .mycontainer{
-    margin: 5rem auto 5rem auto;
+
+   height: 100%;
     // padding: 24px;
     width: 100%;
     display: flex;
+    flex-direction: column;
 
 }
+
+.main_wrapper{
+   display: flex;
+   padding: 6.4rem 0rem 6.4rem 20rem;
+   height: 100%;
+}
+
 .rightflex{
      margin-right: 2rem;
 }
@@ -376,25 +412,61 @@ export default {
   justify-items: stretch;
   align-items: stretch;
 }
+
 .pagenation{
     display: flex;
-    flex-grow: 1;
-    justify-content: space-around;
+    justify-content: center;
+    // flex-grow: 1;
+    // justify-content: space-around;
 }
 .page-item{
   list-style: none;
   height:2.5rem;
   width:2.5rem;
 
+  &:not(:last-child){
+      margin-right: 1.8rem;
+  }
+
 }
 
 .page-link{
+  outline: none;
+  display: inline-flex;
   text-decoration: none;
-  height:2.5rem;
-  width:2.5rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 2rem;
+  color: #4C4940;
+  width: 2.5rem;
+  height: 2.5rem;
+  line-height: 2.5rem;
+  border-radius: 50%;
+  border: double 4px #4C4940;
+//   text-align: center;
+//   vertical-align: middle;
+justify-content: center;
+align-items: center;
+  overflow: hidden;
+
+  font-size: 1.3rem;
 }
+// .pagenation{
+//     display: flex;
+//     flex-grow: 1;
+//     justify-content: space-around;
+// }
+// .page-item{
+//   list-style: none;
+//   height:2.5rem;
+//   width:2.5rem;
+
+// }
+
+// .page-link{
+//   text-decoration: none;
+//   height:2.5rem;
+//   width:2.5rem;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   font-size: 2rem;
+// }
 </style>

@@ -160,9 +160,12 @@ export default {
       listen(){
           var self = this;
           self.$eventBus.$on("changeSidebarMode",(topath) => {
-              console.log("sidemodeok?")
-              console.log(topath)
+            //   console.log("sidemodeok?")
+            //   console.log(topath)
+              //このsetActiveはsetsidebarmarkで起動することにした
                this.setActive(topath)
+
+
                //あるルートから出るときと入るときで都合二回呼ばれることになる
                //sidebarでの処理はReadModeへ入るときの処理と、出るとき、それとReadToReadのwipe、ReadToHomeででるとき、でfade-sideで消す
                //HomeToReadで入るとき、同じくfade-sideなのでfade-upはここではいらない、それはtoolbarでの処理
@@ -195,6 +198,21 @@ export default {
         //   self.$eventBus.$on("invisibleSidebar",(boolean) => {
         //       self.isInvisivle = boolean;
         //   })
+        self.$eventBus.$on("setSidebarAllFalse", () => {
+             self.forum = false
+             self.ask = false
+             self.setting = false
+             self.home = false
+             self.category = false
+             self.bookmark = false
+             self.userprofile = false
+        })
+
+        self.$eventBus.$on("setSidebarMark", (to_path) => {
+            //beforeDestroyしないと何回も重複されて呼ばれるので注意
+            console.log(to_path)
+              self.setActive(to_path)
+        })
       },
       setActive(topath){
         if(topath == "/forum"){
@@ -262,6 +280,8 @@ export default {
   },
   beforeDestroy(){
     this.$eventBus.$off("changeSidebarMode")
+     this.$eventBus.$off("setSidebarAllFalse")
+      this.$eventBus.$off("setSidebarMark")
   }
 
 }

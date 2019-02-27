@@ -88,6 +88,8 @@ export default {
                 .catch(error => error.response.data)
                }
            })
+
+            this.$eventBus.$emit("setSidebarMark","/bookmark")
         },
         inputmodeOn(){
              this.isActive = true;
@@ -207,7 +209,7 @@ export default {
           //これでgridを全域にまで伸ばす
           self.$eventBus.$emit("changeGridUser",true)
 
-            if(from.path == "/ask" || from.path == "/category" || from.path == "/forum" || from.path == "/userprofile" || from.path == "/setting"){
+            if(from.path == "/ask" || from.path == "/category" || from.path == "/forum" || from.path == "/userprofile" || from.path == "/setting"  || from.path == "/search"){
             self.$store.dispatch("changeTransition_Router","ReadToRead_enter")
             self.$store.dispatch("changeTransition_Tool","wipe")
 

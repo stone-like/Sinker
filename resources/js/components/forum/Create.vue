@@ -83,6 +83,14 @@ export default {
       //categoryをとってきてlaravelのcategoryResouceで設定した通り返ってくるのはidとname、それをitem-valueとかにした
       axios.get("/api/category")
       .then(res => this.categories = res.data.data)
+      //ページ遷移でcreatedだと反映されないみたい...
+      //createdだとeventBusまでは使えて、そのeventBusからmethodにアクセスできない？リロードの場合はできてる
+      //ここでの問題は今作っているサイトでは一旦sidebarを消しているからで消すときにchangemode、また出すときにもchangemodeと出すようにしているのだが
+      //リロードでは消す→出す→setsidebarmarkの順番で
+      //routerでは消す→setsidebarmark→出すの順番なのでv-ifで消えていてコンポーネント自体にはアクセスできる？けどそのデータ自体にはアクセスできないからダメだった見たい
+      //なのでリロードはここ、router-viewではchangesidebarmodeにすればいい？
+      //v-ifで一旦消さないと変な挙動していたのでここは消さなければいけないので、結局こんな面倒なことになっている
+      this.$eventBus.$emit("setSidebarMark","/ask")
   },
   methods:{
       create(){
@@ -139,7 +147,7 @@ export default {
           self.$eventBus.$emit("changeGridUser",true)
 
           //sidebarのactiveを外したりつけたり処理するここはforumなのでactiveをforumにつけてfrom.pathの所を外す
-          if(from.path == "/forum" || from.path == "/category" || from.path == "/setting" || from.path == "/userprofile" || from.path == "/bookmark"){
+          if(from.path == "/forum" || from.path == "/category" || from.path == "/setting" || from.path == "/userprofile" || from.path == "/bookmark"  || from.path == "/search"){
             self.$store.dispatch("changeTransition_Router","ReadToRead_enter")
             self.$store.dispatch("changeTransition_Tool","wipe")
 

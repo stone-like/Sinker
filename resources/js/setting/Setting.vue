@@ -109,6 +109,9 @@ export default {
           changed_image:""
        }
    },
+   created(){
+          this.$eventBus.$emit("setSidebarMark","/setting")
+   },
    methods:{
        fileSelect(e){
            self.errors = []//入力ミスで生じたerrorを消しておく
@@ -231,7 +234,7 @@ export default {
       next(vm => {
           var  self = vm;
 
-          if(from.path == "/ask" || from.path == "/category" || from.path == "/forum" || from.path == "/userprofile" || from.path == "/bookmark"){
+          if(from.path == "/ask" || from.path == "/category" || from.path == "/forum" || from.path == "/userprofile" || from.path == "/bookmark" || from.path == "/search"){
             self.$store.dispatch("changeTransition_Router","ReadToRead_enter")
             self.$store.dispatch("changeTransition_Tool","wipe")
 

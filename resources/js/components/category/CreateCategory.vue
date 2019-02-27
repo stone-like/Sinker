@@ -104,12 +104,14 @@ export default {
  created(){
       axios.get("/api/category")
       .then(res => this.categories = res.data.data)
+
+       this.$eventBus.$emit("setSidebarMark","/category")
   },
   beforeRouteEnter(to,from,next){
       next(vm => {
           var  self = vm;
           //sidebarのactiveを外したりつけたり処理するここはforumなのでactiveをforumにつけてfrom.pathの所を外す
-          if(from.path == "/forum" || from.path == "/ask" || from.path == "/setting" || from.path == "/userprofile" || from.path == "/bookmark"){
+          if(from.path == "/forum" || from.path == "/ask" || from.path == "/setting" || from.path == "/userprofile" || from.path == "/bookmark"  || from.path == "/search"){
             self.$store.dispatch("changeTransition_Router","ReadToRead_enter")
             self.$store.dispatch("changeTransition_Tool","wipe")
 

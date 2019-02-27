@@ -181,6 +181,8 @@ export default {
         .to([self.$refs.shadow_1,self.$refs.shadow_2,self.$refs.shadow_3,self.$refs.shadow_4,self.$refs.shadow_5,self.$refs.shadow_6],.5,{opacity:0},"scene2 -=.15")
         .add("scene3")
         .to(self.$refs.carrousel,0.00000001,{onStart:function(){
+            //ここでsearchboxを出す
+            self.$store.dispatch('setSearchBoxFlag',true)
             self.$store.dispatch("changeToolHome",false)
             next()
         }})

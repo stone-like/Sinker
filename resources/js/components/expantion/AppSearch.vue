@@ -518,14 +518,96 @@ export default {
           var  self = vm;
           //これでgridを全域にまで伸ばす
           self.$eventBus.$emit("changeGridUser",true)
+          self.$eventBus.$emit("setSidebarAllFalse")
       })
     },
-   beforeRouteLeave(to,from,next){
+     beforeRouteLeave(to,from,next){
+      var self = this;
+        self.$eventBus.$emit("changeGridUser",false)
 
-      this.$store.dispatch('setSearchBoxFlag',true)
-      self.$eventBus.$emit("changeGridUser",false)
-      next()
-   }
+       if(to.path == "/ask" || to.path == "/category"  || to.path == "/forum" || to.path == "/userprofile" || to.path == "/bookmark" || to.path == "/setting"){
+            self.$store.dispatch("changeTransition_Router","ReadToRead_leave")
+            self.$store.dispatch("changeTransition_Tool","wipe")
+
+            var tm0 = new TimelineMax();
+
+            tm0.to("html",0.00000001,{
+             onStart:function(){
+                 self.$eventBus.$emit("changeSidebarMode",to.path)
+
+             }
+         })
+         .add("scene1")
+         .to("html",0.000001,{
+             onStart:function(){
+                   //ここでwipeするときの色と文字を送る
+            if(to.path == "/category"){
+                var wipe_array = {name:"CATEGORY",color:"#f39c12"}
+            }else if(to.path == "/ask"){
+                var wipe_array = {name:"QUESTION",color:"#c0392b"}
+            }else if(to.path == "/forum"){
+                var wipe_array = {name:"FORUM",color:"#3498db"}
+            }else if(to.path == "/userprofile"){
+                 var wipe_array = {name:"USERPROFILE",color:"#8e44ad"}
+            }else if(to.path == "/bookmark"){
+                 var wipe_array = {name:"BOOKMARK",color:"#2ecc71"}
+            }else if(to.path == "/setting"){
+                var wipe_array = {name:"SETTING",color:"#FDA7DF"}
+            }
+                  self.$eventBus.$emit("wipeEffectStart",wipe_array)
+                //sidebarが引っ込んだらこれをapphomeに送って一面を覆う
+             }
+         },"scene1+=0.000001")
+         .add("scene2")
+         .to("html",0.00000001,{
+             onStart:function(){
+                 //完全にアニメーションが終わったらv-ifでsidebarを消す(ただし今回はReadToReadなのでtoolbarに切り替える必要はないので消さなくていい)
+                  self.$store.dispatch('setSearchBoxFlag',true)
+                  self.$store.dispatch("changeToolRead",false)
+                 next()
+
+             }
+         },"scene2+=1")
+        }else if(to.path == "/welcome"){
+            self.$store.dispatch("changeTransition_Router","ReadToHome")
+            self.$store.dispatch("changeTransition_Tool","fade-side")
+
+         var tm0 = new TimelineMax();
+
+         tm0.to("html",0.00000001,{
+             onStart:function(){
+                 self.$eventBus.$emit("changeSidebarMode")
+                 self.$eventBus.$emit("entireFade","invisible")
+
+             }
+         })
+         .add("scene1")
+         .to("html",0.00000001,{
+             onStart:function(){
+
+                 self.$store.dispatch("changeToolRead",false)
+                 next()
+
+             }
+         },"scene1+=1")
+
+        }else if(to.name == 'read'){
+            self.$eventBus.$on("doneCardEvent",() => {
+                next()
+            })
+        }else{
+            next()
+        }
+
+
+        next(false)
+  }
+//    beforeRouteLeave(to,from,next){
+
+//       this.$store.dispatch('setSearchBoxFlag',true)
+//       self.$eventBus.$emit("changeGridUser",false)
+//       next()
+//    }
 }
 </script>
 

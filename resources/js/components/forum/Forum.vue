@@ -62,7 +62,7 @@ export default {
           var  self = vm;
 
           //sidebarのactiveを外したりつけたり処理するここはforumなのでactiveをforumにつけてfrom.pathの所を外す
-          if(from.path == "/ask" || from.path == "/category" || from.path == "/setting" || from.path == "/userprofile" || from.path == "/bookmark"){
+          if(from.path == "/ask" || from.path == "/category" || from.path == "/setting" || from.path == "/userprofile" || from.path == "/bookmark" || from.path == "/search"){
             self.$store.dispatch("changeTransition_Router","ReadToRead_enter")
             self.$store.dispatch("changeTransition_Tool","wipe")
         //ReadToReadだからsidebarのchangeはいらない
@@ -104,7 +104,6 @@ export default {
          })
          .add("scene1")
         }
-
       })
   },
   beforeRouteLeave(to,from,next){
@@ -183,6 +182,11 @@ export default {
 
 
         next(false)
+  },
+  beforeRouteUpdate(to,from,next){
+      console.log("hellllooo")
+        //   console.log(this.$route.path)
+        //   console.log(from.path)
   },
   computed:{
 
@@ -271,6 +275,8 @@ export default {
 
 
       listen(){
+          //changeSidebarにどうせだからとsidebarのactiveせットの役割を持たせてしまったけどリロードに対応してないのでこのページに来たときはなんでもactiveとするならcreated()のlisten()で一律処理してしまえばよさそう
+          this.$eventBus.$emit("setSidebarMark","/forum")
           Echo.channel('addQuestionChannel')
         .listen('AddQuestionEvent',(e) => {
 

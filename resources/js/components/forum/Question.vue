@@ -115,7 +115,7 @@ export default {
 
          .to(self.$refs.entire_card,.3,{x:second_route_x,y:second_route_y,rotationZ:135,scale:0.8},"scene1")
 
-　　　　　.to(self.$refs.question__cover,.3,{rotationX:160})
+// 　　　　　.to(self.$refs.question__cover,.3,{rotationX:160})
        　.to(self.$refs.entire_card,.3,{rotationZ:165,repeat:2,yoyo:true})
          .add("scene2")
          .to(self.$refs.entire_card,0.0000000001,{onStart:function(){
@@ -363,6 +363,7 @@ export default {
     font-size: 3rem;
     color: #333;
     margin-top: 10rem;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 

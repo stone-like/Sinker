@@ -59,8 +59,9 @@
 <script>
 import AppTag from "./AppTag"
 import EditTag from "./EditTag"
+import BookmarkModal from "../bookmark/BookmarkModal"
 export default {
- components:{AppTag,EditTag},
+ components:{AppTag,EditTag,BookmarkModal},
  props:['data'],
  data(){
      return{
@@ -163,7 +164,27 @@ export default {
         //  .catch(error => console.log(error.response.data))
     },
     addBookmark(){
-        this.bookmark_flag = true;
+        let self = this;
+        // this.bookmark_flag = true;
+        //新しくmodalを作る(これはselectしなきゃいけないし、今までのmodalとは違うので)
+        // let addModal = new BookmarkModal().$mount();
+        //もう上のほうでcomponentとして BookmarkModalをインスタンスとして登録してあるので使用するときは BookmarkModalでいい
+        //↑は間違いで<component>としたときにインスタンスが生成されているのであった
+        const addModalConstructor = Vue.extend(BookmarkModal);//コンストラクタ化
+
+        const vm = new addModalConstructor({
+            propsData:{
+                bookmarks:self.bookmarks
+            }
+        });//インスタンスを生成
+        vm.$mount();//一旦マウントして
+        document.getElementById('app').appendChild(vm.$el);//appの子として追加する
+        vm.pop()
+        .then(res => {
+            console.log(res)
+            })
+        // .catch(error => console.log(error.response.data))
+        //thenに入る前にmodal側で破棄？
     },
      getBookmark(){
             var self = this

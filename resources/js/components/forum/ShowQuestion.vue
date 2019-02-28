@@ -1,46 +1,59 @@
 <template>
-    <v-card>
-        <v-container fluid>
-         <v-card-title>
-            <div>
+        <div class="question_wrapper">
+         <div class="upper_wrapper">
+            <div class="upper_title_wrapper">
+                <div class="title_shape">
+                </div>
                 <div class="headline">
                     {{data.title}}
                 </div>
-                <span class="grey--text">{{data.user}} said {{data.created_at}}</span>
             </div>
-            <v-spacer></v-spacer>
             <v-btn color="teal">{{replyCount}} replies</v-btn>
-            <button @click.prevent="AddOrDelete" >{{isBookmarked ? "deleteBookmark" : "addBookmark"}}</button>
+
+            <div class="AddOrDeleteContainer">
+
+            <button @click.prevent="AddOrDelete" class="bookmark_botton">{{isBookmarked ? "deleteBookmark" : "addBookmark"}}</button>
             <div v-if="bookmark_flag&&!isBookmarked">
-                <transition-group tag="ul" v-model="selected_bookmark">]
-                    <li v-for="bookmark in bookmarks" :key="bookmark.id" @click.prevent="selected_bookmark=bookmark">          {{bookmark.name}}
+                <transition-group tag="ul" v-model="selected_bookmark" class="bookmark_ul">]
+                    <li v-for="bookmark in bookmarks" :key="bookmark.id" @click.prevent="selected_bookmark=bookmark" class="bookmark_li">          {{bookmark.name}}
                     </li>
 
                     <button class="to_button" @click="passBookmarkData" :disabled="comp_disable"  key="to_button" v-if="!isBookmarked">Add question to {{selected_bookmark.name}}</button>
                 </transition-group>
-
             </div>
-         </v-card-title>
+            </div>
+         </div>
 
-         <v-card-text v-html="body"></v-card-text>
+         <div class="question_body" v-html="body"></div>
 
          <edit-tag :tags_array="tags" :question="data" v-if="editTag"></edit-tag>
          <app-tag :question="data" v-else></app-tag>
 
-         <v-card-actions v-if="own">
-             <v-btn icon small @click="edit">
-                 <v-icon color="blue">
+         <div class="question_footer_wrapper">
+          <v-card-actions v-if="own">
+              <v-btn icon small @click="edit">
+                  <v-icon color="blue">
                      edit
-                 </v-icon>
-             </v-btn>
-             <v-btn icon small @click="destroy">
-                 <v-icon color="black">
+                  </v-icon>
+              </v-btn>
+              <v-btn icon small @click="destroy">
+                  <v-icon color="black">
                      delete
-                 </v-icon>
-             </v-btn>
-         </v-card-actions>
-        </v-container>
-    </v-card>
+                  </v-icon>
+              </v-btn>
+          </v-card-actions>
+
+           <div class="user_profile">
+                <div class="image_wrapper">
+                    <img :src="data.user_img" class="image_content">
+                </div>
+                <div class="user_name">
+                     {{data.user}}
+                </div>
+            </div>
+
+         </div>
+        </div>
 </template>
 
 <script>
@@ -193,6 +206,52 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
+ .question_wrapper{
+     display: flex;
+     flex-direction: column;
+     border:1px solid black;
+ }
 
+ .upper_wrapper{
+     margin-top: 2rem;
+     display: flex;
+     align-items: center;
+ }
+
+ .upper_title_wrapper{
+   display: flex;
+   margin-right: auto;
+   margin-left: 3rem;
+   background-color: #4B483F;
+   padding: 0.5rem 1rem;
+   align-items: center;
+ }
+
+ .title_shape{
+     width: 3rem;
+     height: 3rem;
+     background-color: #EDE9E3;
+     margin-right: 2rem;
+ }
+ .headline{
+     color: #EDE9E3;
+ }
+
+ .bookmark_botton{
+     margin-right: 6rem;
+ }
+
+ .AddOrDeleteContainer{
+     display: flex;
+     flex-direction: column;
+ }
+
+ .bookmark_ul{
+   list-style: none;
+ }
+
+ .bookmark_li{
+
+ }
 </style>

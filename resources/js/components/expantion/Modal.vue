@@ -34,6 +34,14 @@
                    Cancel
                 </button>
             </div>
+            <div v-if="footer==='delete_task'">
+                <button class="modal-delete-button" @click.prevent="DeleteOn('task')">
+                      Delete
+                </button>
+                <button class="modal-cancel-button" @click.prevent="closeEffect">
+                   Cancel
+                </button>
+            </div>
           </div>
 
           <button class="modal-default-button" @click.prevent="closeEffect"  v-if="!closeflag&&footer==='like'">

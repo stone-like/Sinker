@@ -120,13 +120,11 @@ export default {
         this.$eventBus.$on("cancelEditTag",() => {
             this.editTag = false;
         })
-    },
-    AddOrDelete(){
-         return this.isBookmarked ? this.deleteBookmark() : this.addBookmark();
-    },
-    deleteBookmark(){
 
-         axios.delete('/api/task/'+this.task_id)
+        this.$eventBus.$on('startDeleting',(deletetype) => {
+               if(deletetype === "task"){
+
+                    axios.delete('/api/task/'+this.task_id)
          .then(res => {
              //データベース上で削除するときにそれが属していたbookmarkの他のtaskのorderもしっかりいじる
              this.isBookmarked = false;
@@ -134,6 +132,22 @@ export default {
              //push notification
          })
          .catch(error => console.log(error.response.data))
+               }
+           })
+    },
+    AddOrDelete(){
+         return this.isBookmarked ? this.deleteBookmark() : this.addBookmark();
+    },
+    deleteBookmark(){
+          this.$store.dispatch("changeModalFlag",["Notification","If you click delete,tasks inside bookmark vanish are you sure to delete?","delete_task"])
+        //  axios.delete('/api/task/'+this.task_id)
+        //  .then(res => {
+        //      //データベース上で削除するときにそれが属していたbookmarkの他のtaskのorderもしっかりいじる
+        //      this.isBookmarked = false;
+        //      //delete時にbookmarkのtaskのorderもいじらないといけない、例えば一番下に追加されるようにしているがそこから動かした場合は周りのorderをきちんといじってあげないとダメ
+        //      //push notification
+        //  })
+        //  .catch(error => console.log(error.response.data))
     },
     addBookmark(){
         this.bookmark_flag = true;

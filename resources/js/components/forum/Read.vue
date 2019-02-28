@@ -1,6 +1,4 @@
 <template>
- <transition-group
-    name="rotate_opac" appear>
 
   <div key="dummy" ref="dummy" class="dummy_position">
    <edit-question :data="question" v-if="editting" @startcanceling="cancel"></edit-question>
@@ -14,7 +12,6 @@
     <new-reply :questionSlug="question.slug" v-if="question"></new-reply>
    </v-container>
   </div>
- </transition-group>
 </template>
 
 <script>
@@ -60,11 +57,11 @@ export default {
   beforeRouteEnter(to,from,next){
       next(vm => {
           var  self = vm;
-
+          self.$eventBus.$emit("changeGridUser",true)
           var tm_read = new TimelineMax();
 
-          tm_read
-          .to(self.$refs.dummy,1,{rotationZ:0,scale:1,x:0,y:0})
+        //   tm_read
+        //   .to(self.$refs.dummy,1,{rotationZ:0,scale:1,x:0,y:0})
         //   .to(self.$refs.dummy,1,{x:self.start_x,y:self.start_y,ease: Power1.easeOut})
         // //   .to(self.$refs.dummy,1,{scale:1,ease: Power1.easeOut})
         //   .add("scene1")
@@ -76,6 +73,11 @@ export default {
 
 
       })
+  },
+  beforeRouteLeave(to,from,next){
+      var self = this
+    self.$eventBus.$emit("changeGridUser",false);
+    next();
   }
 
 
@@ -84,9 +86,7 @@ export default {
 
 <style lang="scss">
 .dummy_position{
-//   position: absolute;
-//これ選択したquestionの位置依存になってしまっている・・・？
-  transform: translate3d(-60vw,-70vh) scale(0.1) rotateZ(-120deg);
+  padding: 3rem 2rem 2rem 22rem;
 }
 
 </style>

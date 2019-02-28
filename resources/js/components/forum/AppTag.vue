@@ -1,9 +1,10 @@
 <template>
-  <div>
-      <ul>
-          <li v-for="tag in displaytags" :key="tag.id">{{tag.name}}</li>
+  <div class="tag_wrapper">
+      <span class="tag_text">Tags:</span>
+      <ul class="tag_list">
+          <li v-for="tag in displaytags" :key="tag.id" class="tag_item">{{tag.name}}</li>
       </ul>
-      <v-btn @click="startEditTag" v-if="isQualified"> edit tag</v-btn>
+      <v-btn @click="startEditTag" v-if="isQualified" class="tag_edit_button"> edit tag</v-btn>
   </div>
 </template>
 
@@ -68,6 +69,18 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
+.tag_list{
+    list-style: none;
+    display: flex;
+}
+.tag_item{
+    &:not(:last-child){
+        margin-right: 1.4rem;
+    }
+}
 
+.tag_wrapper{
+    display: flex;
+}
 </style>

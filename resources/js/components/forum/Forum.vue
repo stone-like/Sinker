@@ -33,7 +33,7 @@
                 </ul>
             　</nav>
             　<transition-group tag="ul" class="grid_ul" name="fade" mode="out-in" appear>
-             　<question v-for="(question,index) in displayItems" :key="question.path" 　:data="question" :class="'question_items question_items'+ index"></question>
+             　<question v-for="(question,index) in displayItems" :key="question.path" 　:throw_question="question" :class="'question_items question_items'+ index"></question>
            　 </transition-group>
             </v-flex>
             <v-flex xs3 class="app-sidebar">

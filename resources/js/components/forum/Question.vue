@@ -1,29 +1,49 @@
 <template>
 
 
-  <v-layout class="entire_card" ref="entire_card">
-      <v-card class="width_comp mt-2">
-        <div class="question__cover" ref="question__cover" :style="{'background-color':cover__background}"></div>
-        <v-card-title primary-title>
-          <div>
-            <h3 class="headline mb-0" @click="openCard">
-                <router-link :to="data.path">
-                    {{data.title}}
+<div class="entire_card" ref="entire_card">
+    <div class="side_border_bar">
+    </div>
+    <div class="main_wrapper">
+      <div class="right_wrapper">
+           <div class="category_wrapper">
+                <div class="category_color_shape" :style="{backgroundColor:cover__background}">
+                </div>
+                <div class="category_text">
+                    {{category}}
+                </div>
+           </div>
+            <h3 class="right_headline" @click="openCard">
+                <router-link :to="throw_question.path" class="link_to">
+                    {{throw_question.title}}
                 </router-link>
             </h3>
-            <div>
-                 {{data.created_at}}
+            <div class="right_created_at">
+                 {{throw_question.created_at}}
             </div>
-          </div>
-        </v-card-title>
-        <v-card-text ref="card__text">
-            {{text__body}}
-        </v-card-text>
+            <div class="right_body">
+              {{text__body}}
+            </div>
+      </div>
 
+      <div class="left_wrapper">
+            <div class="left_replies">
+                {{throw_question.reply_count}}
+                <span class="dummy">{{throw_question.reply_count > 1 ? "replies" : "reply" }}</span>
+            </div>
 
-      </v-card>
-  </v-layout>
+            <div class="user_profile">
+                <div class="image_wrapper">
+                    <img :src="throw_question.user_img" class="image_content">
+                </div>
+                <div class="user_name">
+                     {{throw_question.user}}
+                </div>
+            </div>
+      </div>
+    </div>
 
+</div>
 
 </template>
 
@@ -31,25 +51,29 @@
 import {TweenMax,bezier,DirectionalRotationPlugin,CSSPlugin} from "gsap"
 export default {
  data(){
+     //必要なのはuserの画像と名前
+     //このquestionの情報
      return{
        text__title:"",
        text__body:"",
        cover__background:"",
+       category:"",
        w_width:window.innerWidth,//画面の横
        w_height:window.innerHeight,//画面の縦
        w_x:"",
        w_y:"",
-       card_active:true
+       card_active:true,
+       my_image:""
 
      }
  },
- props:['data'],
+ props:['throw_question'],
  methods:{
      openCard(){
 
          var self = this;
          var tm_card = new TimelineMax();
-         self.$eventBus.$emit("dismissOtherCards",self.data)
+         self.$eventBus.$emit("dismissOtherCards",self.throw_question)
          var card = self.$refs.entire_card
 
 
@@ -113,7 +137,8 @@ export default {
      listen(){
          var self = this
          self.$eventBus.$on("dismissOtherCards",(card) => {
-             if(self.data.title === card.title){
+             if(self.throw_question.title === card.title){
+                 //これはpropsから得られたtitleを投げている、自分だったら何もせずもし他のカードから投げられたときは消える
 
              }else{
                  var tm_dismiss = new TimelineMax();
@@ -123,39 +148,57 @@ export default {
      }
  },
  created(){
+     //createdの時にpropにはアクセスできない..いやできるみたいだ
+     //dataが被ってるのがよくないのかな・・・？
+     //普通にpropsを参照するときはthisがいるだけだった...
+      console.log(this.throw_question.user_img)
+      //laravelはdefaultでrenderするときにpublicまでを補完するみたいなのでpublic以下のpathをとってくればいいみたい
+      //C:\Users\user\Desktop\realtimeappv2\public\images\C1Ts6p33XjD2g51Az5A40lU77E5V..jpgの中から\images\C1Ts6p33XjD2g51Az5A40lU77E5V..jpgここまでほしい
+
+    //  this.my_image = encodeURI(this.throw_question.user_img)
      //bodyに表示する文字数を制限する
-     if(this.data.body.length > 170){
-         this.text__body = this.data.body
+     if(this.throw_question.body.length > 170){
+         this.text__body = this.throw_question.body
         this.text__body = this.text__body.slice(0,167)+'...'
 
      }
      else{
-         this.text__body = this.data.body
+         this.text__body = this.throw_question.body
      }
-     switch(this.data.categoly_id){
+     switch(this.throw_question.categoly_id){
 
         case 1:
+         this.category = "velos"
          this.cover__background = "red"
          break;
         case 2:
         this.cover__background = "blue"
          break;
         case 3:
+        this.category = "illum"
         this.cover__background = "yellow"
          break;
         case 4:
+        this.category = "quisquam"
         this.cover__background = "green"
          break;
         case 5:
+        this.category = "iure"
         this.cover__background = "purple"
          break;
         case 6:
+        this.category = "rocpo"
         this.cover__background = "black"
          break;
         case 7:
         this.cover__background = "teel"
          break;
+         case 14:
+          this.category = "nocturn"
+        this.cover__background = "pink"
+         break;
         default:
+         this.category = "default"
         this.cover__background = "skyblue"
          break
      }
@@ -188,6 +231,7 @@ export default {
 .entire_card{
     transform: translateX(0) translateY(0) scale(1);
     transform-origin:50% 50%;
+    display: flex;
 }
 .rotateopac-leave-active{
     opacity:1;
@@ -213,6 +257,112 @@ export default {
 }
 .width_comp:hover{
    transform: translateY(-10px);
+}
+
+.side_border_bar{
+    width: 3px;
+    height: 100%;
+    background-color: #4E4B42;
+}
+
+.main_wrapper{
+    display: flex;
+    flex-grow: 1;
+}
+
+.right_wrapper{
+      height: 100%;
+      width: 50%;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+}
+
+.left_wrapper{
+      height: 100%;
+      width: 50%;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+}
+
+.image_wrapper{
+   width:7rem;
+   height: 7rem;
+   border-radius: 50%;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+.image_content{
+     width:5rem;
+   height: 5rem;
+   border-radius: 50%;
+   object-fit: cover;
+}
+
+.user_profile{
+    display: flex;
+    align-items: center;
+    margin-top: 8rem;
+
+}
+
+.user_name{
+    margin-left: 1.5rem;
+  font-size: 2rem;
+  color: #363636;
+}
+
+.category_wrapper{
+    display: flex;
+    align-items: center;
+}
+
+.category_color_shape{
+    height: 3rem;
+    width: 3rem;
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+
+}
+
+.category_text{
+    font-size: 1.6rem;
+    margin-left: 1rem;
+    color: #363636;
+}
+
+.right_headline{
+    margin-top: 2rem;
+    font-size: 2rem;
+    // align-self:center;
+    display: flex;
+}
+
+.right_created_at{
+    margin-top: 2rem;
+    color: #363636;
+    align-self:center;
+}
+
+.link_to{
+    text-decoration: none;
+     color: #363636;
+}
+
+.right_body{
+    color:#363636;
+    margin-top: 2rem;
+    font-size: 2rem;
+}
+
+.left_replies{
+    justify-self: center;
+    align-self: center;
+    font-size: 3rem;
+    color: #333;
+    margin-top: 10rem;
 }
 
 

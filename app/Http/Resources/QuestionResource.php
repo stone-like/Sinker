@@ -13,7 +13,9 @@ class QuestionResource extends JsonResource
      * @return array
      */
     public function toArray($request)
-    {
+    {   //ここでpathをpublic以下にしておいてそれをassetでhttp//というserver形式にする
+
+        $image_path =  asset("/images/".basename($this->user->img_path));
         return [
             'title' =>$this->title,
             'question_id' => $this->id,
@@ -25,7 +27,8 @@ class QuestionResource extends JsonResource
             'created_at' => $this->created_at->diffForHumans(),
             'user' => $this->user->name,//質問をした人の名前
             'user_id' => $this->user_id,//質問をした人のid
-            'categoly_id' => $this->category_id
+            'categoly_id' => $this->category_id,
+            'user_img' => $image_path
         ];
     }
 }

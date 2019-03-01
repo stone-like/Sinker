@@ -1,8 +1,7 @@
 <template>
-<v-card class="entire_wrapper">
 
- <v-container>
-   <v-form @submit.prevent="update">
+<div class="entire_wrapper">
+   <form @submit.prevent="update">
         <v-text-field label="Title"
           v-model="form.title"
           type="text"
@@ -20,9 +19,9 @@
                 <v-icon color="#363636">cancel</v-icon>
             </v-btn>
         </v-card-actions>
-   </v-form>
- </v-container>
-</v-card>
+   </form>
+</div>
+
 
 </template>
 
@@ -58,8 +57,8 @@ props:['data'],
 <style lang="scss" scoped>
 .entire_wrapper{
     background-color: transparent;
+    padding: 2rem;
+    border: 1px solid #333;
 }
-.elevation-2{
-    box-shadow: 0;
-}
+
 </style>

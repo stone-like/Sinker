@@ -4,7 +4,7 @@
       @enter="enter"
       @after-enter="afterEnter"
       @leave="leave"
-    >
+    mode="out-in">
     <slot></slot>
 
     </transition>
@@ -16,6 +16,8 @@ export default {
       enter(element){
           //elementは今enterが起こった場所つまり、transitionの所
           const width = getComputedStyle(element).width;//transitionのwidthを計算,autoじゃtransitionが効かないので実際の高さが必要
+
+          console.log(width)//ここだときちんとtransitionの大きさ1422pxになっているが、終了時にはbodyの大きさ1600近くになってしまっている
 
           element.style.width = width;
           element.style.position = 'absolute';
@@ -38,6 +40,7 @@ export default {
           setTimeout(() => {
               element.style.height=height;//const heightからとってくる
               //height:autoへ
+              element.style.width=width;
           })
       },
       afterEnter(element){
@@ -69,7 +72,7 @@ export default {
 
 .expand-enter-active,
 .expand-leave-active {
-  transition: height 1s ease-in-out,opacity 1s ease-in-out;
+  transition: height .4s ease;
   overflow: hidden;
 }
 
@@ -77,7 +80,7 @@ export default {
 .expand-leave-to {
 
   height:0;
-  opacity:0;
+//   opacity:0;
 }
 
 </style>

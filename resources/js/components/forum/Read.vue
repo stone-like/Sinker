@@ -1,11 +1,17 @@
 <template>
 
   <div key="dummy" ref="dummy" class="dummy_position">
+
+   <!-- <transition name="open_console" mode="out-in" class="transition_wrapper"> -->
+   <transition-expand>
+
    <edit-question :data="question" v-if="editting" @startcanceling="cancel"></edit-question>
 
    <div v-else>
     <show-question :data="question" v-if="question" @starteditting="edit"></show-question>
    </div>
+   </transition-expand>
+   <!-- </transition> -->
 
    <v-container>
     <replies :question="question" v-if="question"></replies>
@@ -20,9 +26,10 @@ import ShowQuestion from './ShowQuestion'
 import EditQuestion from './EditQuestion'
 import Replies from '../reply/Replies'
 import NewReply from '../reply/NewReply'
+import TransitionExpand from '../transition-effects/TransitionExpand'
 
 export default {
-  components:{ShowQuestion,EditQuestion,Replies,NewReply},
+  components:{ShowQuestion,EditQuestion,Replies,NewReply,TransitionExpand},
   data(){
       return{
           question:null,
@@ -88,5 +95,17 @@ export default {
 .dummy_position{
   padding: 3rem 2rem 2rem 22rem;
 }
+
+.open_console-enter,
+.open_console-leave-to{
+   height:0;
+}
+
+.open_console-enter-active,
+.open_console-leave-active{
+    transition: all .4s ease;
+}
+
+
 
 </style>

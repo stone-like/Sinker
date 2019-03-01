@@ -324,9 +324,9 @@ export default {
          },"scene1+=1")
 
         }else if(to.name == 'read'){
-            self.$eventBus.$on("doneCardEvent",() => {
+
                 next()
-            })
+
         }else{
              self.$eventBus.$emit("changeGridUser",false)
             next()

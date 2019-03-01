@@ -192,11 +192,7 @@ export default {
 
         next(false)
   },
-  beforeRouteUpdate(to,from,next){
-      console.log("hellllooo")
-        //   console.log(this.$route.path)
-        //   console.log(from.path)
-  },
+
   computed:{
 
       pages(){

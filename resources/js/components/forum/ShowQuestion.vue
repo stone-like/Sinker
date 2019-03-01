@@ -64,6 +64,7 @@ import AppTag from "./AppTag"
 import EditTag from "./EditTag"
 import BookmarkModal from "../bookmark/BookmarkModal"
 import DeleteQuestionModal from "../Modals/DeleteQuestionModal"
+import { resolve } from 'q';
 export default {
  components:{AppTag,EditTag,BookmarkModal, DeleteQuestionModal},
  props:['data'],
@@ -119,24 +120,43 @@ export default {
     this.listen();
      this.getBookmark();
  },
+ beforeDestroy(){
+   this.$eventBus.$off("replydone")
+   this.$eventBus.$off("deleteReply")
+   this.$eventBus.$off("cancelEditTag")
+   this.$eventBus.$off("openEditTag")
+   this.$eventBus.$off("startDeleting")
+    this.$eventBus.$off("startAddTask")//startAddTaskをdestroyしていなかったせいで必ず今までadd,deleteと繰り返した数が呼ばれてしまっていた？
+    //やはりそうだった、eventBusをつかうときとか、使わないときでもそうだけど注意しておこう
+ },
  methods:{
-    destroy(){
-          let self = this;
-           const DeleteConstructor = Vue.extend(DeleteQuestionModal);//コンストラクタ化
+          openModal(){
+               return new Promise((resolve) => {
 
-        const vm2 = new DeleteConstructor({
-            propsData:{
+                const DeleteConstructor = Vue.extend(DeleteQuestionModal);//コンストラクタ化
+
+              const vm2 = new DeleteConstructor({
+               propsData:{
                 "header":"Notification",
-                "body":"You are going to delete this question,Are you sure to delete?"
-                // success:(string) => resolve(string),
-                // failure:(string) => resolve(string)
+                "body":"You are going to delete this question,Are you sure to delete?",
+                success:() => resolve(true),
+                failure:() => resolve(false)
+                   }
+              });//インスタンスを生成
+             vm2.$mount();//一旦マウントして
+            document.getElementById('app').appendChild(vm2.$el);
+              })
+          },
+     async destroy(){
+            let self = this;
+            const result = await this.openModal();
+            if(result === true){
+                axios.delete("/api/question/"+this.data.slug)
+               .then(res => this.$router.push("/forum"))
+               .catch(error => console.log(error.response.data))
+            }else{
+                //cancelが押されたら何もしない
             }
-        });//インスタンスを生成
-        vm2.$mount();//一旦マウントして
-        document.getElementById('app').appendChild(vm2.$el);
-        // axios.delete("/api/question/"+this.data.slug)
-        // .then(res => this.$router.push("/forum"))
-        // .catch(error => console.log(error.response.data))
     },
     edit(){
         this.$emit("starteditting");
@@ -168,7 +188,7 @@ export default {
 
         this.$eventBus.$on("startAddTask",(extracted_bookmark)      => {
 
-        this.$eventBus.$emit('Bookmark_add_task',extracted_bookmark,this.data.question_id);
+        // this.$eventBus.$emit('Bookmark_add_task',extracted_bookmark,this.data.question_id);//これは考案段階で考えてたやつで今は使っていない
 
          let bookmark_id = extracted_bookmark.id
          let order = extracted_bookmark.tasks.length
@@ -260,24 +280,24 @@ export default {
                })
            })
            .catch(error => console.log(error.response.data))
-        },
-    passBookmarkData(){
-        this.$eventBus.$emit('Bookmark_add_task',this.selected_bookmark,this.data.question_id);
+        }
+    // passBookmarkData(){
+    //     this.$eventBus.$emit('Bookmark_add_task',this.selected_bookmark,this.data.question_id);
 
-         let bookmark_id = this.selected_bookmark.id
-         let order = this.selected_bookmark.tasks.length
-         let question_id = this.data.question_id
+    //      let bookmark_id = this.selected_bookmark.id
+    //      let order = this.selected_bookmark.tasks.length
+    //      let question_id = this.data.question_id
 
-          axios.post('/api/task',{"bookmark_id":bookmark_id,"order":order,"question_id":question_id })
-                .then(res => {
-                    console.log(res)
-                    this.isBookmarked = true;
-                    this.task_id = res.data.id
-                    this.bookmark_flag = false;
-                    //push notification
-                })
-                .catch(error => console.log(error.response.data))
-    }
+    //       axios.post('/api/task',{"bookmark_id":bookmark_id,"order":order,"question_id":question_id })
+    //             .then(res => {
+    //                 console.log(res)
+    //                 this.isBookmarked = true;
+    //                 this.task_id = res.data.id
+    //                 this.bookmark_flag = false;
+    //                 //push notification
+    //             })
+    //             .catch(error => console.log(error.response.data))
+    // }
  }
 }
 </script>

@@ -40,7 +40,7 @@
 import {TweenMax,bezier,DirectionalRotationPlugin,CSSPlugin} from "gsap"
 // import Slot_Modules from "./Slot_Modules"
 export default {
-    props:['header','body'],
+    props:['header','body','success','failure'],
     data(){
         return{
           closeflag:false,
@@ -52,10 +52,12 @@ export default {
        DeleteOn(){
         //    this.$eventBus.$emit('startDeleting',deletetype)
           this.closeflag = true;
+          this.success();
           this.dismount();
        },
        Cancel(){
            this.closeflag = true;
+           this.failure();
            this.dismount();
        },
       dismount(){

@@ -118,7 +118,7 @@ export default {
 // 　　　　　.to(self.$refs.question__cover,.3,{rotationX:160})
        　.to(self.$refs.entire_card,.3,{rotationZ:165,repeat:2,yoyo:true})
          .add("scene2")
-         .to(self.$refs.entire_card,0.0000000001,{onStart:function(){
+         .to("html",0.0000000001,{onStart:function(){
                self.$eventBus.$emit("doneCardEvent")
          }},"scene2")
      },

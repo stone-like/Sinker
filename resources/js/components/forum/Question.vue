@@ -227,7 +227,7 @@ export default {
 
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .entire_card{
     transform: translateX(0) translateY(0) scale(1);
     transform-origin:50% 50%;

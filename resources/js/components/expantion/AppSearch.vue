@@ -194,7 +194,10 @@ export default {
 
     //initial value
     this.$store.commit('setModeSub',{mode_sub:""})
-    this.$store.commit('setModeMain',{mode_main:""})
+
+    // this.$store.commit('setModeMain',{mode_main:""})
+    //これはquestionのタグからとってくる
+
     // this.$store.commit('setKeywords',{keywords:""})
     // this.$store.dispatch('changeSearchList',{})
     //この二つは小さいsearchboxから引っ張ってくる
@@ -312,6 +315,7 @@ export default {
             .catch(error => console.log(error.response.data))
 
            var target_category_id = null;
+
             self.$store.getters.getCategory_Array.forEach(function(category){
                   if(category.name.toLowerCase().includes(query.toLowerCase())){
                       //target_category_idの精製
@@ -523,6 +527,10 @@ export default {
     },
      beforeRouteLeave(to,from,next){
       var self = this;
+      //searchから出るときに初期化
+      self.$store.commit('setModeSub',{mode_sub:""})
+    self.$store.commit('setModeMain',{mode_main:""})
+
         self.$eventBus.$emit("changeGridUser",false)
 
        if(to.path == "/ask" || to.path == "/category"  || to.path == "/forum" || to.path == "/userprofile" || to.path == "/bookmark" || to.path == "/setting"){

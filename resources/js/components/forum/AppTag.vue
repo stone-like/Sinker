@@ -2,7 +2,7 @@
   <div class="tag_wrapper">
       <span class="tag_text">Tags:</span>
       <ul class="tag_list">
-          <li v-for="tag in displaytags" :key="tag.id" class="tag_item">{{tag.name}}</li>
+          <li v-for="tag in displaytags" :key="tag.id" class="tag_item" @click="pushToSearch(tag.name)">{{tag.name}}</li>
       </ul>
       <v-btn @click="startEditTag" v-if="isQualified" class="tag_edit_button"> edit tag</v-btn>
   </div>
@@ -24,6 +24,19 @@ export default {
        this.listen()
    },
    methods:{
+      pushToSearch(name){
+         //やることは3つでsearchに飛ぶようにしてあげる
+         //searchboxをoffに
+         //飛ぶ前に検索ワードにtagの名前、検索形式をtagにするためにvuexに書き込む
+         let mode_main = "tags"
+         let keywords = name
+          this.$store.commit("setKeywords",{keywords})
+          this.$store.commit("setModeMain",{mode_main})
+          this.$store.dispatch('setSearchBoxFlag',false)
+
+          this.$router.push("/search")
+
+      },
       getTags(){
           axios.get("/api/"+this.question.slug+"/tag")
           .then(res => {
@@ -78,9 +91,12 @@ export default {
     &:not(:last-child){
         margin-right: 1.4rem;
     }
+    cursor: pointer;
 }
 
 .tag_wrapper{
     display: flex;
+    align-items: center;
+    font-size: 1.3rem;
 }
 </style>

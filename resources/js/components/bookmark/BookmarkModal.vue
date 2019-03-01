@@ -38,7 +38,7 @@
 
 <script>
 export default {
-  props:['bookmarks'],
+  props:['bookmarks','success','failure'],
   data(){
     return{
         active:false,
@@ -52,26 +52,27 @@ export default {
     }
   },
   methods:{
-      pop(){
-          var self = this;
-          //activeはtransitionの時にcssをいじる用？
-         self.active = false;
-         return new Promise(function(resolve,reject){
-             //ここに.then以降で使いたい値を入れる？
-            //  this.resolve = resolve;
-              resolve(self.selected_bookmark)
-         })
-      },
+    //   pop(){
+    //       var self = this;
+    //       //activeはtransitionの時にcssをいじる用？
+    //      self.active = false;
+    //      return new Promise(function(resolve,reject){
+    //          //ここに.then以降で使いたい値を入れる？
+    //         //  this.resolve = resolve;
+    //           self.resolve(self.selected_bookmark)
+    //           self.resolve = resolve
+    //      })
+    //   },
       Confirm(){
+          this.$eventBus.$emit("startAddTask",this.selected_bookmark);
          this.active = true;
-         this.resolve = true;
          this.dismount();
       },
       Close(){
         this.active = true;//このactiveを変えるとtransitioneffectで.3sかかる
         // で、closeを呼ぶとdismountをするのでそれをするとすぐ消えてしまうので.3s後にdismountしたい
 
-        this.resolve = false;
+        // this.failure(false);
          this.dismount();
       },
       dismount(){

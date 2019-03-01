@@ -8,7 +8,7 @@
                     {{data.title}}
                 </div>
             </div>
-            <v-btn color="teal">{{replyCount}} replies</v-btn>
+            <div class="reply_section">{{replyCount}} replies</div>
 
             <div class="AddOrDeleteContainer">
 
@@ -30,18 +30,21 @@
          <app-tag :question="data" v-else></app-tag>
 
          <div class="question_footer_wrapper">
-          <v-card-actions v-if="own">
-              <v-btn icon small @click="edit">
-                  <v-icon color="blue">
-                     edit
-                  </v-icon>
-              </v-btn>
-              <v-btn icon small @click="destroy">
-                  <v-icon color="black">
-                     delete
-                  </v-icon>
-              </v-btn>
-          </v-card-actions>
+             <div class="edit_destroy_wrapper">
+
+                 <v-card-actions v-if="own">
+                    <v-btn icon small @click="edit">
+                       <v-icon color="#CD664D">
+                         edit
+                       </v-icon>
+                    </v-btn>
+                    <v-btn icon small @click="destroy">
+                        <v-icon color="#363636">
+                            delete
+                        </v-icon>
+                     </v-btn>
+                 </v-card-actions>
+             </div>
 
            <div class="user_profile">
                 <div class="image_wrapper">
@@ -148,6 +151,26 @@ export default {
          .catch(error => console.log(error.response.data))
                }
            })
+
+        this.$eventBus.$on("startAddTask",(extracted_bookmark)      => {
+
+        this.$eventBus.$emit('Bookmark_add_task',extracted_bookmark,this.data.question_id);
+
+         let bookmark_id = extracted_bookmark.id
+         let order = extracted_bookmark.tasks.length
+         let question_id = this.data.question_id
+
+          axios.post('/api/task',{"bookmark_id":bookmark_id,"order":order,"question_id":question_id })
+                .then(res => {
+                    console.log(res)
+                    this.isBookmarked = true;
+                    this.task_id = res.data.id
+                    this.bookmark_flag = false;
+                    //push notification
+                })
+                .catch(error => console.log(error.response.data))
+
+           })
     },
     AddOrDelete(){
          return this.isBookmarked ? this.deleteBookmark() : this.addBookmark();
@@ -163,6 +186,21 @@ export default {
         //  })
         //  .catch(error => console.log(error.response.data))
     },
+    // extractModal(){
+    //     let self = this;
+    //    return new Promise((resolve,reject) => {
+    //      const addModalConstructor = Vue.extend(BookmarkModal);//コンストラクタ化
+
+    //     const vm = new addModalConstructor({
+    //         propsData:{
+    //             bookmarks:self.bookmarks,
+    //             resolve:resolve
+    //         }
+    //     });//インスタンスを生成
+    //     vm.$mount();//一旦マウントして
+    //     document.getElementById('app').appendChild(vm.$el);//appの子として追加する
+    //    })
+    // },
     addBookmark(){
         let self = this;
         // this.bookmark_flag = true;
@@ -170,19 +208,22 @@ export default {
         // let addModal = new BookmarkModal().$mount();
         //もう上のほうでcomponentとして BookmarkModalをインスタンスとして登録してあるので使用するときは BookmarkModalでいい
         //↑は間違いで<component>としたときにインスタンスが生成されているのであった
+        // const result = await this.extractModal();
         const addModalConstructor = Vue.extend(BookmarkModal);//コンストラクタ化
 
         const vm = new addModalConstructor({
             propsData:{
                 bookmarks:self.bookmarks
+                // success:(string) => resolve(string),
+                // failure:(string) => resolve(string)
             }
         });//インスタンスを生成
         vm.$mount();//一旦マウントして
         document.getElementById('app').appendChild(vm.$el);//appの子として追加する
-        vm.pop()
-        .then(res => {
-            console.log(res)
-            })
+        // vm.pop()
+        // .then(res => {
+        //     console.log(res)
+        //     })
         // .catch(error => console.log(error.response.data))
         //thenに入る前にmodal側で破棄？
     },
@@ -232,6 +273,7 @@ export default {
      display: flex;
      flex-direction: column;
      border:1px solid black;
+     padding: 0 0 0 3rem;
  }
 
  .upper_wrapper{
@@ -243,7 +285,7 @@ export default {
  .upper_title_wrapper{
    display: flex;
    margin-right: auto;
-   margin-left: 3rem;
+//    margin-left: 3rem;
    background-color: #4B483F;
    padding: 0.5rem 1rem;
    align-items: center;
@@ -275,4 +317,59 @@ export default {
  .bookmark_li{
 
  }
+
+ .reply_section{
+     background-color:  #B4AF9A;
+     color: #4E4B42;
+     font-size: 2rem;
+     padding: 1rem 2rem;
+     border-radius: 5px;
+     box-shadow: 1px 1px 1px 0 #333;
+     margin-right: 1rem;
+
+ }
+
+ .question_body{
+     margin-top: 2rem;
+     font-size: 2rem;
+     color: #363636;
+ }
+
+ .image_wrapper{
+   width:7rem;
+   height: 7rem;
+   border-radius: 50%;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+.image_content{
+     width:5rem;
+   height: 5rem;
+   border-radius: 50%;
+   object-fit: cover;
+}
+
+.user_profile{
+    display: flex;
+    align-items: center;
+    margin-right:6rem;
+
+}
+
+.user_name{
+    margin-left: 1.5rem;
+  font-size: 2rem;
+  color: #363636;
+}
+
+.question_footer_wrapper{
+    display: flex;
+    align-items: center;
+}
+
+.edit_destroy_wrapper{
+    margin-right: auto;
+}
 </style>

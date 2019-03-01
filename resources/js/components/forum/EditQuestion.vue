@@ -1,5 +1,5 @@
 <template>
-<v-card>
+<v-card class="entire_wrapper">
 
  <v-container>
    <v-form @submit.prevent="update">
@@ -13,11 +13,11 @@
 
         <v-card-actions>
             <v-btn icon small type="submit">
-                <v-icon color="teal">save</v-icon>
+                <v-icon color="#CD664D">save</v-icon>
             </v-btn>
 
              <v-btn icon small  @click="cancel">
-                <v-icon color="black">cancel</v-icon>
+                <v-icon color="#363636">cancel</v-icon>
             </v-btn>
         </v-card-actions>
    </v-form>
@@ -55,6 +55,11 @@ props:['data'],
 }
 </script>
 
-<style>
-
+<style lang="scss" scoped>
+.entire_wrapper{
+    background-color: transparent;
+}
+.elevation-2{
+    box-shadow: 0;
+}
 </style>

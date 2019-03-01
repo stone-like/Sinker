@@ -3,11 +3,11 @@
     <markdown-editor v-model="reply.reply"></markdown-editor>
 
     <v-btn icon small @click="update">
-        <v-icon color="blue">save</v-icon>
+        <v-icon color="#CD664D">save</v-icon>
     </v-btn>
 
     <v-btn icon small @click="cancel">
-        <v-icon color="black">cancel</v-icon>
+        <v-icon color="#363636">cancel</v-icon>
     </v-btn>
 
    </div>

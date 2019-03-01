@@ -1,6 +1,6 @@
 <template>
     <div v-if="question">
-     <reply v-for="(reply,index) in content" :data="reply" :key="reply.id" :index=index></reply>
+     <reply v-for="(reply,index) in content" :data="reply" :key="reply.id" :index=index class="mb-2"></reply>
     </div>
 </template>
 

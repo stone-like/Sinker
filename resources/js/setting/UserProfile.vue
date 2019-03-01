@@ -708,12 +708,24 @@ $search-bg-color: #242628;
     }
 
     .route_next{
-       transform: translate3d(-104rem,-16rem,0);
+       transform: translate3d(-104rem,-17.5rem,0);
     }
 
     .route_from{
-        transform: translate3d(-84rem,-21.5rem,0);
+        transform: translate3d(-84rem,-24.3rem,0);
     }
+
+    //  .route_current{
+    //    transform: translate3d(-120rem,-11.5rem,0);
+    // }
+
+    // .route_next{
+    //    transform: translate3d(-104rem,-16rem,0);
+    // }
+
+    // .route_from{
+    //     transform: translate3d(-84rem,-21.5rem,0);
+    // }
 }
 
 .activity{

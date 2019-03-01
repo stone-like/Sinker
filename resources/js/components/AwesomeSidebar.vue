@@ -153,7 +153,13 @@ export default {
          return this.bookmark ?  "side-nav__item active":  "side-nav__item";
      },
      comp_Sidebar(){
-         return this.userLoggedIn ? "sidebar" : "sidebar mini";
+
+         if(this.userLoggedIn){
+             return this.$store.getters.checkadmin ?
+             "sidebar" : "sidebar reduced";
+         }else{
+             return "sidebar mini";
+         }
      }
  },
   methods:{
@@ -314,6 +320,11 @@ export default {
 .sidebar.mini{
     height: 25vh;
     margin-top: 37.5vh;
+}
+
+.sidebar.reduced{
+    height: 58vh;
+    margin-top: 21vh;
 }
 .side-nav{
   width: 100%;

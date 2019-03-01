@@ -64,7 +64,7 @@ import AppTag from "./AppTag"
 import EditTag from "./EditTag"
 import BookmarkModal from "../bookmark/BookmarkModal"
 import DeleteQuestionModal from "../Modals/DeleteQuestionModal"
-import { resolve } from 'q';
+
 export default {
  components:{AppTag,EditTag,BookmarkModal, DeleteQuestionModal},
  props:['data'],

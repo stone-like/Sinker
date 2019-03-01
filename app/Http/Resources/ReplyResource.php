@@ -14,6 +14,7 @@ class ReplyResource extends JsonResource
      */
     public function toArray($request)
     {
+        $image_path =  asset("/images/".basename($this->user->img_path));
         return [
             'id' => $this->id,
             'reply'=>$this->body,
@@ -23,7 +24,8 @@ class ReplyResource extends JsonResource
             'liked' => !! $this->like()->where('user_id',auth()->id())->count(),
             'user' =>$this->user->name,
             'user_id' => $this->user_id,
-            'created_at' => $this->created_at->diffForHumans()
+            'created_at' => $this->created_at->diffForHumans(),
+            'user_img' => $image_path
         ];
     }
 }

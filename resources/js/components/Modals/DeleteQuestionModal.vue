@@ -19,7 +19,7 @@
           </div>
 
           <div class="modal-footer" v-if="!closeflag">
-                <button class="modal-delete-button" @click.prevent="DeleteOn('bookmark')">
+                <button class="modal-delete-button" @click.prevent="DeleteOn()">
                       Delete
                 </button>
                 <button class="modal-cancel-button" @click.prevent="Cancel">

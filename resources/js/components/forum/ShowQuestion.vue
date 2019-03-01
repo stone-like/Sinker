@@ -63,8 +63,9 @@
 import AppTag from "./AppTag"
 import EditTag from "./EditTag"
 import BookmarkModal from "../bookmark/BookmarkModal"
+import DeleteQuestionModal from "../Modals/DeleteQuestionModal"
 export default {
- components:{AppTag,EditTag,BookmarkModal},
+ components:{AppTag,EditTag,BookmarkModal, DeleteQuestionModal},
  props:['data'],
  data(){
      return{
@@ -120,9 +121,22 @@ export default {
  },
  methods:{
     destroy(){
-        axios.delete("/api/question/"+this.data.slug)
-        .then(res => this.$router.push("/forum"))
-        .catch(error => console.log(error.response.data))
+          let self = this;
+           const DeleteConstructor = Vue.extend(DeleteQuestionModal);//コンストラクタ化
+
+        const vm2 = new DeleteConstructor({
+            propsData:{
+                "header":"Notification",
+                "body":"You are going to delete this question,Are you sure to delete?"
+                // success:(string) => resolve(string),
+                // failure:(string) => resolve(string)
+            }
+        });//インスタンスを生成
+        vm2.$mount();//一旦マウントして
+        document.getElementById('app').appendChild(vm2.$el);
+        // axios.delete("/api/question/"+this.data.slug)
+        // .then(res => this.$router.push("/forum"))
+        // .catch(error => console.log(error.response.data))
     },
     edit(){
         this.$emit("starteditting");

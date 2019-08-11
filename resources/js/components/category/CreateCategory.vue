@@ -111,7 +111,7 @@ export default {
       next(vm => {
           var  self = vm;
           //sidebarのactiveを外したりつけたり処理するここはforumなのでactiveをforumにつけてfrom.pathの所を外す
-          if(from.path == "/forum" || from.path == "/ask" || from.path == "/setting" || from.path == "/userprofile" || from.path == "/bookmark"  || from.path == "/search"){
+          if(from.path == "/forum" || from.path == "/ask" || from.path == "/setting" || from.path == "/userprofile" || from.path == "/bookmark"  || from.path == "/search" || from.name == "read"){
             self.$store.dispatch("changeTransition_Router","ReadToRead_enter")
             self.$store.dispatch("changeTransition_Tool","wipe")
 
@@ -225,6 +225,12 @@ export default {
              }
          },"scene1+=1")
 
+        }else if(to.name == 'read'){
+
+                next()
+
+        }else{
+            next()
         }
 
 

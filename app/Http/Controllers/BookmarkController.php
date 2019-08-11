@@ -21,8 +21,8 @@ class BookmarkController extends Controller
         $user = Auth::user();
 
 
-        // dump(Bookmark::where('user_id',$user->id)->get());
-        return BookmarkResource::collection(Bookmark::where('user_id',$user->id)->get());
+        // dump(Bookmark::where('user_id', $user->id)->get());
+        return BookmarkResource::collection(Bookmark::where('user_id', $user->id)->get());
     }
 
     /**
@@ -92,6 +92,6 @@ class BookmarkController extends Controller
     public function destroy(Bookmark $bookmark)
     {
         $bookmark->Delete();
-        return response('Deleted',Response::HTTP_NO_CONTENT);
+        return response('Deleted', Response::HTTP_NO_CONTENT);
     }
 }

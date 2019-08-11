@@ -234,7 +234,7 @@ export default {
       next(vm => {
           var  self = vm;
 
-          if(from.path == "/ask" || from.path == "/category" || from.path == "/forum" || from.path == "/userprofile" || from.path == "/bookmark" || from.path == "/search"){
+          if(from.path == "/ask" || from.path == "/category" || from.path == "/forum" || from.path == "/userprofile" || from.path == "/bookmark" || from.path == "/search" || from.name == "read"){
             self.$store.dispatch("changeTransition_Router","ReadToRead_enter")
             self.$store.dispatch("changeTransition_Tool","wipe")
 
@@ -346,9 +346,9 @@ export default {
          },"scene1+=1")
 
         }else if(to.name == 'read'){
-            self.$eventBus.$on("doneCardEvent",() => {
+
                 next()
-            })
+
         }else{
             next()
         }

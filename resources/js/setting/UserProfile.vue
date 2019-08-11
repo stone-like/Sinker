@@ -349,7 +349,7 @@ export default {
         self.$eventBus.$emit("changeGridUser",true)
         // self.$store.dispatch("changeToolRead",false)
 
-         if(from.path == "/ask" || from.path == "/category" || from.path == "/forum" || from.path == "/bookmark" || from.path == "/setting"  || from.path == "/search"){
+         if(from.path == "/ask" || from.path == "/category" || from.path == "/forum" || from.path == "/bookmark" || from.path == "/setting"  || from.path == "/search" || from.name == "read"){
              //ここのifを付けておかないとリロードしたとき、つまり自分次寸から来たときにもすでに覆いがないのに覆いを外す処理をしてしまう
 
         var tm0 = new TimelineMax();

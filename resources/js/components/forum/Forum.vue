@@ -70,7 +70,7 @@ export default {
           var  self = vm;
           self.$eventBus.$emit("changeGridUser",true)
           //sidebarのactiveを外したりつけたり処理するここはforumなのでactiveをforumにつけてfrom.pathの所を外す
-          if(from.path == "/ask" || from.path == "/category" || from.path == "/setting" || from.path == "/userprofile" || from.path == "/bookmark" || from.path == "/search"){
+          if(from.path == "/ask" || from.path == "/category" || from.path == "/setting" || from.path == "/userprofile" || from.path == "/bookmark" || from.path == "/search" || from.name == "read"){
             self.$store.dispatch("changeTransition_Router","ReadToRead_enter")
             self.$store.dispatch("changeTransition_Tool","wipe")
         //ReadToReadだからsidebarのchangeはいらない
@@ -182,6 +182,7 @@ export default {
          },"scene1+=1")
 
         }else if(to.name == 'read'){
+            //doneCardEventを使うのはforumだけ
             self.$eventBus.$on("doneCardEvent",() => {
                 next()
             })

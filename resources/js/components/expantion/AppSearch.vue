@@ -523,6 +523,7 @@ export default {
           //これでgridを全域にまで伸ばす
           self.$eventBus.$emit("changeGridUser",true)
           self.$eventBus.$emit("setSidebarAllFalse")
+          //なんらかのanimationを行いたい（wipeではない）
       })
     },
      beforeRouteLeave(to,from,next){
@@ -600,9 +601,7 @@ export default {
          },"scene1+=1")
 
         }else if(to.name == 'read'){
-            self.$eventBus.$on("doneCardEvent",() => {
                 next()
-            })
         }else{
             next()
         }

@@ -43,7 +43,8 @@ const routes = [
         }
     }},
     {path:'/',
-    component:Welcome},
+    redirect:"/welcome"//ここでcomponent渡さないのは、forumへの変化にwelcomeからという条件を付けているため
+},
     {path:'/welcome',
     component:Welcome},
     {

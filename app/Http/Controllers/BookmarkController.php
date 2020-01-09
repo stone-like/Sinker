@@ -28,7 +28,7 @@ class BookmarkController extends Controller
 
 
         // dump(Bookmark::where('user_id', $user->id)->get());
-        dump(BookmarkResource::collection(Bookmark::where('user_id', $user->id)->get()));
+        // dump(BookmarkResource::collection(Bookmark::where('user_id', $user->id)->get()));
         return BookmarkResource::collection(Bookmark::where('user_id', $user->id)->get());
     }
 

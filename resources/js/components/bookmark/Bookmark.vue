@@ -126,11 +126,12 @@ export default {
       //  .catch(error => error.response.data)
     },
     addNewList() {
+      let self = this;
       axios.post("/api/bookmark", { name: this.addname }).then(res => {
         //tasksは空でよくてあとのidとnameをthis.bookmarksにpush
-        console.log(res);
-        this.bookmarks.push(res.data.data);
-        this.addname = "";
+        
+       self.bookmarks.push(res.data.data);
+       self.addname = "";
       });
     },
     getBookmark() {
@@ -138,8 +139,11 @@ export default {
       axios
         .get("/api/bookmark")
         .then(res => {
-          console.log(res.data.data);
-          this.bookmarks = res.data.data;
+          console.log(res.data);
+          //ここでbookmarkが何もなかった場合undefinedが入ってしまうので[]になるようにする
+         
+              this.bookmarks = res.data.data;              
+           
           //    this.bookmarks.foreach(function(bookmark){
           //        self.tasks.push(bookmark.tasks)
           //    })

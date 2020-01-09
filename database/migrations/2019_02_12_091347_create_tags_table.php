@@ -28,6 +28,6 @@ class CreateTagsTable extends Migration
     public function down()
     {
         Schema::dropIfExists('tags');
-        $table->dropUnique('name');
+        // $table->dropUnique('name');
     }
 }

@@ -25,7 +25,7 @@
           <button
             @mousedown.prevent="addNewList"
             class="input_button"
-            :disabled="addname === """
+            :disabled="addname === ''"
           >addNewList</button>
         </div>
       </div>
@@ -144,7 +144,10 @@ export default {
           //        self.tasks.push(bookmark.tasks)
           //    })
         })
-        .catch(error => console.log(error.response.data));
+        .catch(error => {
+          console.log(error.response.data);
+          Exception.handle(error);
+        });
     },
     changeOrder(data) {
       //draggable特有のものでそこから返ってくるdataからto,fromを取り出す、toはどにいったか、fromはどこからか

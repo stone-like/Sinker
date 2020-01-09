@@ -3,10 +3,9 @@
 namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
-use App\User;//ちゃんとnamespaceを指定しないとうまくいかないのでUser::とかする時は注意
+use App\User; //ちゃんとnamespaceを指定しないとうまくいかないのでUser::とかする時は注意
 use App\Model\Category;
 use App\Model\Question;
-use App\Model\Reply;
 use App\Model\Like;
 
 class Reply extends Model
@@ -19,18 +18,21 @@ class Reply extends Model
     // //    });
     // }
 
-    public function question(){
+    public function question()
+    {
         return $this->belongsTo(Question::class);
     }
 
-    public function user(){
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
 
-    public function like(){
+    public function like()
+    {
         return $this->hasMany(Like::class);
     }
 
 
-    protected $guarded =[];
+    protected $guarded = [];
 }

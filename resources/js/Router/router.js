@@ -42,6 +42,8 @@ const routes = [
             store.dispatch("changeTransition_Tool","fade-side")
         }
     }},
+    {path:'/',
+    component:Welcome},
     {path:'/welcome',
     component:Welcome},
     {

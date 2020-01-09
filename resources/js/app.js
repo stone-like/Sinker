@@ -1,27 +1,26 @@
-
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-require('./bootstrap');
+require("./bootstrap");
 
-window.Vue = require('vue');
-import Vue from 'vue'
-import Vuetify from 'vuetify'
+window.Vue = require("vue");
+import Vue from "vue";
+import Vuetify from "vuetify";
 
-Vue.use(Vuetify)
+Vue.use(Vuetify);
 
-import VueSimplemde from 'vue-simplemde'
-import 'simplemde/dist/simplemde.min.css'
+import VueSimplemde from "vue-simplemde";
+import "simplemde/dist/simplemde.min.css";
 
-Vue.use(VueSimplemde)
+Vue.use(VueSimplemde);
 
-import md from "marked"
-window.md =md
+import md from "marked";
+window.md = md;
 
-const axios = require('axios');//何故かここwindow.axiosだとエラーになるんだけど・・？
+const axios = require("axios"); //何故かここwindow.axiosだとエラーになるんだけど・・？
 
 /**
  * The following block of code may be used to automatically register your
@@ -34,38 +33,35 @@ const axios = require('axios');//何故かここwindow.axiosだとエラーに�
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-Vue.component('AppHome', require('./components/AppHome.vue').default);
-Vue.component('AppLog', require('./components/AppLog.vue').default);
-
+Vue.component("AppHome", require("./components/AppHome.vue").default);
+Vue.component("AppLog", require("./components/AppLog.vue").default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
-import router from './Router/router.js'
-import {sync} from 'vuex-router-sync'
-import store from './Store/store.js'
-import User from './Helpers/User'
-import Token from './Helpers/Token'
-import Exception from './Helpers/Exception'
-
+import router from "./Router/router.js";
+import { sync } from "vuex-router-sync";
+import store from "./Store/store.js";
+import User from "./Helpers/User";
+import Token from "./Helpers/Token";
+import Exception from "./Helpers/Exception";
 
 Vue.prototype.$eventBus = new Vue();
-import ParticleEffectButton from 'vue-particle-effect-button'
+import ParticleEffectButton from "vue-particle-effect-button";
 
-Vue.use(ParticleEffectButton)
+Vue.use(ParticleEffectButton);
 
+window.User = User;
+window.Token = Token;
+window.Exception = Exception;
 
-window.User = User
-window.Token = Token
-window.Exception = Exception
-
-sync(store,router);
-require('../sass/grobal.scss')
-
+sync(store, router);
+require("../sass/grobal.scss");
+console.log("initiate app.js");
 const app = new Vue({
-    el: '#app',
+    el: "#app",
     router,
     store
 });

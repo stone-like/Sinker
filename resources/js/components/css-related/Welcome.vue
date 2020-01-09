@@ -289,7 +289,7 @@ export default {
 
 #slideshow{
     margin: 0;
-    padding-top:5rem;
+    padding-top:8rem;
     height:100rem;
     width:100%;
     // background-image: linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%);

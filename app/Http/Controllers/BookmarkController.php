@@ -10,6 +10,12 @@ use Symfony\Component\HttpFoundation\Response;
 
 class BookmarkController extends Controller
 {
+    //きちんとｊｗｔ認証をmiddlewareでかけてあげる
+    //そうじゃないとtoken　is　expiredに対処できない
+    public function __construct()
+    {
+        $this->middleware('JWT');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -18,10 +24,11 @@ class BookmarkController extends Controller
     public function index()
     {
         //今ログインしているユーザーのbookmarkをget
-        $user = Auth::user();
+        $user = auth()->user();
 
 
         // dump(Bookmark::where('user_id', $user->id)->get());
+        dump(BookmarkResource::collection(Bookmark::where('user_id', $user->id)->get()));
         return BookmarkResource::collection(Bookmark::where('user_id', $user->id)->get());
     }
 

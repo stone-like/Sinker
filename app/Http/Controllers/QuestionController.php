@@ -16,7 +16,7 @@ class QuestionController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('JWT', ['except' => ['index','show']]);
+        $this->middleware('JWT', ['except' => ['index', 'show']]);
     }
     /**
      * Display a listing of the resource.
@@ -46,41 +46,38 @@ class QuestionController extends Controller
      */
     public function store(Request $request)
     {
+        //これundefinedと出てるけどこれで動作してるんだけど・・・？
         $question = auth()->user()->question()->create($request->except("tags_string"));
         $tags_id_array = array();
 
-        if($request->filled("tags_string")){
-            $clean = trim($request->tags_string," ");
-            $tags_array = explode(",",$clean);
+        if ($request->filled("tags_string")) {
+            $clean = trim($request->tags_string, " ");
+            $tags_array = explode(",", $clean);
             //[anime,music,sports]とか
-            foreach($tags_array as $tag_single){
+            foreach ($tags_array as $tag_single) {
 
                 //ここでインスタンスを作りここからattach用のid取得
                 $tag = Tag::firstOrCreate(['name' => $tag_single]);
-                array_push($tags_id_array,$tag->id);
-
+                array_push($tags_id_array, $tag->id);
             }
-
-
-        }else{
+        } else {
             //タグが書かれていなかったらcategory名だけを追加するようにする
-            $category_name = Category::where('id',$request->category_id)->first()->name;
+            $category_name = Category::where('id', $request->category_id)->first()->name;
 
             $tag = Tag::firstOrCreate(['name' => $category_name]);
-            array_push($tags_id_array,$tag->id);
+            array_push($tags_id_array, $tag->id);
         }
 
         //上から最大十個登録するようにする
         $cnt = count($tags_id_array);
-        if($cnt > 10){
-            $tags_id_array = array_slice($tags_id_array,0,10);
-        }else{
-
+        if ($cnt > 10) {
+            $tags_id_array = array_slice($tags_id_array, 0, 10);
+        } else {
         }
         $question->tag()->attach($tags_id_array);
 
         broadcast(new AddQuestionEvent(new QuestionResource($question)))->toOthers();
-        return response(new QuestionResource($question),Response::HTTP_CREATED);
+        return response(new QuestionResource($question), Response::HTTP_CREATED);
     }
 
     /**
@@ -115,7 +112,7 @@ class QuestionController extends Controller
     public function update(Request $request, Question $question)
     {
         $question->update($request->all());
-        return response('Update',Response::HTTP_ACCEPTED);
+        return response('Update', Response::HTTP_ACCEPTED);
     }
 
     /**
@@ -125,22 +122,23 @@ class QuestionController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy(Question $question)
-    {   $user_array=[];
+    {
+        $user_array = [];
 
 
-        foreach($question->replies()->get() as $reply){
+        foreach ($question->replies()->get() as $reply) {
             $user = $reply->user;
             error_log($question->user->id);
 
-            if($user->id != $question->user->id && !in_array($user->id,$user_array)){
+            if ($user->id != $question->user->id && !in_array($user->id, $user_array)) {
                 error_log($user->id);
                 $user->notify(new DeleteQuestionNotification($reply));
-                array_push($user_array,$user->id);
-             }
+                array_push($user_array, $user->id);
+            }
         }
         //deleteするquestionの全情報をこの$question(tableobject)から引き出せる
         broadcast(new DeleteQuestionEvent(new QuestionResource($question)))->toOthers();
         $question->Delete();
-        return response('Deleted',Response::HTTP_NO_CONTENT);
+        return response('Deleted', Response::HTTP_NO_CONTENT);
     }
 }

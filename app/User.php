@@ -6,7 +6,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use App\User;//ちゃんとnamespaceを指定しないとうまくいかないのでUser::とかする時は注意
+//ちゃんとnamespaceを指定しないとうまくいかないのでUser::とかする時は注意
 use App\Model\Bookmark;
 use App\Model\Category;
 use App\Model\Question;
@@ -17,12 +17,13 @@ class User extends Authenticatable implements JWTSubject
 {
     use Notifiable;
 
-    protected static function boot(){
+    protected static function boot()
+    {
 
         parent::boot();
 
-        static::creating(function($user){
-            $user->img_path = public_path('images')."\\sks.jpeg";
+        static::creating(function ($user) {
+            $user->img_path = public_path('images') . "/sks.jpeg";
         });
     }
 
@@ -32,7 +33,7 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','img_path'
+        'name', 'email', 'password', 'img_path'
     ];
 
     /**
@@ -44,11 +45,12 @@ class User extends Authenticatable implements JWTSubject
         'password', 'remember_token',
     ];
 
-    public function question(){
+    public function question()
+    {
         return $this->hasMany(Question::class);
     }
 
-     /**
+    /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *
      * @return mixed
@@ -68,12 +70,14 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
-    public function setPasswordAttribute($value){
+    public function setPasswordAttribute($value)
+    {
         //自動的にUsertableのpasswordをエンコード
         $this->attributes['password'] = bcrypt($value);
     }
 
-    public function bookmark(){
+    public function bookmark()
+    {
         return $this->hasMany(Bookmark::class);
     }
 }

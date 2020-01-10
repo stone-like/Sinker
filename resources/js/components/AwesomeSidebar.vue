@@ -11,7 +11,7 @@
                      </svg>
                      <span class="side-nav__menu">Forum</span>
                     </div>
-                     <small class="side-nav__small">sweet home</small>
+                     <small class="side-nav__small">forum</small>
                 </router-link>
             </li>
             <li :class="comp_Question"  v-if="userLoggedIn" >
@@ -23,7 +23,7 @@
                     </svg>
                     <span class="side-nav__menu">Question</span>
                     </div>
-                    <small class="side-nav__small">sweet home</small>
+                    <small class="side-nav__small">any question</small>
                 </router-link>
             </li>
             <li :class="comp_Home">
@@ -34,7 +34,7 @@
                     </svg>
                     <span class="side-nav__menu">Home</span>
                    </div>
-                   <small class="side-nav__small">sweet home</small>
+                   <small class="side-nav__small">go to home</small>
                 </router-link>
             </li>
             <li class="side-nav__item"  v-if="userLoggedIn" >
@@ -46,7 +46,7 @@
                     </svg>
                      <span class="side-nav__menu">User Profile</span>
                    </div>
-                     <small class="side-nav__small">sweet home</small>
+                     <small class="side-nav__small">your profile</small>
                 </router-link>
             </li>
             <li :class="comp_Setting"  v-if="userLoggedIn" >
@@ -58,7 +58,7 @@
                     </svg>
                     <span class="side-nav__menu">Setting</span>
                    </div>
-                    <small class="side-nav__small">sweet home</small>
+                    <small class="side-nav__small">change your setting</small>
                 </router-link>
             </li>
             <li :class="comp_Category" v-if="userLoggedIn&&this.$store.getters.checkadmin">
@@ -70,7 +70,7 @@
                     </svg>
                      <span class="side-nav__menu">Category</span>
                   </div>
-                     <small class="side-nav__small">sweet home</small>
+                     <small class="side-nav__small">category</small>
                 </router-link>
             </li>
             <li :class="comp_Bookmark"  v-if="userLoggedIn" >
@@ -82,7 +82,7 @@
                     </svg>
                      <span class="side-nav__menu">Bookmark</span>
                   </div>
-                     <small class="side-nav__small">sweet home</small>
+                     <small class="side-nav__small">your bookmark</small>
                 </router-link>
             </li>
             <li class="side-nav__item"  v-if="userLoggedIn" >
@@ -93,7 +93,7 @@
                     </svg>
                      <span class="side-nav__menu">Logout</span>
                   </div>
-                    <small class="side-nav__small">sweet home</small>
+                    <small class="side-nav__small">logout</small>
                 </router-link>
             </li>
             <li class="side-nav__item" v-if="!userLoggedIn" >
@@ -104,7 +104,7 @@
                     </svg>
                      <span class="side-nav__menu">Login</span>
                  </div>
-                     <small class="side-nav__small">sweet home</small>
+                     <small class="side-nav__small">login</small>
                 </a>
             </li>
         </ul>

@@ -13,6 +13,8 @@ email:admin@example.com
 password:admintest
 
 #SnapShot
+
+
 https://user-images.githubusercontent.com/47190494/72123360-59a72200-33a4-11ea-9192-7dc3889364cb.gif
 https://user-images.githubusercontent.com/47190494/72123353-52801400-33a4-11ea-9f53-ea4403e1e020.gif
 https://user-images.githubusercontent.com/47190494/72123360-59a72200-33a4-11ea-9192-7dc3889364cb.gif

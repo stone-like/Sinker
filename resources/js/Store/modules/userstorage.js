@@ -256,7 +256,7 @@ const state={
          return state.id == id ? true : false;
      },
      checkadmin:state =>{
-         return state.id === 21 ? true : false;
+         return state.username === "admin" ? true : false;
      },
      getModalFlag:state => {
          return state.modalflag;

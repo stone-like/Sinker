@@ -3,6 +3,7 @@ this is my first project, useLaravelAndVue
 
 # Functionality
 pagination,jwtAuth,notification,basicBoardFunction(post,delete,update)+search,bookmark,validation
+realtimeNotificationFunctionality can be used only on local development,not on heroku
 
 
 # URL

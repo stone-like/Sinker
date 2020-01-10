@@ -15,7 +15,9 @@
           <div class="modal-body">
             <ul class="bookmark_ul" v-model="selected_bookmark">
               <li v-for="bookmark in bookmarks" :key="bookmark.id" @click.prevent="selected_bookmark=bookmark" class="bookmark_li">
+                <button class="bookmark_button">
                  {{bookmark.name}}
+                 </button>
               </li>
             </ul>
 
@@ -181,6 +183,16 @@ export default {
  }
 
  .bookmark_li{
+   
+ }
+
+ .bookmark_button{
    cursor: pointer;
+   margin-bottom: 1rem;
+    padding: 2rem 3rem;
+   outline:none;
+   &:focus{
+     border: 2px solid azure;
+   }
  }
 </style>

@@ -12,7 +12,7 @@ email:admin@example.com
 
 password:admintest
 
-#SnapShot
+# SnapShot
 
 
 ![welocme](https://user-images.githubusercontent.com/47190494/72123342-46945200-33a4-11ea-9213-13669478185c.gif)

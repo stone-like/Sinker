@@ -21,7 +21,7 @@ class User extends Authenticatable implements JWTSubject
     {
 
         parent::boot();
-
+        //initialImage
         static::creating(function ($user) {
             $user->img_path = public_path('images') . "/sks.jpeg";
         });

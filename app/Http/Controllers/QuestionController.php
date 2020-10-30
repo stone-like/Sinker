@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Wrapper\BroadcastWrapper;
+use App\Http\Wrapper\BroadcastWrapperInterface;
 use App\Model\Tag;
 use App\Model\Category;
 use App\Model\Question;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Http\Request;
 use App\Events\AddQuestionEvent;
 use App\Events\DeleteQuestionEvent;
@@ -18,6 +21,7 @@ class QuestionController extends Controller
     {
         $this->middleware('JWT', ['except' => ['index', 'show']]);
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -25,7 +29,7 @@ class QuestionController extends Controller
      */
     public function index()
     {
-        return  QuestionResource::collection(Question::latest()->get());
+        return QuestionResource::collection(Question::latest()->get());
     }
 
     /**
@@ -41,13 +45,17 @@ class QuestionController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
+        //tagをここで登録するのはおかしいので方針としてはQuestionRepoとTagRepoを作ってそれぞれの責務に分ける？
+
         //これundefinedと出てるけどこれで動作してるんだけど・・・？
         $question = auth()->user()->question()->create($request->except("tags_string"));
+
+
         $tags_id_array = array();
 
         if ($request->filled("tags_string")) {
@@ -63,7 +71,6 @@ class QuestionController extends Controller
         } else {
             //タグが書かれていなかったらcategory名だけを追加するようにする
             $category_name = Category::where('id', $request->category_id)->first()->name;
-
             $tag = Tag::firstOrCreate(['name' => $category_name]);
             array_push($tags_id_array, $tag->id);
         }
@@ -76,14 +83,24 @@ class QuestionController extends Controller
         }
         $question->tag()->attach($tags_id_array);
 
-        broadcast(new AddQuestionEvent(new QuestionResource($question)))->toOthers();
-        return response(new QuestionResource($question), Response::HTTP_CREATED);
+
+        $this->broadcast(new BroadcastWrapper(new AddQuestionEvent(new QuestionResource($question))));
+
+        return $question;
+//        return response(new QuestionResource($question), Response::HTTP_CREATED);
     }
+
+    public function broadcast(BroadcastWrapperInterface $wrapper)
+    {
+
+        broadcast($wrapper->getEvent())->toOthers();
+    }
+
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Model\Question  $question
+     * @param \App\Model\Question $question
      * @return \Illuminate\Http\Response
      */
     public function show(Question $question)
@@ -94,7 +111,7 @@ class QuestionController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Model\Question  $question
+     * @param \App\Model\Question $question
      * @return \Illuminate\Http\Response
      */
     public function edit(Question $question)
@@ -105,8 +122,8 @@ class QuestionController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Model\Question  $question
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Model\Question $question
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Question $question)
@@ -118,7 +135,7 @@ class QuestionController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Model\Question  $question
+     * @param \App\Model\Question $question
      * @return \Illuminate\Http\Response
      */
     public function destroy(Question $question)

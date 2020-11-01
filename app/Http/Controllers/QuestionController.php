@@ -48,24 +48,32 @@ class QuestionController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
+
     public function store(Request $request)
     {
         //tagをここで登録するのはおかしいので方針としてはQuestionRepoとTagRepoを作ってそれぞれの責務に分ける？
 
         //これundefinedと出てるけどこれで動作してるんだけど・・・？
-        $question = auth()->user()->question()->create($request->except("tags_string"));
+        $question = $this->getQuestion($request);
 
 
         $tags_id_array = array();
 
-        if ($request->filled("tags_string")) {
-            $clean = trim($request->tags_string, " ");
-            $tags_array = explode(",", $clean);
-            //[anime,music,sports]とか
-            foreach ($tags_array as $tag_single) {
+        //commandとqueryを分割した方がよさそう・・・？
 
+        if ($request->filled("tags_string")) {
+
+            //"anime,music,sports"みたいに送られてくる
+            $clean = trim($request["tags_string"]," ");
+            $tags_array = explode(",",$clean);
+
+            //[anime,music,sports]とか
+
+            foreach ($tags_array as $tag_single) {
+                $cleanSingle = trim($tag_single, " ");
                 //ここでインスタンスを作りここからattach用のid取得
-                $tag = Tag::firstOrCreate(['name' => $tag_single]);
+                $tag = Tag::firstOrCreate(['name' => $cleanSingle]);
+
                 array_push($tags_id_array, $tag->id);
             }
         } else {
@@ -157,5 +165,15 @@ class QuestionController extends Controller
         broadcast(new DeleteQuestionEvent(new QuestionResource($question)))->toOthers();
         $question->Delete();
         return response('Deleted', Response::HTTP_NO_CONTENT);
+    }
+
+    /**
+     * @param Request $request
+     * @return mixed
+     */
+    public function getQuestion(Request $request)
+    {
+        $question = auth()->user()->question()->create($request->except("tags_string"));
+        return $question;
     }
 }

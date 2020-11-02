@@ -9,6 +9,8 @@ use App\Http\Wrapper\FakeBroadcastWrapper;
 use App\Model\Category;
 use App\Model\Question;
 use App\Model\Tag;
+use App\UseCase\Question\AttachTagsToQuestionUseCase;
+use App\UseCase\Question\CreateQuestionUseCase;
 use Mockery;
 use ReflectionClass;
 use Tests\TestCase;
@@ -41,13 +43,21 @@ class QuestionControllerTest extends TestCase
     /** @test */
     public function return_question_only_category_name_tag()
     {
+        $this->withoutExceptionHandling();
         $fakeBroadcastWrapper = new FakeBroadcastWrapper();
-        $fakeMock = Mockery::mock(QuestionController::class)
-            ->makePartial()
-            ->shouldReceive("broadcast")
+        $fakeMock = Mockery::mock(QuestionController::class,
+            [
+                $this->app->make(CreateQuestionUseCase::class),
+                $this->app->make(AttachTagsToQuestionUseCase::class)
+                , false
+            ])
+            ->makePartial();
+
+        $fakeMock->shouldReceive("broadcast")
             ->withAnyArgs($fakeBroadcastWrapper)
-            ->andReturn("")
-            ->getMock();
+            ->andReturn("");
+
+
         $this->app->bind(QuestionController::class, function () use ($fakeMock) {
             return $fakeMock;
         });
@@ -69,7 +79,7 @@ class QuestionControllerTest extends TestCase
         $this->assertEquals(1, $ret["category_id"]);
         $this->assertEquals(1, $ret["user_id"]);
 
-        $category = Category::where("id",1)->first();
+        $category = Category::where("id", 1)->first();
         $tag = Tag::where("name", $category->name)->first();
 
         $questionTags = Question::find($ret["id"])->tag->pluck("id");
@@ -82,13 +92,23 @@ class QuestionControllerTest extends TestCase
     /** @test */
     public function tag_filled_when_requested()
     {
+        $this->withoutExceptionHandling();
+
+
         $fakeBroadcastWrapper = new FakeBroadcastWrapper();
-        $fakeMock = Mockery::mock(QuestionController::class)
-            ->makePartial()
-            ->shouldReceive("broadcast")
+        $fakeMock = Mockery::mock(QuestionController::class,
+            [
+                $this->app->make(CreateQuestionUseCase::class),
+                $this->app->make(AttachTagsToQuestionUseCase::class)
+                , false
+            ])
+            ->makePartial();
+
+        $fakeMock->shouldReceive("broadcast")
             ->withAnyArgs($fakeBroadcastWrapper)
-            ->andReturn("")
-            ->getMock();
+            ->andReturn("");
+
+
         $this->app->bind(QuestionController::class, function () use ($fakeMock) {
             return $fakeMock;
         });
@@ -116,7 +136,6 @@ class QuestionControllerTest extends TestCase
         $tag1 = Tag::where("name", "test1")->first();
         $tag2 = Tag::where("name", "test2")->first();
         $questionTags = Question::find($ret["id"])->tag->pluck("id");
-
         $this->assertCount(2, $questionTags);
         $this->assertContains($tag1->id, $questionTags);
         $this->assertContains($tag2->id, $questionTags);

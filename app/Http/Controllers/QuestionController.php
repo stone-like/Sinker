@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Factory\CreateTagUseCaseFactory;
+use App\Factory\CreateTagUseCaseFactoryInterface;
 use App\Http\Wrapper\BroadcastWrapper;
 use App\Http\Wrapper\BroadcastWrapperInterface;
 use App\Model\Tag;
 use App\Model\Category;
 use App\Model\Question;
+use App\UseCase\CreateTagsUseCase;
+use App\UseCase\Question\AttachTagsToQuestionUseCase;
+use App\UseCase\Question\CreateQuestionUseCase;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Http\Request;
 use App\Events\AddQuestionEvent;
@@ -17,8 +22,21 @@ use App\Notifications\DeleteQuestionNotification;
 
 class QuestionController extends Controller
 {
-    public function __construct()
+    private $createQuestionUseCase;
+    private $attachTagsToQuestionUseCase;
+    public function __construct(CreateQuestionUseCase $createQuestionUseCase,AttachTagsToQuestionUseCase $attachTagsToQuestionUseCase,$fire=true)
     {
+        $this->createQuestionUseCase = $createQuestionUseCase;
+        $this->attachTagsToQuestionUseCase = $attachTagsToQuestionUseCase;
+
+
+        //testでfalseにすればmiddlewareを回避できる
+        if($fire){
+            $this->fireMiddleware();
+        }
+    }
+
+    public function fireMiddleware(){
         $this->middleware('JWT', ['except' => ['index', 'show']]);
     }
 
@@ -46,7 +64,6 @@ class QuestionController extends Controller
      * Store a newly created resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
      */
 
     public function store(Request $request)
@@ -54,47 +71,22 @@ class QuestionController extends Controller
         //tagをここで登録するのはおかしいので方針としてはQuestionRepoとTagRepoを作ってそれぞれの責務に分ける？
 
         //これundefinedと出てるけどこれで動作してるんだけど・・・？
-        $question = $this->getQuestion($request);
-
-
-        $tags_id_array = array();
+        $question = $this->createQuestion($request);
 
         //commandとqueryを分割した方がよさそう・・・？
 
-        if ($request->filled("tags_string")) {
-
-            //"anime,music,sports"みたいに送られてくる
-            $clean = trim($request["tags_string"]," ");
-            $tags_array = explode(",",$clean);
-
-            //[anime,music,sports]とか
-
-            foreach ($tags_array as $tag_single) {
-                $cleanSingle = trim($tag_single, " ");
-                //ここでインスタンスを作りここからattach用のid取得
-                $tag = Tag::firstOrCreate(['name' => $cleanSingle]);
-
-                array_push($tags_id_array, $tag->id);
-            }
-        } else {
-            //タグが書かれていなかったらcategory名だけを追加するようにする
-            $category_name = Category::where('id', $request->category_id)->first()->name;
-            $tag = Tag::firstOrCreate(['name' => $category_name]);
-            array_push($tags_id_array, $tag->id);
-        }
-
-        //上から最大十個登録するようにする
-        $cnt = count($tags_id_array);
-        if ($cnt > 10) {
-            $tags_id_array = array_slice($tags_id_array, 0, 10);
-        } else {
-        }
-        $question->tag()->attach($tags_id_array);
+        $this->syncTagsToQuestion($question->getId(), $this->createTagsArray($request));
 
 
         $this->broadcast(new BroadcastWrapper(new AddQuestionEvent(new QuestionResource($question))));
-
-        return $question;
+        return [
+            "id" => $question->getId(),
+            "title" => $question->getTitle(),
+            "slug" => $question->getSlug(),
+            "body" => $question->getBody(),
+            "user_id" => $question->getUserId(),
+            "category_id" => $question->getCategoryId()
+        ];
 //        return response(new QuestionResource($question), Response::HTTP_CREATED);
     }
 
@@ -171,9 +163,34 @@ class QuestionController extends Controller
      * @param Request $request
      * @return mixed
      */
-    public function getQuestion(Request $request)
+    public function createQuestion(Request $request)
     {
-        $question = auth()->user()->question()->create($request->except("tags_string"));
+        //ここのauthを剥がさないとうまく責務の分割ができないので、requestにuser_idを含めることにする
+        //元のコード
+        $question = $this->createQuestionUseCase->execute($request);
+
         return $question;
+    }
+
+    /**
+     * @param Request $request
+     * @param array $tags_id_array
+     * @return array
+     */
+    public function createTagsArray(Request $request): array
+    {
+        $usecase = CreateTagUseCaseFactory::create($request);
+        return $usecase->execute($request);
+
+    }
+
+    /**
+     * @param $question
+     * @param array $tags_id_array
+     */
+    public function syncTagsToQuestion($question_id, array $tags_id_array): void
+    {
+        $this->attachTagsToQuestionUseCase->execute($question_id,$tags_id_array);
+//        $question->tag()->attach($tags_id_array);
     }
 }

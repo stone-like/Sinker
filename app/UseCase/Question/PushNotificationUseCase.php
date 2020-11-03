@@ -20,10 +20,10 @@ class PushNotificationUseCase
         $this->questionRepo = $questionRepo;
     }
 
-    public function execute(int $id){
+    public function execute(int $id)
+    {
         $this->notify($id);
     }
-
 
 
     /**
@@ -36,19 +36,30 @@ class PushNotificationUseCase
     }
 
 
-    public function notify($id){
+    public function notify($id)
+    {
         $question = $this->questionRepo->findById($id);
+
+        $userAndReplyList = $this->getUserList($question);
+
+        foreach ($userAndReplyList as $single) {
+            $this->pushNotification($single["user_id"], $single["reply"]);
+        }
+        return array_column($userAndReplyList, "user_id");
+    }
+
+    public function getUserList($question)
+    {
         $user_array = [];
 
         foreach ($question->getReplies() as $reply) {
             $user_id = $reply->getUserId();
-
-            if ($user_id != $question->getUserId() && !in_array($user_id, $user_array)) {
-
-                $this->pushNotification($user_id, $reply);
-                array_push($user_array, $user_id);
+            //先にuserlistを作ってあげる
+            if ($user_id != $question->getUserId() && !in_array($user_id, array_column($user_array, "user_id"))) {
+                array_push($user_array, ["user_id" => $user_id, "reply" => $reply]);
             }
         }
+
         return $user_array;
     }
 

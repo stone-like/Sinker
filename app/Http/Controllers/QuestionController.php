@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Factory\CreateTagUseCaseFactory;
 use App\Factory\CreateTagUseCaseFactoryInterface;
+
+use App\Http\Requests\DeleteQuestionRequest;
 use App\Http\Wrapper\BroadcastWrapper;
 use App\Http\Wrapper\BroadcastWrapperInterface;
 use App\Model\Tag;
@@ -12,6 +14,9 @@ use App\Model\Question;
 use App\UseCase\CreateTagsUseCase;
 use App\UseCase\Question\AttachTagsToQuestionUseCase;
 use App\UseCase\Question\CreateQuestionUseCase;
+use App\UseCase\Question\DeleteQuestionUseCase;
+use App\UseCase\Question\FindQuestionUseCase;
+use App\UseCase\Question\PushNotificationUseCase;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Http\Request;
 use App\Events\AddQuestionEvent;
@@ -24,19 +29,34 @@ class QuestionController extends Controller
 {
     private $createQuestionUseCase;
     private $attachTagsToQuestionUseCase;
-    public function __construct(CreateQuestionUseCase $createQuestionUseCase,AttachTagsToQuestionUseCase $attachTagsToQuestionUseCase,$fire=true)
+    private $findQuestionUseCase;
+    private $deleteQuestionUseCase;
+    private $pushNotificationUseCase;
+
+
+    public function __construct(CreateQuestionUseCase $createQuestionUseCase,
+                                AttachTagsToQuestionUseCase $attachTagsToQuestionUseCase,
+                                FindQuestionUseCase $findQuestionUseCase,
+                                DeleteQuestionUseCase $deleteQuestionUseCase,
+                                PushNotificationUseCase $pushNotificationUseCase,
+                                $fire = true)
     {
         $this->createQuestionUseCase = $createQuestionUseCase;
         $this->attachTagsToQuestionUseCase = $attachTagsToQuestionUseCase;
+        $this->findQuestionUseCase = $findQuestionUseCase;
+        $this->deleteQuestionUseCase = $deleteQuestionUseCase;
+        $this->pushNotificationUseCase = $pushNotificationUseCase;
+
 
 
         //testでfalseにすればmiddlewareを回避できる
-        if($fire){
+        if ($fire) {
             $this->fireMiddleware();
         }
     }
 
-    public function fireMiddleware(){
+    public function fireMiddleware()
+    {
         $this->middleware('JWT', ['except' => ['index', 'show']]);
     }
 
@@ -78,7 +98,7 @@ class QuestionController extends Controller
         $this->syncTagsToQuestion($question->getId(), $this->createTagsArray($request));
 
 
-        $this->broadcast(new BroadcastWrapper(new AddQuestionEvent(new QuestionResource($question))));
+        $this->broadcast(new BroadcastWrapper(new AddQuestionEvent($question)));
         return [
             "id" => $question->getId(),
             "title" => $question->getTitle(),
@@ -138,26 +158,17 @@ class QuestionController extends Controller
      * @param \App\Model\Question $question
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Question $question)
+    public function destroy(int $id,DeleteQuestionRequest $request)
     {
-        $user_array = [];
 
-
-        foreach ($question->replies()->get() as $reply) {
-            $user = $reply->user;
-            error_log($question->user->id);
-
-            if ($user->id != $question->user->id && !in_array($user->id, $user_array)) {
-                error_log($user->id);
-                $user->notify(new DeleteQuestionNotification($reply));
-                array_push($user_array, $user->id);
-            }
-        }
+        $question = $this->findQuestionUseCase->execute($id);
+        $this->pushNotification($id);
         //deleteするquestionの全情報をこの$question(tableobject)から引き出せる
-        broadcast(new DeleteQuestionEvent(new QuestionResource($question)))->toOthers();
-        $question->Delete();
+        broadcast(new DeleteQuestionEvent($question))->toOthers();
+        $this->deleteQuestionUseCase->execute($id);
         return response('Deleted', Response::HTTP_NO_CONTENT);
     }
+
 
     /**
      * @param Request $request
@@ -190,7 +201,14 @@ class QuestionController extends Controller
      */
     public function syncTagsToQuestion($question_id, array $tags_id_array): void
     {
-        $this->attachTagsToQuestionUseCase->execute($question_id,$tags_id_array);
-//        $question->tag()->attach($tags_id_array);
+        $this->attachTagsToQuestionUseCase->execute($question_id, $tags_id_array);
+    }
+
+
+    public function pushNotification(int $question_id)
+    {
+
+        $this->pushNotificationUseCase->execute($question_id);
+
     }
 }

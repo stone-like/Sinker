@@ -12,12 +12,13 @@ class Question
    private $body;
    private $user_id;
    private $category_id;
+   private $replies;
 
     /**
      * Question constructor.
      * @param $id
      */
-    public function __construct($id,$title,$slug,$body,$category_id,$user_id)
+    public function __construct($id,$title,$slug,$body,$category_id,$user_id,$replies)
     {
         $this->id = $id;
         $this->title = $title;
@@ -25,6 +26,7 @@ class Question
         $this->body = $body;
         $this->category_id = $category_id;
         $this->user_id = $user_id;
+        $this->replies = $replies;
 
 
     }
@@ -76,6 +78,16 @@ class Question
     {
         return $this->category_id;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getReplies()
+    {
+        return $this->replies;
+    }
+
+
 
 
 }

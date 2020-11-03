@@ -2,6 +2,7 @@
 use App\User;
 
 
+Route::delete("/question/{id}","QuestionController@destroy");
 Route::apiResource('/question','QuestionController');
 Route::apiResource('/category','CategoryController');
 Route::apiResource('/question/{question}/reply','ReplyController');

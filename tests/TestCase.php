@@ -3,6 +3,7 @@
 namespace Tests;
 
 use App\Repository\CategoryRepositoryInterface;
+use App\Repository\QuestionRepositoryInterface;
 use App\Repository\TagRepositoryInterface;
 use App\Repository\TestTagRepository;
 use App\UseCase\CreateCategoryUseCase;
@@ -19,6 +20,7 @@ abstract class TestCase extends BaseTestCase
     protected $cateRepo;
     protected $tagUseCase;
     protected $cateUseCase;
+    protected $questionRepo;
 
     public function setUp(): void
     {
@@ -28,6 +30,7 @@ abstract class TestCase extends BaseTestCase
 
         $this->tagRepo = $this->app->make(TagRepositoryInterface::class);
         $this->cateRepo = $this->app->make(CategoryRepositoryInterface::class);
+        $this->questionRepo = $this->app->make(QuestionRepositoryInterface::class);
         $this->tagUseCase = $this->app->make(CreateTagsUseCase::class);
         $this->cateUseCase = $this->app->make(CreateCategoryUseCase::class);
 

@@ -78,16 +78,18 @@ class ReplyController extends Controller
     {
 
 
-//        $question = Question::where("id", $id)->first();
-
-
-//        $reply = $question->replies()->create($request->all());//replyのquestion_idがある特定のidという条件下でのcreateなので追加されたやつのquestion_idは特定のidになってる
+        $question = $this->findQuestionUseCase->execute($id);
         $reply = $this->createReplyUseCase->execute($id, $request);
 
         $this->pushNotification($question, $reply);
 
         $this->broadcast(new BroadcastWrapper(new AddReplyEvent($reply)));
-        return response(['reply' => new ReplyResource($reply)], Response::HTTP_CREATED);
+
+        return response(['reply' => [
+            "reply" => $reply->body,
+            "user_id" => $reply->user_id,
+            "question_id" => $reply->question_id
+        ]], Response::HTTP_CREATED);
     }
 
     //もしかしたらtraitに抜き出した方がいいかも
@@ -155,10 +157,6 @@ class ReplyController extends Controller
      */
     public function pushNotification($question, $reply): void
     {
-        $user = $question->user;//この質問をした人のusertableオブジェクト
-        if ($user->id != $reply->user_id) {
-            //もし質問者($user->id)とreplyの人($reply->user_id)が違ったら通知、自作自演で通知はなし
-            $user->notify(new NewReplyNotification($reply));//今自分が送ったリプライの全情報を送った,質問者の人がゲット
-        }
+        $this->pushReplyNotificationUseCase->execute($question->getId(), $reply);
     }
 }

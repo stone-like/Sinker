@@ -6,6 +6,8 @@ use App\Repository\CategoryRepository;
 use App\Repository\CategoryRepositoryInterface;
 use App\Repository\QuestionRepository;
 use App\Repository\QuestionRepositoryInterface;
+use App\Repository\ReplyRepository;
+use App\Repository\ReplyRepositoryInterface;
 use App\Repository\TagRepository;
 use App\Repository\TagRepositoryInterface;
 use App\Repository\UserRepository;
@@ -36,6 +38,10 @@ class RepositoryProvider extends ServiceProvider
         $this->app->bind(
             UserRepositoryInterface::class,
             UserRepository::class
+        );
+        $this->app->bind(
+            ReplyRepositoryInterface::class,
+            ReplyRepository::class
         );
     }
 

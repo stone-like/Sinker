@@ -10,15 +10,7 @@ use App\Repository\UserRepositoryInterface;
 class TestPushReplyNotificationUseCase extends PushReplyNotificationUseCase
 {
     //test用
-    public static $boolean;
-    /**
-     * @var UserRepositoryInterface
-     */
-    private $userRepository;
-    /**
-     * @var QuestionRepositoryInterface
-     */
-    private $questionRepository;
+    public static $isNotify = true;
 
 
     public function __construct(UserRepositoryInterface $userRepository, QuestionRepositoryInterface $questionRepository)
@@ -28,12 +20,21 @@ class TestPushReplyNotificationUseCase extends PushReplyNotificationUseCase
 
     public function execute(int $question_id, $reply)
     {
+
+
         $question = $this->questionRepository->findById($question_id);
-        if($question->getUserId() == $reply->user_id){
-            return self::$boolean = true;
+
+
+        if ($question->getUserId() === $reply->getUserId()) {
+            return self::$isNotify = false;
         }
 
-        return self::$boolean = false;
+        return self::$isNotify = true;
+    }
+
+    public static function teardown()
+    {
+        self::$isNotify = true;
     }
 
 }

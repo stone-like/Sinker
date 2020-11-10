@@ -72,8 +72,8 @@ class QuestionRepository implements QuestionRepositoryInterface
                 $question->title,
                 $question->slug,
                 $question->body,
-                $question->category_id,
-                $question->user_id,
+                (int)$question->category_id,
+                (int)$question->user_id,
                 $replies
             );
         } catch (ModelNotFoundException $e) {

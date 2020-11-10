@@ -13,11 +13,11 @@ class PushReplyNotificationUseCase
     /**
      * @var UserRepositoryInterface
      */
-    private $userRepository;
+    protected $userRepository;
     /**
      * @var QuestionRepositoryInterface
      */
-    private $questionRepository;
+    protected $questionRepository;
 
 
     /**

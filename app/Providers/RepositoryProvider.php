@@ -8,6 +8,8 @@ use App\Repository\QuestionRepository;
 use App\Repository\QuestionRepositoryInterface;
 use App\Repository\TagRepository;
 use App\Repository\TagRepositoryInterface;
+use App\Repository\UserRepository;
+use App\Repository\UserRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryProvider extends ServiceProvider
@@ -30,6 +32,10 @@ class RepositoryProvider extends ServiceProvider
         $this->app->bind(
            QuestionRepositoryInterface::class,
            QuestionRepository::class
+        );
+        $this->app->bind(
+            UserRepositoryInterface::class,
+            UserRepository::class
         );
     }
 

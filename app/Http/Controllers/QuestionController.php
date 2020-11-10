@@ -164,7 +164,7 @@ class QuestionController extends Controller
         $question = $this->findQuestionUseCase->execute($id);
         $this->pushNotification($id);
         //deleteするquestionの全情報をこの$question(tableobject)から引き出せる
-        broadcast(new DeleteQuestionEvent($question))->toOthers();
+        $this->broadcast(new BroadcastWrapper(new DeleteQuestionEvent($question)));
         $this->deleteQuestionUseCase->execute($id);
         return response('Deleted', Response::HTTP_NO_CONTENT);
     }

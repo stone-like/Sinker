@@ -8,6 +8,7 @@ use App\Model\Like;
 use App\Model\Question;
 use App\Model\Reply;
 use App\UseCase\User\GetEntireDataUseCase;
+use App\UseCase\User\GetRecentUseCase;
 use App\User;
 use Mockery;
 use Tests\TestCase;
@@ -56,6 +57,7 @@ class UserControllerTest extends TestCase
         $fakeMock = Mockery::mock(UserController::class,
             [
                 $this->app->make(GetEntireDataUseCase::class),
+                $this->app->make(GetRecentUseCase::class),
 
                 false
             ])
@@ -71,6 +73,42 @@ class UserControllerTest extends TestCase
         self::assertEquals(1, $res["total_posts"]);
         self::assertEquals(1, $res["total_replies"]);
         self::assertEquals(0, $res["total_likes"]);
+
+    }
+
+    /** @test */
+    public function it_can_get_Recent()
+    {
+        $this->withoutExceptionHandling();
+        $user = $this->signIn();
+        factory(Question::class, 6)->create([
+            "user_id" => $user->id
+        ]);
+        factory(Reply::class, 6)->create([
+            "user_id" => $user->id,
+            "question_id" => $this->question->id
+        ]);
+
+        $fakeMock = Mockery::mock(UserController::class,
+            [
+                $this->app->make(GetEntireDataUseCase::class),
+                $this->app->make(GetRecentUseCase::class),
+
+
+                false
+            ])
+            ->makePartial();
+
+        $this->app->bind(UserController::class, function () use ($fakeMock) {
+            return $fakeMock;
+        });
+
+        $res = json_decode($this->get("/api/user/" . $user->id."/recent")->content(), true);
+        //上記でこのuserのquestionとreplyを一つずつつくって、likeはしていない
+
+        self::assertCount(5,$res["recent_posts"]);
+        self::assertCount(5,$res["recent_replies"]);
+
 
     }
 }

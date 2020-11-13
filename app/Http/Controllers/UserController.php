@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\GetEntireDataRequest;
+use App\Http\Requests\GetRecentRequest;
 use App\Response\User\GetEntireResponse;
 use App\UseCase\User\GetEntireDataUseCase;
+use App\UseCase\User\GetRecentUseCase;
 use App\User;
 use App\Model\Like;
 use App\Model\Reply;
@@ -26,14 +28,19 @@ class UserController extends Controller
      * @var GetEntireDataUseCase
      */
     private $getEntireDataUseCase;
+    /**
+     * @var GetRecentUseCase
+     */
+    private $getRecentUseCase;
 
-    public function __construct(GetEntireDataUseCase $getEntireDataUseCase, $fire = true)
+    public function __construct(GetEntireDataUseCase $getEntireDataUseCase, GetRecentUseCase $getRecentUseCase, $fire = true)
     {
         if ($fire) {
             $this->fireMiddleware();
         }
 
         $this->getEntireDataUseCase = $getEntireDataUseCase;
+        $this->getRecentUseCase = $getRecentUseCase;
     }
 
     public function getEntireData(int $id, GetEntireDataRequest $request)
@@ -43,16 +50,11 @@ class UserController extends Controller
 
     }
 
-    public function getRecent()
+    public function getRecent(int $id, GetRecentRequest $request)
     {
-        $user = Auth::user();
-        $recent_posts = Question::where('user_id', $user->id)->LIMIT(5)->get();
-        $recent_replies = Reply::where('user_id', $user->id)->LIMIT(5)->get();
 
-        return [
-            "recent_posts" => $recent_posts,
-            "recent_replies" => $recent_replies
-        ];
+        return $this->getRecentUseCase->execute($id);
+
     }
 
     public function updateUser(UpdateRequest $request)

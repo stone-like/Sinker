@@ -60,21 +60,8 @@ class UserController extends Controller
     public function updateUser(UpdateRequest $request)
     {
         $user = Auth::user();
-        //いろいろconfirmationとか大丈夫だったらきちんとpreviousも同じか確認する
-        // dump($request->password_previous);
-        // dump($user->password);
 
-        // dump(Hash::check($request->password_previous, $user->password));
-
-
-        if (Hash::check($request->password_previous, $user->password)) {
-
-            $user->update(['name' => $request->name, 'email' => $request->email, 'password' => $request->password]);
-
-        } else {
-            $response['errors']['previous'] = "Dont't match your previous_password";
-            return response()->json($response, 422);
-        }
+        $user->update(['name' => $request->name, 'email' => $request->email, 'password' => $request->password]);
 
         return $user;
 

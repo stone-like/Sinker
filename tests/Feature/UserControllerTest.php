@@ -77,17 +77,11 @@ class UserControllerTest extends TestCase
     }
 
     /** @test */
-    public function it_can_get_Recent()
+    public function it_can_update()
     {
         $this->withoutExceptionHandling();
         $user = $this->signIn();
-        factory(Question::class, 6)->create([
-            "user_id" => $user->id
-        ]);
-        factory(Reply::class, 6)->create([
-            "user_id" => $user->id,
-            "question_id" => $this->question->id
-        ]);
+
 
         $fakeMock = Mockery::mock(UserController::class,
             [
@@ -102,12 +96,19 @@ class UserControllerTest extends TestCase
         $this->app->bind(UserController::class, function () use ($fakeMock) {
             return $fakeMock;
         });
+        $data = [
+            "name" => "updated",
+            "email" => "test@email.com",
+            "password" => "newpassword",
+            "password_confirmation" => "newpassword",
+            "password_previous"=>"secret"
 
-        $res = json_decode($this->get("/api/user/" . $user->id."/recent")->content(), true);
-        //上記でこのuserのquestionとreplyを一つずつつくって、likeはしていない
+        ];
 
-        self::assertCount(5,$res["recent_posts"]);
-        self::assertCount(5,$res["recent_replies"]);
+        $this->patch("/api/user/".$user->id, $data);
+
+
+        $this->assertDatabaseHas("users", ["name" => "updated"]);
 
 
     }

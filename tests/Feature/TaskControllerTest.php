@@ -157,4 +157,21 @@ class TaskControllerTest extends TestCase
 
 
     }
+
+    /** @test */
+    public function it_can_delete()
+    {
+        //bookmark1
+        //task1
+        //task2
+        //からtask1をdeleteする
+        //task2のorderが1に、bookmarkl1のcountが１になっていることをtest
+
+        $this->delete("/api/task/".$this->dummy1task1->id);
+
+        self::assertEquals(1,$this->dummy1task2->fresh()->order);
+        self::assertCount(1,Task::where("bookmark_id",$this->bookmark1->id)->get());
+
+
+    }
 }

@@ -10,6 +10,8 @@ use App\Repository\ReplyRepository;
 use App\Repository\ReplyRepositoryInterface;
 use App\Repository\TagRepository;
 use App\Repository\TagRepositoryInterface;
+use App\Repository\TaskRepository;
+use App\Repository\TaskRepositoryInterface;
 use App\Repository\UserRepository;
 use App\Repository\UserRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
@@ -42,6 +44,10 @@ class RepositoryProvider extends ServiceProvider
         $this->app->bind(
             ReplyRepositoryInterface::class,
             ReplyRepository::class
+        );
+        $this->app->bind(
+            TaskRepositoryInterface::class,
+            TaskRepository::class
         );
     }
 

@@ -2,12 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use App\Factory\UpdateTaskUseCaseFactory;
 use App\Model\Task;
+use App\UseCase\Task\TaskUpdateUseCase;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+
 class TaskController extends Controller
 {
+
+
+    /**
+     * TaskController constructor.
+     */
+    public function __construct()
+    {
+
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -31,12 +44,12 @@ class TaskController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        $task = Task::create(["bookmark_id" => $request->bookmark_id,"order" => $request->order,"question_id" => $request->question_id]);
+        $task = Task::create(["bookmark_id" => $request->bookmark_id, "order" => $request->order, "question_id" => $request->question_id]);
 
         return $task;
     }
@@ -44,7 +57,7 @@ class TaskController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Model\Task  $task
+     * @param \App\Model\Task $task
      * @return \Illuminate\Http\Response
      */
     public function show(Task $task)
@@ -55,7 +68,7 @@ class TaskController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Model\Task  $task
+     * @param \App\Model\Task $task
      * @return \Illuminate\Http\Response
      */
     public function edit(Task $task)
@@ -64,82 +77,26 @@ class TaskController extends Controller
     }
 
 
-
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Model\Task  $task
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Model\Task $task
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Task $task)
+    public function update(int $id,Request $request)
     {
 
-        //変化に伴いfromとtoのbookmarkもアップデート
-        //bookmark_id == fromTask_idなら変化していないのでfromTaskの方だけいじればよくてそうじゃなければ両方いじる
-        if($request->toTask_id !== $request->fromTask_id){
-            //両方いじる
-            //まずはfrom側
-            //移動したやつのもともとのpositionはoldpositionで、そこより数字が上のorderを-1
-            $from_tasks = Task::where('bookmark_id',$request->fromTask_id)->where('order',">",$request->oldPosition)->get();
-            //oldPosition側は変更前の値を使ってok
-
-            foreach( $from_tasks as $from_task){
-                $from_task->update(['order' => $from_task->order-1]);
-            }
-
-            //to側
-            $to_tasks = Task::where('bookmark_id',$request->toTask_id)->where('order',">",$request->newPosition-1)->get();
-            //ここのorderはposition変更前なため不等号にするかnewpositionを-1するかどちらか
-
-            foreach( $to_tasks as $to_task){
-                $to_task->update(['order' => $to_task->order+1]);
-            }
-        }else{
-            //横移動はしていないのでfromだけいじる
-            //updateさせたい範囲をとってくる
-            if($request->oldPosition > $request->newPosition){
-                //fromからtoへ上側に上がるとき +1
-                $length = $request->oldPosition - $request->newPosition;
-
-                for($i=0; $i<$length;$i++){
-                    $from_task = Task::where('bookmark_id',$request->fromTask_id)->where('order',$request->newPosition+$i)->first();//とってくるのは毎回一つなのでfirst
-                    //これは変化前のorderをとってくる、だから移動したやつのnewPositionと同じでいい
-
-                    $from_task->update(['order' => $from_task->order+1]);
-                }
-            }else{
-                //fromからtoへ下側に下がるとき　-1
-                $length = $request->newPosition - $request->oldPosition;
-
-                for($i=0; $i<$length;$i++){
-                    $from_task = Task::where('bookmark_id',$request->fromTask_id)->where('order',$request->oldPosition+$i+1)->first();//こっちは元居た場所の一つ下からスタートするから最初に一つ場所を下にしておく
-
-                    $from_task->update(['order' => $from_task->order-1]);
-                }
-            }
-
-        }
-
-        //  dump($task,$request->newPosition);
-        //自分自身の位置をアップデート
-        $status = $task->update(
-           ['bookmark_id' => $request->toTask_id,'order' => $request->newPosition]);
-        //自分自身を周辺のupdateより上に持ってきちゃうと自分もその影響を受けてしまうので
+        $useCase = UpdateTaskUseCaseFactory::create($request);
+        return $useCase->execute($request,$id);
 
 
-
-
-        return response()->json([
-            'status' => $status,
-            "message" => $status ? 'Task Updated' : 'Error Updating'
-        ]);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Model\Task  $task
+     * @param \App\Model\Task $task
      * @return \Illuminate\Http\Response
      */
     public function destroy(Task $task)
@@ -149,13 +106,16 @@ class TaskController extends Controller
         $target_order = $task->order;
         $task->Delete();
         //先にdeleteしておけばorderの重複は起きないはず
-        $change_task_collection = Task::where('bookmark_id',$target_bookmark_id)->where('order',">",$target_order)->get();
+        $change_task_collection = Task::where('bookmark_id', $target_bookmark_id)->where('order', ">", $target_order)->get();
 
-        foreach($change_task_collection as $single_task){
-            $single_task->update(['order' => $single_task->order-1]);
+        foreach ($change_task_collection as $single_task) {
+            $single_task->update(['order' => $single_task->order - 1]);
         }
 
 
-        return response('Deleted',Response::HTTP_NO_CONTENT);
+        return response('Deleted', Response::HTTP_NO_CONTENT);
     }
+
+
+
 }

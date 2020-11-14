@@ -21,6 +21,8 @@ Route::patch('/user/{id}','UserController@updateUser');
 Route::post('/image','UserController@updateImage');
 
 Route::apiResource('/bookmark','BookmarkController');
+
+
 Route::apiResource('/task','TaskController');
 
 

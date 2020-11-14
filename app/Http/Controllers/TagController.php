@@ -11,13 +11,16 @@ use App\Model\Question;
 use App\Events\EditTagEvent;
 use App\UseCase\Question\AttachTagsToQuestionUseCase;
 use App\UseCase\Question\FindQuestionUseCase;
+use App\Util\QuestionToTag;
 use Illuminate\Http\Request;
 use App\Http\Resources\TagResource;
 use App\Http\Resources\QuestionResource;
+
 use Symfony\Component\HttpFoundation\Response;
 
 class TagController extends Controller
 {
+    use QuestionToTag;
 
     /**
      * @var AttachTagsToQuestionUseCase
@@ -95,17 +98,7 @@ class TagController extends Controller
         return response('Update',Response::HTTP_ACCEPTED);
     }
 
-    public function createTagsArray(Request $request): array
-    {
-        $usecase = CreateTagUseCaseFactory::create($request);
-        return $usecase->execute($request);
 
-    }
-
-    public function syncTagsToQuestion($question_id, array $tags_id_array): void
-    {
-        $this->attachTagsToQuestionUseCase->execute($question_id, $tags_id_array);
-    }
 
     public function broadcast(BroadcastWrapperInterface $wrapper)
     {
@@ -136,7 +129,7 @@ class TagController extends Controller
         //
     }
 
-    public function TagToQuestion(Request $request){
+    public function searchQuestionFromTag(Request $request){
         //これがうまくいかなかったのは多分名前を送ってうまくやったつもりだったけどdefaultではidで判別するのでたぶんダメだった
         $tags = Tag::where('name','LIKE',"%{$request->keywords}%")->get();
         $tags_question_array=array();

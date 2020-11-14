@@ -9,7 +9,9 @@ Route::apiResource('/category','CategoryController');
 Route::apiResource('/question/{question}/reply','ReplyController');
 Route::get('/{question}/tag','TagController@index');
 Route::patch('/{question}/tag','TagController@edit');
-Route::get('/tag','TagController@TagToQuestion');
+
+
+Route::get('/tag','TagController@SearchQuestionFromTag');
 
 
 Route::get('/user/{id}','UserController@getEntireData');

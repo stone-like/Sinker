@@ -17,6 +17,7 @@ use App\UseCase\Question\CreateQuestionUseCase;
 use App\UseCase\Question\DeleteQuestionUseCase;
 use App\UseCase\Question\FindQuestionUseCase;
 use App\UseCase\Question\PushNotificationUseCase;
+use App\Util\QuestionToTag;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Http\Request;
 use App\Events\AddQuestionEvent;
@@ -27,6 +28,8 @@ use App\Notifications\DeleteQuestionNotification;
 
 class QuestionController extends Controller
 {
+    use QuestionToTag;
+
     private $createQuestionUseCase;
     private $attachTagsToQuestionUseCase;
     private $findQuestionUseCase;
@@ -181,27 +184,6 @@ class QuestionController extends Controller
         $question = $this->createQuestionUseCase->execute($request);
 
         return $question;
-    }
-
-    /**
-     * @param Request $request
-     * @param array $tags_id_array
-     * @return array
-     */
-    public function createTagsArray(Request $request): array
-    {
-        $usecase = CreateTagUseCaseFactory::create($request);
-        return $usecase->execute($request);
-
-    }
-
-    /**
-     * @param $question
-     * @param array $tags_id_array
-     */
-    public function syncTagsToQuestion($question_id, array $tags_id_array): void
-    {
-        $this->attachTagsToQuestionUseCase->execute($question_id, $tags_id_array);
     }
 
 

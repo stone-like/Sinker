@@ -27,6 +27,9 @@ class TagControllerTest extends TestCase
 
     use RefreshDatabase;
 
+    protected $question2;
+    protected $question3;
+
     public function setUp(): void
     {
         parent::setUp();
@@ -42,6 +45,15 @@ class TagControllerTest extends TestCase
             "title" => "testQuestion",
             "category_id" => 1
         ])->first();
+        $this->question2 = factory(Question::class, 1)->create([
+            "title" => "testQuestion2",
+            "category_id" => 1
+        ])->first();
+        $this->question3 = factory(Question::class, 1)->create([
+            "title" => "testQuestion3",
+            "category_id" => 1
+        ])->first();
+
         factory(Reply::class, 3)->create([
             "question_id" => $this->question->id
         ])
@@ -134,6 +146,56 @@ class TagControllerTest extends TestCase
         $this->assertContains($tag1->id, $questionTags);
         $this->assertContains($tag2->id, $questionTags);
 
+
+    }
+
+    /** @test */
+    public function can_search_question_from_tags()
+    {
+        $this->withoutExceptionHandling();
+        $fakeBroadcastWrapper = new FakeBroadcastWrapper();
+        $fakeMock = Mockery::mock(TagController::class,
+            [
+                $this->app->make(AttachTagsToQuestionUseCase::class),
+                $this->app->make(FindQuestionUseCase::class),
+                false
+            ])
+            ->makePartial();
+
+        $fakeMock->shouldReceive("broadcast")
+            ->withAnyArgs($fakeBroadcastWrapper)
+            ->andReturn("");
+
+
+        $this->app->bind(TagController::class, function () use ($fakeMock) {
+            return $fakeMock;
+        });
+
+        $user = $this->signIn();
+         //tag1(dummy1) => question1,question2,
+        //tag2(dummy2)=>question3を用意して、dummyで検索し、questionが3つ返ってくればok
+        $data = [
+            "category_id" => 1,
+            "tags_string" => "dummy1"
+        ];
+        $this->patch("/api/" . $this->question->id . "/tag", $data);
+        $data = [
+            "category_id" => 1,
+            "tags_string" => "dummy1"
+        ];
+        $this->patch("/api/" . $this->question2->id . "/tag", $data);
+        $data = [
+            "category_id" => 1,
+            "tags_string" => "dummy2"
+        ];
+        $this->patch("/api/" . $this->question3->id . "/tag", $data);
+
+        $data = [
+             "keyword" => "dummy"
+         ];
+        $questionList = json_decode($this->get("/api/tag", $data)->content(),true);
+
+        $this->assertCount(3, $questionList);
 
     }
 }

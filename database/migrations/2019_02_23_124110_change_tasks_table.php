@@ -15,11 +15,14 @@ class ChangeTasksTable extends Migration
     {
         Schema::table('tasks', function (Blueprint $table) {
             $table->dropColumn('name');
+        });
+        Schema::table('tasks', function (Blueprint $table) {
+//            $table->dropColumn('name');
             $table->unsignedInteger('question_id')->nullable();
         });
-//        Schema::table('tasks', function (Blueprint $table) {
-//            $table->unsignedInteger('question_id')->nullable(false)->change();
-//        });
+        Schema::table('tasks', function (Blueprint $table) {
+            $table->unsignedInteger('question_id')->nullable(false)->change();
+        });
     }
 
     /**

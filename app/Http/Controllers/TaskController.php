@@ -63,6 +63,8 @@ class TaskController extends Controller
         //
     }
 
+
+
     /**
      * Update the specified resource in storage.
      *
@@ -73,15 +75,9 @@ class TaskController extends Controller
     public function update(Request $request, Task $task)
     {
 
-        // //自分自身の位置をアップデート
-        // $status = $task->update(
-        //     $request->only(['bookmark_id','order'])
-        // );//自分自身を周辺のupdateより上に持ってきちゃうと自分もその影響を受けてしまうので
-
-
         //変化に伴いfromとtoのbookmarkもアップデート
         //bookmark_id == fromTask_idなら変化していないのでfromTaskの方だけいじればよくてそうじゃなければ両方いじる
-        if($request->bookmark_id !== $request->fromTask_id){
+        if($request->toTask_id !== $request->fromTask_id){
             //両方いじる
             //まずはfrom側
             //移動したやつのもともとのpositionはoldpositionで、そこより数字が上のorderを-1
@@ -109,7 +105,7 @@ class TaskController extends Controller
                 for($i=0; $i<$length;$i++){
                     $from_task = Task::where('bookmark_id',$request->fromTask_id)->where('order',$request->newPosition+$i)->first();//とってくるのは毎回一つなのでfirst
                     //これは変化前のorderをとってくる、だから移動したやつのnewPositionと同じでいい
-                    dump($from_task->order);
+
                     $from_task->update(['order' => $from_task->order+1]);
                 }
             }else{
@@ -118,7 +114,7 @@ class TaskController extends Controller
 
                 for($i=0; $i<$length;$i++){
                     $from_task = Task::where('bookmark_id',$request->fromTask_id)->where('order',$request->oldPosition+$i+1)->first();//こっちは元居た場所の一つ下からスタートするから最初に一つ場所を下にしておく
-                    dump($from_task);
+
                     $from_task->update(['order' => $from_task->order-1]);
                 }
             }
@@ -128,7 +124,7 @@ class TaskController extends Controller
         //  dump($task,$request->newPosition);
         //自分自身の位置をアップデート
         $status = $task->update(
-           ['bookmark_id' => $request->bookmark_id,'order' => $request->newPosition]);
+           ['bookmark_id' => $request->toTask_id,'order' => $request->newPosition]);
         //自分自身を周辺のupdateより上に持ってきちゃうと自分もその影響を受けてしまうので
 
 

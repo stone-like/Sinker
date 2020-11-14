@@ -11,7 +11,7 @@ Route::get('/{question}/tag','TagController@index');
 Route::patch('/{question}/tag','TagController@edit');
 
 
-Route::get('/tag','TagController@SearchQuestionFromTag');
+Route::post('/tag','TagController@SearchQuestionFromTag');
 
 
 Route::get('/user/{id}','UserController@getEntireData');

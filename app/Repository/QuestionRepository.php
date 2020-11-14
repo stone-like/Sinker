@@ -81,5 +81,11 @@ class QuestionRepository implements QuestionRepositoryInterface
         }
     }
 
+    public function searchQuestionByTags($tagsArray){
+        return Question::whereHas("tag",function($query) use($tagsArray){
+            $query->whereIn("tags.id",$tagsArray);
+        })->distinct()->get();
+    }
+
 
 }

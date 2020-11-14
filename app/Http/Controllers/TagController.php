@@ -11,11 +11,13 @@ use App\Model\Question;
 use App\Events\EditTagEvent;
 use App\UseCase\Question\AttachTagsToQuestionUseCase;
 use App\UseCase\Question\FindQuestionUseCase;
+use App\UseCase\Tag\SearchTagsUseCase;
 use App\Util\QuestionToTag;
 use Illuminate\Http\Request;
 use App\Http\Resources\TagResource;
 use App\Http\Resources\QuestionResource;
 
+use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;
 
 class TagController extends Controller
@@ -30,14 +32,19 @@ class TagController extends Controller
      * @var FindQuestionUseCase
      */
     private $findQuestionUseCase;
+    /**
+     * @var SearchTagsUseCase
+     */
+    private $searchTagsUseCase;
 
-    public function __construct(AttachTagsToQuestionUseCase $attachTagsToQuestionUseCase,FindQuestionUseCase $findQuestionUseCase,$fire=true)
+    public function __construct(AttachTagsToQuestionUseCase $attachTagsToQuestionUseCase,FindQuestionUseCase $findQuestionUseCase,SearchTagsUseCase $searchTagsUseCase,$fire=true)
     {
         if($fire){
             $this->fireMiddleware();
         }
         $this->attachTagsToQuestionUseCase = $attachTagsToQuestionUseCase;
         $this->findQuestionUseCase = $findQuestionUseCase;
+        $this->searchTagsUseCase = $searchTagsUseCase;
     }
     /**
      * Display a listing of the resource.
@@ -130,28 +137,9 @@ class TagController extends Controller
     }
 
     public function searchQuestionFromTag(Request $request){
-        //これがうまくいかなかったのは多分名前を送ってうまくやったつもりだったけどdefaultではidで判別するのでたぶんダメだった
-        $tags = Tag::where('name','LIKE',"%{$request->keywords}%")->get();
-        $tags_question_array=array();
 
-        $check_question_id_array=array();//重複対策、idをここに入れてすでにidが出たかどうかをこの配列でcheck
-        foreach($tags as $tag){
-            //とってきたtag一つ一つからさらに複数のquestionを得るんだけど、それがnestしているので[tag1:question5つ,tag2:question３つ]とか
-            //そうじゃなくて[question1,question2...question5//ここまでtag1の分question6...]みたいにしたいので単に$tag->questionとするだけではだめ
+        return $this->searchTagsUseCase->execute($request->searchterm);
 
-            //ここでquestionの重複対策もしなければダメみたい
-            foreach($tag->question as $single_question){
-                if(!in_array($single_question->id,$check_question_id_array)){
-
-                    array_push($tags_question_array,new TagResource($single_question));
-
-                    array_push($check_question_id_array,$single_question->id);
-                }else{
-
-                }
-            }
-        }
-        return $tags_question_array;
     }
 
     public function fireMiddleware(): void

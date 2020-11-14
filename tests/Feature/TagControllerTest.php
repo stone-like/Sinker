@@ -15,6 +15,7 @@ use App\UseCase\Question\CreateQuestionUseCase;
 use App\UseCase\Question\DeleteQuestionUseCase;
 use App\UseCase\Question\FindQuestionUseCase;
 use App\UseCase\Question\TestPushNotificationUseCase;
+use App\UseCase\Tag\SearchTagsUseCase;
 use App\User;
 use Mockery;
 use Tests\TestCase;
@@ -71,6 +72,8 @@ class TagControllerTest extends TestCase
             [
                 $this->app->make(AttachTagsToQuestionUseCase::class),
                 $this->app->make(FindQuestionUseCase::class),
+                $this->app->make(SearchTagsUseCase::class),
+
                 false
             ])
             ->makePartial();
@@ -115,6 +118,8 @@ class TagControllerTest extends TestCase
 
                 $this->app->make(AttachTagsToQuestionUseCase::class),
                 $this->app->make(FindQuestionUseCase::class),
+                $this->app->make(SearchTagsUseCase::class),
+
 
                 false
             ])
@@ -158,6 +163,8 @@ class TagControllerTest extends TestCase
             [
                 $this->app->make(AttachTagsToQuestionUseCase::class),
                 $this->app->make(FindQuestionUseCase::class),
+                $this->app->make(SearchTagsUseCase::class),
+
                 false
             ])
             ->makePartial();
@@ -186,14 +193,14 @@ class TagControllerTest extends TestCase
         $this->patch("/api/" . $this->question2->id . "/tag", $data);
         $data = [
             "category_id" => 1,
-            "tags_string" => "dummy2"
+            "tags_string" => "dummy1,dummy2"
         ];
         $this->patch("/api/" . $this->question3->id . "/tag", $data);
 
         $data = [
-             "keyword" => "dummy"
+             "searchterm" => "dummy"
          ];
-        $questionList = json_decode($this->get("/api/tag", $data)->content(),true);
+        $questionList = json_decode($this->post("/api/tag", $data)->content(),true);
 
         $this->assertCount(3, $questionList);
 

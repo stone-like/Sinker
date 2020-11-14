@@ -43,4 +43,9 @@ class TagRepository implements TagRepositoryInterface
         });
         return $tagEntityList;
     }
+
+    public function searchTags($keyword){
+        return Tag::where('name','LIKE',"%{$keyword}%")->get()->pluck("id")->toArray();
+
+    }
 }

@@ -68,14 +68,15 @@ class TagControllerTest extends TestCase
     {
         $this->withoutExceptionHandling();
         $fakeBroadcastWrapper = new FakeBroadcastWrapper();
-        $fakeMock = Mockery::mock(TagController::class,
+        $fakeMock = Mockery::mock(
+            TagController::class,
             [
                 $this->app->make(AttachTagsToQuestionUseCase::class),
                 $this->app->make(FindQuestionUseCase::class),
                 $this->app->make(SearchTagsUseCase::class),
-
                 false
-            ])
+            ]
+        )
             ->makePartial();
 
         $fakeMock->shouldReceive("broadcast")
@@ -103,7 +104,6 @@ class TagControllerTest extends TestCase
 
         $this->assertCount(1, $questionTags);
         $this->assertContains($tag->id, $questionTags);
-
     }
 
     /** @test */
@@ -113,7 +113,8 @@ class TagControllerTest extends TestCase
 
 
         $fakeBroadcastWrapper = new FakeBroadcastWrapper();
-        $fakeMock = Mockery::mock(TagController::class,
+        $fakeMock = Mockery::mock(
+            TagController::class,
             [
 
                 $this->app->make(AttachTagsToQuestionUseCase::class),
@@ -122,7 +123,8 @@ class TagControllerTest extends TestCase
 
 
                 false
-            ])
+            ]
+        )
             ->makePartial();
 
         $fakeMock->shouldReceive("broadcast")
@@ -150,8 +152,6 @@ class TagControllerTest extends TestCase
         $this->assertCount(2, $questionTags);
         $this->assertContains($tag1->id, $questionTags);
         $this->assertContains($tag2->id, $questionTags);
-
-
     }
 
     /** @test */
@@ -159,14 +159,16 @@ class TagControllerTest extends TestCase
     {
         $this->withoutExceptionHandling();
         $fakeBroadcastWrapper = new FakeBroadcastWrapper();
-        $fakeMock = Mockery::mock(TagController::class,
+        $fakeMock = Mockery::mock(
+            TagController::class,
             [
                 $this->app->make(AttachTagsToQuestionUseCase::class),
                 $this->app->make(FindQuestionUseCase::class),
                 $this->app->make(SearchTagsUseCase::class),
 
                 false
-            ])
+            ]
+        )
             ->makePartial();
 
         $fakeMock->shouldReceive("broadcast")
@@ -179,7 +181,7 @@ class TagControllerTest extends TestCase
         });
 
         $user = $this->signIn();
-         //tag1(dummy1) => question1,question2,
+        //tag1(dummy1) => question1,question2,
         //tag2(dummy2)=>question3を用意して、dummyで検索し、questionが3つ返ってくればok
         $data = [
             "category_id" => 1,
@@ -198,11 +200,10 @@ class TagControllerTest extends TestCase
         $this->patch("/api/" . $this->question3->id . "/tag", $data);
 
         $data = [
-             "searchterm" => "dummy"
-         ];
-        $questionList = json_decode($this->post("/api/tag", $data)->content(),true);
+            "searchterm" => "dummy"
+        ];
+        $questionList = json_decode($this->post("/api/tag", $data)->content(), true);
 
         $this->assertCount(3, $questionList);
-
     }
 }

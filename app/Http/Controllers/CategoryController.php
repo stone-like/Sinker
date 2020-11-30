@@ -6,12 +6,15 @@ use App\Model\Category;
 use Illuminate\Http\Request;
 use App\Http\Requests\CategoryRequest;
 use App\Http\Resources\CategoryResource;
+use App\UseCase\Category\CreateCategoryUsecase;
 use Symfony\Component\HttpFoundation\Response;
 
 class CategoryController extends Controller
 {
-    public function __construct()
+    private $createCategoryUseCase;
+    public function __construct(CreateCategoryUsecase $createCategoryUseCase)
     {
+        $this->createCategoryUseCase = $createCategoryUseCase;
         // $this->middleware('JWT');
     }
     /**
@@ -42,11 +45,7 @@ class CategoryController extends Controller
      */
     public function store(CategoryRequest $request)
     {
-        $category = new Category;
-        $category->name=$request->name;
-        $category->slug=str_slug($request->name);
-        $category->save();
-        return response(new CategoryResource($category),Response::HTTP_CREATED);
+        return response(new CategoryResource($this->createCategoryUseCase->execute($request->name)), Response::HTTP_CREATED);
     }
 
     /**
@@ -80,8 +79,8 @@ class CategoryController extends Controller
      */
     public function update(CategoryRequest $request, Category $category)
     {
-       $category->update(['name' => $request->name, 'slug' => str_slug($request->name)]);
-       return response(new CategoryResource($category),Response::HTTP_ACCEPTED);
+        $category->update(['name' => $request->name, 'slug' => str_slug($request->name)]);
+        return response(new CategoryResource($category), Response::HTTP_ACCEPTED);
     }
 
     /**
@@ -93,6 +92,6 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         $category->delete();
-        return response('Deleted',Response::HTTP_NO_CONTENT);
+        return response('Deleted', Response::HTTP_NO_CONTENT);
     }
 }

@@ -70,11 +70,11 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
-    public function setPasswordAttribute($value)
-    {
-        //自動的にUsertableのpasswordをエンコード
-        $this->attributes['password'] = bcrypt($value);
-    }
+//    public function setPasswordAttribute($value)
+//    {
+//        //自動的にUsertableのpasswordをエンコード
+//        $this->attributes['password'] = bcrypt($value);
+//    }
 
     public function bookmark()
     {

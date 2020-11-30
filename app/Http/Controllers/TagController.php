@@ -2,21 +2,49 @@
 
 namespace App\Http\Controllers;
 
+use App\Factory\CreateTagUseCaseFactory;
+use App\Http\Wrapper\BroadcastWrapper;
+use App\Http\Wrapper\BroadcastWrapperInterface;
 use App\Model\Tag;
 use App\Model\Category;
 use App\Model\Question;
 use App\Events\EditTagEvent;
+use App\UseCase\Question\AttachTagsToQuestionUseCase;
+use App\UseCase\Question\FindQuestionUseCase;
+use App\UseCase\Tag\SearchTagsUseCase;
+use App\Util\QuestionToTag;
 use Illuminate\Http\Request;
 use App\Http\Resources\TagResource;
 use App\Http\Resources\QuestionResource;
+
+use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;
 
 class TagController extends Controller
 {
+    use QuestionToTag;
 
-    public function __construct()
+    /**
+     * @var AttachTagsToQuestionUseCase
+     */
+    private $attachTagsToQuestionUseCase;
+    /**
+     * @var FindQuestionUseCase
+     */
+    private $findQuestionUseCase;
+    /**
+     * @var SearchTagsUseCase
+     */
+    private $searchTagsUseCase;
+
+    public function __construct(AttachTagsToQuestionUseCase $attachTagsToQuestionUseCase,FindQuestionUseCase $findQuestionUseCase,SearchTagsUseCase $searchTagsUseCase,$fire=true)
     {
-        $this->middleware('JWT', ['except' => ['index','show','TagToQuestion']]);
+        if($fire){
+            $this->fireMiddleware();
+        }
+        $this->attachTagsToQuestionUseCase = $attachTagsToQuestionUseCase;
+        $this->findQuestionUseCase = $findQuestionUseCase;
+        $this->searchTagsUseCase = $searchTagsUseCase;
     }
     /**
      * Display a listing of the resource.
@@ -66,51 +94,23 @@ class TagController extends Controller
      * @param  \App\Model\Tag  $tag
      * @return \Illuminate\Http\Response
      */
-    public function edit(Question $question,Request $request,Tag $tag)
+    public function edit(int $question_id,Request $request)
     {
         //tag自体はtableから消さないでいい、そのquestionと紐づいているtagを変更したいのでもってきた$request->tags_stringを中間テーブルに紐づけてアップデートするだけ、全デリートしてからattachすればいいかな？
         //あとは新しく追加されたtagを全体のTagに追加するのを忘れずに
-
-        $tags_id_array = array();
-
-        if($request->filled("tags_string")){
-            $clean = trim($request->tags_string," ");
-            $tags_array = explode(",",$clean);
-            dump($clean);
-            //[anime,music,sports]とか
-            foreach($tags_array as $tag_single){
-
-                //ここでインスタンスを作りここからattach用のid取得
-                $tag = Tag::firstOrCreate(['name' => $tag_single]);
-                array_push($tags_id_array,$tag->id);
-
-            }
-
-
-        }else{
-            //すべて削除してしまったならcategory名だけ入れておく
-            $category_name = Category::where('id',$request->category_id)->first()->name;
-
-
-            $tag = Tag::firstOrCreate(['name' => $category_name]);
-            array_push($tags_id_array,$tag->id);
-        }
-
-         //上から最大十個登録するようにする
-         $cnt = count($tags_id_array);
-         if($cnt > 10){
-             $tags_id_array = array_slice($tags_id_array,0,10);
-         }else{
-
-         }
-
-        //idを取得したのちdelete and attach,syncは両方いっぺんに行ってくれる
-        $question->tag()->sync($tags_id_array);
-
-
-        broadcast(new EditTagEvent($question->tag->toArray()))->toOthers();
+        $tags_array = $this->createTagsArray($request);
+        $this->syncTagsToQuestion($question_id, $tags_array);
+        $this->broadcast(new BroadcastWrapper(new EditTagEvent($tags_array)));
 
         return response('Update',Response::HTTP_ACCEPTED);
+    }
+
+
+
+    public function broadcast(BroadcastWrapperInterface $wrapper)
+    {
+
+        broadcast($wrapper->getEvent())->toOthers();
     }
 
     /**
@@ -136,28 +136,14 @@ class TagController extends Controller
         //
     }
 
-    public function TagToQuestion(Request $request){
-        //これがうまくいかなかったのは多分名前を送ってうまくやったつもりだったけどdefaultではidで判別するのでたぶんダメだった
-        $tags = Tag::where('name','LIKE',"%{$request->keywords}%")->get();
-        $tags_question_array=array();
+    public function searchQuestionFromTag(Request $request){
 
-        $check_question_id_array=array();//重複対策、idをここに入れてすでにidが出たかどうかをこの配列でcheck
-        foreach($tags as $tag){
-            //とってきたtag一つ一つからさらに複数のquestionを得るんだけど、それがnestしているので[tag1:question5つ,tag2:question３つ]とか
-            //そうじゃなくて[question1,question2...question5//ここまでtag1の分question6...]みたいにしたいので単に$tag->questionとするだけではだめ
+        return $this->searchTagsUseCase->execute($request->searchterm);
 
-            //ここでquestionの重複対策もしなければダメみたい
-            foreach($tag->question as $single_question){
-                if(!in_array($single_question->id,$check_question_id_array)){
+    }
 
-                    array_push($tags_question_array,new TagResource($single_question));
-
-                    array_push($check_question_id_array,$single_question->id);
-                }else{
-
-                }
-            }
-        }
-        return $tags_question_array;
+    public function fireMiddleware(): void
+    {
+        $this->middleware('JWT', ['except' => ['index', 'show', 'TagToQuestion']]);
     }
 }

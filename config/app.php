@@ -174,6 +174,12 @@ return [
         App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\FactoryProvider::class,
+        App\Providers\RepositoryProvider::class,
+        App\Providers\QueryServiceProvider::class,
+
+
+
 
     ],
 

@@ -1,21 +1,30 @@
 <?php
 use App\User;
 
+Route::post('/question/{id}/reply','ReplyController@store');
+Route::delete("/question/{id}","QuestionController@destroy");
 
 Route::apiResource('/question','QuestionController');
 Route::apiResource('/category','CategoryController');
 Route::apiResource('/question/{question}/reply','ReplyController');
 Route::get('/{question}/tag','TagController@index');
 Route::patch('/{question}/tag','TagController@edit');
-Route::get('/tag','TagController@TagToQuestion');
 
-Route::get('/user','UserController@getEntireData');
-Route::post('/user','UserController@getRecent');
-Route::patch('/user','UserController@updateUser');
+
+Route::post('/tag','TagController@SearchQuestionFromTag');
+
+
+Route::get('/user/{id}','UserController@getEntireData');
+
+//Route::get('/user','UserController@getEntireData');
+Route::get('/user/{id}/recent','UserController@getRecent');
+Route::patch('/user/{id}','UserController@updateUser');
 
 Route::post('/image','UserController@updateImage');
 
 Route::apiResource('/bookmark','BookmarkController');
+
+
 Route::apiResource('/task','TaskController');
 
 

@@ -56,7 +56,7 @@ class Question extends Model
 
     // protected $guarded =[];
     //更新したい列を指定↓
-    protected $fillable = ['title', 'slug', 'body', 'category_id'];
+    protected $fillable = ['title', 'slug', 'body', 'category_id',"user_id"];
 
     protected $with = ['replies'];
     public function getpathAttribute()

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\MatchOldPassword;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;
@@ -27,7 +28,7 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         $user = Auth::user();
-        dump($user->name,$user->email);
+
          //今ログインしている自分の変更前の情報だけは重複許す
         return [
 
@@ -38,7 +39,8 @@ class UpdateRequest extends FormRequest
                          'email',
                          'max:50',
                          Rule::unique('users')->ignore($user->email,'email')],
-            'password' => 'required|confirmed|alpha_num|between:6,30'
+            'password' => 'required|confirmed|alpha_num|between:6,30',
+            "password_previous" =>["required",new MatchOldPassword]
 
         ];
     }
